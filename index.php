@@ -2,8 +2,9 @@
     /**
     * check session
     **/
-    /*session_start();
-    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}*/
+    session_start();
+    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}
+    include ("config/config.php");
     /**
      * include head
      */
@@ -12,12 +13,18 @@
      * list off controller
      */
     $controllers=['product','movement'];
-    if (!empty($_GET['c']) && !empty($_GET['a']) && in_array($_GET['c'], $controllers))
+    $currentlink = explode('/', $_SERVER['REQUEST_URI']);
+    $ctl = $currentlink[2];
+    $act='index';
+    if(isset($currentlink[3]) && !empty($currentlink[3])){
+        $act=$currentlink[3];
+    }
+    if (!empty($ctl) && in_array($ctl, $controllers))
     {
      /*
       * name off controller dynamic
       */
-        $controller = $_GET['c'].'Controller';
+        $controller = $ctl.'Controller';
     /*
      * require controller from directory controller
      */
@@ -29,7 +36,7 @@
      /*
       * get action from request
       */
-        $action = 'action' . $_GET['a'];
+        $action = 'action' . $act;
      /*
       * check if method exist
       */
@@ -42,10 +49,5 @@
 
         echo 'method not exist';
     }
-
-
-
-
-
     }
     include ("layouts/footer.php");

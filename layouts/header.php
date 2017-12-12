@@ -10,9 +10,9 @@
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css">
-<!--    <link rel="stylesheet" href="dist/css/bootstrap.css">-->
-    <link rel="stylesheet" href="dist/css/font-awesome.css">
-    <link rel="stylesheet" href="dist/css/style.css">
+<!--    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/bootstrap.css">-->
+    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/font-awesome.css">
+    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/style.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini" >
 <div class="wrapper">
@@ -77,13 +77,13 @@
             </li>
 
             <li>
-                <a href="#" class="submenu-toggle">
+                <a   class="submenu-toggle">
                     <i class="glyphicon glyphicon-th-list"></i>
                     <span>PRODUITS</span>
                 </a>
                 <ul class="nav submenu">
-                    <li><a href="boitier">Boîtier</a> </li>
-                    <li><a href="sim">Cartes SIM</a> </li>
+                    <li><a href="<?php echo $url;?>/product/boitier">Boîtier</a> </li>
+                    <li><a href="<?php echo $url;?>/product/sim">Cartes SIM</a> </li>
                 </ul>
             </li>
 
