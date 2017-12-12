@@ -17,7 +17,7 @@
 <body class="hold-transition skin-blue sidebar-mini" >
 <div class="wrapper">
 <header id="header">
-      <div class="logo pull-left"> OSWA - Inventory </div>
+      <div class="logo pull-left"> <img src="dist/img/logo-website_new.png" alt="logo_opentech"></div>
       <div class="header-content">
       <div class="header-date pull-left">
         <strong><?php echo date("F j, Y, g:i a");?></strong>
@@ -88,7 +88,7 @@
             </li>
 
             <li>
-                <a href="home.php">
+                <a href="<?php echo $url;?>/installation">
                     <i class="glyphicon glyphicon-signal"></i>
                     <span>INSTALLATIONS</span>
                 </a>

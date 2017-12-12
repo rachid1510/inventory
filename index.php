@@ -2,8 +2,8 @@
     /**
     * check session
     **/
-    session_start();
-    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}
+//    session_start();
+//    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}
     include ("config/config.php");
     /**
      * include head
@@ -12,15 +12,17 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement'];
+    $controllers=['product','movement','installation'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
     $act='index';
     if(isset($currentlink[3]) && !empty($currentlink[3])){
         $act=$currentlink[3];
     }
+
     if (!empty($ctl) && in_array($ctl, $controllers))
     {
+
      /*
       * name off controller dynamic
       */

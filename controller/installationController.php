@@ -4,8 +4,16 @@
 class installationController
 {
     //
-      public function index()
+    public function actionIndex()
     {
-    	return view('movements.index');
+
+        require 'view/installations/index.php';
+
+    }
+    public function actionEdit()
+    {
+
+        require 'view/movements/index.php';
+
     }
 }

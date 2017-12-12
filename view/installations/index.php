@@ -12,7 +12,7 @@
          </div>
 
          <div class="pull-right">
-           <a href="#" id="addproduct" class="btn btn-primary">Add New</a>
+           <a href="#" id="showmodal" class="btn btn-primary">Add New</a>
          </div>
         </div>
         <div class="panel-body">
@@ -50,7 +50,7 @@
               </tr>
               
             </tbody>
-          </tabel>
+          </table>
         </div>
       </div>
     </div>
@@ -62,57 +62,56 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Ajouter Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Créer Installation</h4>
                 </div>
                 <div class="modal-body">
-  
+
                     <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-  
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Ref commande</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
+                            <label class="col-md-4 control-label">Date D'installation</label>
+                            <div class="col-md-8">
+                                <input type="date" class="form-control" name="date_arrived">                                <small class="help-block"></small>
                             </div>
                         </div>
-  
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Fournisseur</label>
+                            <label class="col-md-4 control-label">Installeur</label>
                             <div class="col-md-6">
-                                <select name="provider" class="form-control">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
+                                <select name="installeur" class="form-control">
+                                  <option>ACHRAF</option>
+                                  <option>Zakaria</option>
                                 </select>
                             </div>
                         </div>
 
 
                          <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
-                            <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
+                            <label class="col-md-4 control-label">Client</label>
+                             <select name="client" class="form-control">
+                                 <option>client1</option>
+                                 <option>client2</option>
+                             </select>
                         </div>
-  
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Date arrivée</label>
+                            <label class="col-md-4 control-label">Matricule</label>
                             <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
+
                                 <small class="help-block"></small>
                             </div>
                         </div>
-  
+
                        <div class="form-group">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">
                                <input type="file" class="form-control" name="order_id">
-                                
+
                             </div>
                         </div>
-  
-  
+
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
                                 <button type="submit" class="btn btn-primary">
@@ -120,8 +119,8 @@
                                 </button>
                             </div>
                         </div>
-                    </form>                       
-  
+                    </form>
+
                 </div>
             </div>
         </div>
