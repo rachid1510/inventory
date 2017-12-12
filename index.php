@@ -2,9 +2,10 @@
     /**
     * check session
     **/
-    session_start();
-    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}
     include ("config/config.php");
+   /* session_start();
+    if(empty($_SESSION['user_id'] ))	{ header("location:".$url."/login.php");	}*/
+
     /**
      * include head
      */

@@ -11,7 +11,7 @@
          </div>
 
          <div class="pull-right">
-           <a href="#" id="addproduct" class="btn btn-primary">Add New</a>
+           <a href="#" id="showmodal" class="btn btn-primary">Add New</a>
          </div>
         </div>
         <div class="panel-body">
@@ -49,7 +49,7 @@
               </tr>
               
             </tbody>
-          </tabel>
+          </table>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Ajouter Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Créer Mouvement</h4>
                 </div>
                 <div class="modal-body">
   

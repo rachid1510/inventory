@@ -50,7 +50,7 @@
               </tr>
               
             </tbody>
-          </tabel>
+          </table>
         </div>
       </div>
     </div>
