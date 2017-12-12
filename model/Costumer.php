@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
+require ("Model.php");
 
 class Costumer extends Model
 {
     //
+    public function __construct()
+    {
+        parent::__construct('costumers');
+    }
 }

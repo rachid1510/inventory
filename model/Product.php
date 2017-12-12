@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-
+require ("Model.php");
 class Product extends Model
 {
     //
+    //
+    public function __construct()
+    {
+        parent::__construct('products');
+    }
 }

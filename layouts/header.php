@@ -17,7 +17,7 @@
 <body class="hold-transition skin-blue sidebar-mini" >
 <div class="wrapper">
 <header id="header">
-      <div class="logo pull-left"> OSWA - Inventory </div>
+      <div class="logo pull-left"><a href="<?php echo $url;?>"> <img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/></a></div>
       <div class="header-content">
       <div class="header-date pull-left">
         <strong><?php echo date("F j, Y, g:i a");?></strong>
@@ -57,7 +57,7 @@
     <div class="sidebar">
         <ul>
             <li>
-                <a href="home.php">
+                <a href="<?php echo $url;?>">
                     <i class="glyphicon glyphicon-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -70,15 +70,15 @@
               </a>
             </li> -->
             <li>
-                <a href="movement">
-                    <i class="glyphicon glyphicon-th-list"></i>
+                <a href="<?php echo $url;?>/movement">
+                    <i class="glyphicon glyphicon-move"></i>
                     <span>MOUVEMENTS</span>
                 </a>
             </li>
 
             <li>
                 <a   class="submenu-toggle">
-                    <i class="glyphicon glyphicon-th-list"></i>
+                    <i class="glyphicon glyphicon-barcode"></i>
                     <span>PRODUITS</span>
                 </a>
                 <ul class="nav submenu">
@@ -88,27 +88,33 @@
             </li>
 
             <li>
-                <a href="home.php">
-                    <i class="glyphicon glyphicon-signal"></i>
+                <a href="<?php echo $url;?>/installation">
+                    <i class="glyphicon glyphicon-wrench"></i>
                     <span>INSTALLATIONS</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<?php echo $url;?>/costumer">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                    <span>CLIENTS</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $url;?>/vehicle">
+                    <i class="glyphicon glyphicon-bed"></i>
+                    <span>VEHICULES</span>
                 </a>
             </li>
             <li>
                 <a href="home.php">
-                    <i class="glyphicon glyphicon-th-large"></i>
+                    <i class="glyphicon glyphicon-user"></i>
                     <span>INSTALLATEUR</span>
                 </a>
             </li>
             <li>
                 <a href="home.php">
-                    <i class="glyphicon glyphicon-picture"></i>
-                    <span>CLIENTS</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="home.php">
-                    <i class="glyphicon glyphicon-indent-left"></i>
+                    <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>
             </li>

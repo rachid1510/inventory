@@ -6,7 +6,28 @@ body{
   background: #f1f2f7;
   height: 100%;
   width: 100%;
-}a{
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+    width: auto;
+    max-width: 680px;
+    padding: 0 15px;
+}
+a{
    color:#777;
    text-decoration: none;
  }.padding-top{
@@ -30,6 +51,7 @@ body{
         left: 0;
         padding: 35px 15px 20px 270px;
       }
+
 
 .bg-green{
   background-color: #A3C86D;
@@ -282,9 +304,9 @@ table tfoot tr td:first-child{
            border: 1px solid #dbdbdb;
            border-radius: 0;
          }
-input[type=file]{
+/*input[type=file]{
   text-indent: -99999px;
-}td img.img-thumbnail{
+}*/td img.img-thumbnail{
    width: 125px;
    height: 125px;
    vertical-align: top;

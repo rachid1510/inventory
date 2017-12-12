@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-
+require ("Model.php");
 class Personal extends Model
 {
     //
+    public function __construct()
+    {
+        parent::__construct('personals');
+    }
 }
