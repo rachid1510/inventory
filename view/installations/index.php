@@ -8,7 +8,7 @@
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
           <div class="pull-left">
-           <h3>La liste des Installations</h3>
+           <h3>La liste des mouvements</h3>
          </div>
 
          <div class="pull-right">

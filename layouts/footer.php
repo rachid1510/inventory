@@ -12,6 +12,32 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#gps_client_check').change(function(){
+
+            if(this.checked){
+
+                $('#autoUpdate1').fadeIn('slow');
+                $('#sim_client_check').hide();
+            }
+
+            else{
+                $('#autoUpdate1').fadeOut('slow');
+                $('#sim_client_check').show();
+            }
+
+
+        });
+        $('#sim_client_check').change(function(){
+            if(this.checked) {
+                $('#autoUpdate2').fadeIn('slow');
+                $('#gps_client_check').hide();
+            }
+            else{
+                $('#autoUpdate2').fadeOut('slow');
+                $('#gps_client_check').show();
+            }
+
+        });
         $('.submenu-toggle').click(function () {
             $(this).parent().children('ul.submenu').toggle(200);
         });
