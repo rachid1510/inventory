@@ -28,7 +28,7 @@
            </div>
              <div class="form-group col-md-3">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control datePicker" name="date_debut" placeholder="DATE ARRIVEE">
            </div>
            </form>
            </div>

@@ -20,9 +20,11 @@ class movementController
      * action add insert into table movements
      */
     public function actionAdd()
-    {   $result = array();
+    {
+        $result = array();
         $movement=new Movement();
         $data=array("provider"=>$_POST["provider"],"category_id" =>$_POST["category"]);
+
         if($movement->save($data))
         {
             $result['msg']= 'OK';
@@ -30,8 +32,10 @@ class movementController
         else{
             $result['msg']= 'error';
         }
-        header('Content-type: application/json');
-        return json_encode($result);
-        //die();
+
+        echo json_encode($result);
+        die();
     }
+
+
 }

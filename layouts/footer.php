@@ -47,14 +47,14 @@
 
         $('#submitfrm').click(function() {
             var $this = $(this);
-
             var form = $('#'+$this.parent().parent().parent().attr("id"));
             var data=form.serialize();
-             $.ajax( {
+              $.ajax( {
                 type: "POST",
                 url: form.attr( 'action' ),
                 data: data,
-                dataType: 'json',
+                contentType: "application/json",//note the contentType defintion
+                dataType: "json",
                 beforeSend: function() {
                     $this.button('loading');
                     },
@@ -62,7 +62,7 @@
                     $this.button('reset');
                     },
                 success: function(resultat ) {
-                    alert(resultat);
+               console.log(resultat);
                     if(resultat['msg'] =='OK') {
                         $('#mymodal').modal('toggle');
                         $(".alert.alert-success").show();
@@ -79,6 +79,13 @@
         });
 
 
+        $('.datePicker').val(new Date().toDateInputValue());
+
+    });
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
     });
 </script>
 

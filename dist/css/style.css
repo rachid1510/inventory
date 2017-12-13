@@ -329,3 +329,8 @@ table tfoot tr td:first-child{
 a.submenu-toggle {
     cursor: pointer;
 }
+.form-horizontal .form-group
+{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
