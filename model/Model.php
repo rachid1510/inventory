@@ -20,7 +20,7 @@ abstract class Model
        // $user = 'guidedup_userdb';
       // $password = 'y@}#knq#9GM{';
 	  
-	  $dsn = 'mysql:dbname=mydb;host=127.0.0.1';
+	  $dsn = 'mysql:dbname=stock;host=127.0.0.1';
        $user = 'root';
       $password = '';
      
@@ -138,8 +138,7 @@ abstract class Model
 			
             $action = 'insert';
         }
-     //  echo $sql;
-      // var_dump($d);
+
         $pre = $this->db->prepare($sql);
         try {
            

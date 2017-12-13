@@ -66,15 +66,20 @@
                     <h4 class="modal-title" id="myModalLabel">Créer Mouvement</h4>
                 </div>
                 <div class="modal-body">
-
-                    <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> Indicates a successful or positive action.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                    </div>
+                    <form id="addmovement" class="form-horizontal" role="form" method="POST" action="movement/add">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Catégorie</label>
                             <div class="col-md-6">
                                 <select name="category" class="form-control">
-                                    <option>Boitier</option>
-                                    <option>Carte SIM</option>
+                                    <option value="1">Boitier</option>
+                                    <option value="2">Carte SIM</option>
                                 </select>
                             </div>
                         </div>
@@ -124,8 +129,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    Valider
+                                <button id="submitfrm" type="button" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
+                                     Valider
                                 </button>
                             </div>
                         </div>

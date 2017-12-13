@@ -1,15 +1,29 @@
      <div class="row">
      <div class="col-md-12">
-       
+         <div class="pull-left">
+             <h3>La liste des Clients</h3>
+         </div>
      </div>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-          <div class="pull-left">
-           <h3>La liste des clients</h3>
-         </div>
+            <div class="col-md-9 pull-left">
+                <form id="filtre_sim">
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Nom</label>
+                        <input type="text" class="form-control" name="costumer_name" placeholder="Nom client">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Télèphone</label>
+                        <input type="text" class="form-control" name="costumer_tel" placeholder="Télèphone">
+                    </div>
 
-         <div class="pull-right">
+
+                </form>
+            </div>
+
+         <div class="pull-right col-md-3"><br>
+             <a href="#"  class="btn btn-primary">Rechercher</a>
            <a href="#" id="showmodal" class="btn btn-primary">Nouveau client</a>
          </div>
         </div>
