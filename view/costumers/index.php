@@ -1,4 +1,3 @@
-
      <div class="row">
      <div class="col-md-12">
        
@@ -7,11 +6,11 @@
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
           <div class="pull-left">
-           <h3>La liste des mouvements</h3>
+           <h3>La liste des clients</h3>
          </div>
 
          <div class="pull-right">
-           <a href="#" id="showmodal" class="btn btn-primary">Créer mouvement</a>
+           <a href="#" id="showmodal" class="btn btn-primary">Nouveau client</a>
          </div>
         </div>
         <div class="panel-body">
@@ -19,13 +18,13 @@
             <thead>
               <tr>
                                
-                <th class="text-center" style="width: 10%;"> Ref commande </th>
-                <th class="text-center" style="width: 10%;"> Date arrivée </th>
-                <th class="text-center" style="width: 10%;"> Fournisseur </th>
-                <th class="text-center" style="width: 10%;"> Plan </th>
-                <th class="text-center" style="width: 10%;"> Quantité </th>
-                 <th class="text-center" style="width: 10%;"> Observation </th>
-                <th class="text-center" style="width: 100px;"> Actions </th>
+                <th class="text-center" style="width: 10%;"> Nom </th>
+                <th class="text-center" style="width: 10%;"> Type </th>
+                <th class="text-center" style="width: 10%;"> Telèphone </th>
+                <th class="text-center" style="width: 10%;"> Ville </th>
+                <th class="text-center" style="width: 10%;"> Département </th>
+                <th class="text-center" style="width: 10%;"> Nombre d'installation </th>
+                <th class="text-center" style="width: 10%;"> Actions </th>
               </tr>
             </thead>
             <tbody>
@@ -55,73 +54,58 @@
     </div>
   </div>
 
-
-
  <!-- Modal -->
-    <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Créer Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Créer le client</h4>
                 </div>
                 <div class="modal-body">
 
                     <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Catégorie</label>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Nom</label>
                             <div class="col-md-6">
-                                <select name="category" class="form-control">
-                                    <option>Boitier</option>
-                                    <option>Carte SIM</option>
-                                </select>
+                                <input type="text" name="costumerName" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Ref commande</label>
+                            <label class="col-md-4 control-label">Télèphone</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
+                                <input type="text" name="costumer_name" class="form-control">
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Fournisseur</label>
-                            <div class="col-md-6">
-                                <select name="provider" class="form-control">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
-                                </select>
-                            </div>
-                        </div>
-
 
                          <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
+                            <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
+                             <select name="costumer_type" class="form-control">
+                                 <option>socièté</option>
+                                 <option>Particulier</option>
+                             </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Ville</label>
+                            <div class="col-md-6">
+                                <input type="text" name="costumer_city" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Département</label>
+                            <div class="col-md-6">
+                                <input type="text" name="costumer_departement" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Date arrivée</label>
+                            <label class="col-md-4 control-label">Adresse</label>
                             <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
-                                <small class="help-block"></small>
+                                <input type="text" name="costumer_adresse" class="form-control">
                             </div>
                         </div>
-
-                       <div class="form-group">
-                            <label class="col-md-4 control-label">Importer fichier</label>
-                            <div class="col-md-6">
-                               <input type="file" class="form-control" name="order_id">
-
-                            </div>
-                        </div>
-
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
                                 <button type="submit" class="btn btn-primary">

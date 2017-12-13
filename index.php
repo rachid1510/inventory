@@ -2,9 +2,11 @@
     /**
     * check session
     **/
-//    session_start();
-//    if(empty($_SESSION['user_id'] ))	{ header("location:login.php");	}
+
     include ("config/config.php");
+   /* session_start();
+    if(empty($_SESSION['user_id'] ))	{ header("location:".$url."/login.php");	}*/
+
     /**
      * include head
      */
@@ -12,7 +14,7 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement','installation'];
+    $controllers=['product','movement','installation','costumer','vehicle'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
     $act='index';

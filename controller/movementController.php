@@ -2,10 +2,12 @@
 
 class movementController
 {
-    //
-     //
-    public function index()
+    /*
+     * action index display list off movements from database
+     */
+    public function actionIndex()
     {
-    	return view('movements.index');
+        require 'view/movements/index.php';
+
     }
 }
