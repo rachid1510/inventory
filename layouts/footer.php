@@ -50,11 +50,12 @@
 
             var form = $('#'+$this.parent().parent().parent().attr("id"));
             var data=form.serialize();
+
              $.ajax( {
                 type: "POST",
                 url: form.attr( 'action' ),
                 data: data,
-                dataType: 'json',
+                //dataType: 'json',
                 beforeSend: function() {
                     $this.button('loading');
                     },
@@ -62,9 +63,9 @@
                     $this.button('reset');
                     },
                 success: function(resultat ) {
-                    alert(resultat);
+                    console.log(resultat);
                     if(resultat['msg'] =='OK') {
-                        $('#mymodal').modal('toggle');
+
                         $(".alert.alert-success").show();
                         window.setTimeout(function(){ window.location.href = window.location.origin + "/movement"; }, 3000);
 

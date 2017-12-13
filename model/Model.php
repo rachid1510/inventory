@@ -21,7 +21,7 @@ abstract class Model
       // $password = 'y@}#knq#9GM{';
 	  
 	  $dsn = 'mysql:dbname=stock;host=127.0.0.1';
-       $user = 'root';
+	  $user = 'root';
       $password = '';
      
 		try {

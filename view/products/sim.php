@@ -10,26 +10,30 @@
         <div class="panel-heading clearfix">
             <div class="col-md-10 pull-left">
            <form id="filtre_sim">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label class="control-label">IMEI</label>
              <input type="text" class="form-control" name="imei" placeholder="IMEI">
            </div>
-             <div class="form-group col-md-3">
+             <div class="form-group col-md-2">
               <label class="control-label">Réf Commande</label>
              <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
            </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label class="control-label">Etat</label>
                <select name="provider" class="form-control">
                         <option>Active</option>
                         <option>Inactive</option>
                 </select>
            </div>
-             <div class="form-group col-md-3">
+             <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
            </div>
+               <div class="form-group col-md-2">
+                   <label class="control-label">Date D'activation</label>
+                   <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
+               </div>
            </form>
            </div>
         
@@ -50,6 +54,7 @@
                 <th class="text-center" style="width: 10%;"> Plan </th>
                 <th class="text-center" style="width: 10%;"> Etat </th>
                 <th class="text-center" style="width: 10%;"> Activer </th>
+                <th class="text-center" style="width: 10%;">Date d'activation </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
               </tr>
             </thead>
@@ -58,6 +63,7 @@
               <tr>
                 
                  <td class="text-center"> </td>
+                <td class="text-center"> </td>
                 <td class="text-center"> </td>
                 <td class="text-center"> </td>
                 <td class="text-center"> </td>
