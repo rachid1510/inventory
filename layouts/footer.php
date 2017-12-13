@@ -66,7 +66,7 @@
                     if(resultat['msg'] =='OK') {
                         $('#mymodal').modal('toggle');
                         $(".alert.alert-success").show();
-                        window.setTimeout(function(){ window.location.href = window.location.origin + "/movement"; }, 3000);
+                        window.setTimeout(function(){ window.location.href = window.location.origin + "/inventory/movement"; }, 3000);
 
                     }
                     else
