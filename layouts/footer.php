@@ -13,7 +13,8 @@
             crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<script>
+<!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>-->
+    <script>
     $(document).ready(function() {
         $('#gps_client_check').change(function(){
 
@@ -50,14 +51,14 @@
 
         $('#submitfrm').click(function() {
             var $this = $(this);
+            var frmaction=$this.attr("title");
             var form = $('#'+$this.parent().parent().parent().attr("id"));
             var data=form.serialize();//  new FormData(form) ;//.serialize();
+
              $.ajax( {
                 type: "POST",
-                url: form.attr( 'action' ),
+                url: frmaction,
                 data: data,
-                async: false,
-                dataType:"json",
                 beforeSend: function() {
 
                     $this.button('loading');
@@ -87,12 +88,34 @@
 
         $('.datePicker').val(new Date().toDateInputValue());
 
+        $('.dropdown').change(function(){
+
+            var text_selected = $(this).val();
+            var hidden_element=$(this).attr("title");
+
+            $(this+"> option").each(function()
+            {
+
+                if($(this).text() == text_selected)
+                {
+                    $('#'+hidden_element).val($(this).attr("data-value"));
+                }
+                    // alert($(this).val);
+
+
+            }
+
+            });
+
+
     });
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
         return local.toJSON().slice(0,10);
     });
+
+
 </script>
 
   </body>
