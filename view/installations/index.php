@@ -2,7 +2,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h3>La liste des mouvements</h3>
+                    <h3>La liste des installations</h3>
                 </div>
                 <div class="col-md-12">
                     <div class="panel panel-default">
@@ -13,7 +13,7 @@
                                 <form>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control" name="imei" placeholder="IMEI">
+                                        <input type="date" class="form-control datePicker" name="imei" placeholder="IMEI">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">client</label>
@@ -88,13 +88,13 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <form id="addinstallation" class="form-horizontal" role="form" method="POST" action="installation/add">
+
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Date D'installation</label>
                                     <div class="col-md-6">
-                                        <input type="date" class="form-control" name="date_arrived">
+                                        <input type="date"  class="form-control datePicker" name="date_installed">
                                     </div>
                                 </div>
 
@@ -119,6 +119,15 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Matricule</label>
+                                    <div class="col-md-6">
+                                        <select name="vehicule_id" class="form-control">
+                                            <option>véhicule1</option>
+                                            <option>véhicule2</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="row">
 
@@ -174,14 +183,14 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleTextarea">Observation</label>
+                                    <label name="obser">Observation</label>
                                     <textarea class="form-control" id="observation" rows="3"></textarea>
                                 </div>
 
 
                                 <div class="form-group">
                                     <div class="col-md-3 col-md-offset-3 pull-right">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button id="submitfrm" type="submit" class="btn btn-primary">
                                             Valider
                                         </button>
                                         <button type="reset" class="btn btn-primary">

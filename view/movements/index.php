@@ -11,7 +11,7 @@
          </div>
 
          <div class="pull-right">
-           <a href="#" id="showmodal" class="btn btn-primary">Créer mouvement</a>
+           <a   id="showmodal" class="btn btn-primary">Créer mouvement</a>
          </div>
         </div>
         <div class="panel-body">
@@ -113,7 +113,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Date arrivée</label>
                             <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
+                                <input type="date"  class="form-control datePicker" name="date_arrived">
                                 <small class="help-block"></small>
                             </div>
                         </div>

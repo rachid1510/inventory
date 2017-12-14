@@ -2,9 +2,9 @@
     </div>
 
     <footer class="footer">
-        <div class="container">
+
             <span class="text-muted">© 2017 Opentech inventory systéme. Tous droits réservés</span>
-        </div>
+
     </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -45,41 +45,55 @@
             $('#myModal').modal();
         });
 
-        $('#submitfrm').click(function() {
-            var $this = $(this);
+        function add() {
+            $('#submitfrm').click(function() {
+                var $this = $(this);
+                var form = $('#'+$this.parent().parent().parent().attr("id"));
+                var data=form.serialize();
 
-            var form = $('#'+$this.parent().parent().parent().attr("id"));
-            var data=form.serialize();
 
-             $.ajax( {
-                type: "POST",
-                url: form.attr( 'action' ),
-                data: data,
-                //dataType: 'json',
-                beforeSend: function() {
-                    $this.button('loading');
+                $.ajax( {
+                    type: "POST",
+                    url: form.attr( 'action' ),
+                    data: data,
+                    //dataType: 'json',
+
+                    beforeSend: function() {
+                        $this.button('loading');
                     },
-                complete: function() {
-                    $this.button('reset');
+                    complete: function() {
+                        $this.button('reset');
                     },
-                success: function(resultat ) {
-                    console.log(resultat);
-                    if(resultat['msg'] =='OK') {
+                    success: function(resultat ) {
 
-                        $(".alert.alert-success").show();
-                        window.setTimeout(function(){ window.location.href = window.location.origin + "/movement"; }, 3000);
+                        console.log(resultat);
 
+                        if(resultat['msg'] =='OK') {
+
+                            $(".alert.alert-success").show();
+                            window.setTimeout(function(){ window.location.href = window.location.origin + "/inventory/movement"; }, 3000);
+
+                        }
+                        else
+                        {
+                            $(".alert .alert-danger").show();
+                        }
                     }
-                    else
-                    {
-                        $(".alert .alert-danger").show();
-                    }
-                }
-            } );
+                } );
 
-        });
+            });
+        }
+        $( "#submitfrm" ).on( "click", add );
 
 
+
+        $('.datePicker').val(new Date().toDateInputValue());
+
+    });
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
     });
 </script>
 

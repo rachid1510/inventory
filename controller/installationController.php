@@ -10,10 +10,21 @@ class installationController
         require 'view/installations/index.php';
 
     }
-    public function actionEdit()
+    public function actionAdd()
     {
+        $result = array();
+        $installation=new Installation();
+        $data=array("personal-id"=>$_POST["installeur"],"observation"=>$_POST["obser"],"installed_at"=>$_POST["date_installed"],"vehicule_id"=>$_POST["vehicule_id"],);
 
-        require 'view/movements/index.php';
+        if($installation->save($data))
+        {
+            $result['msg']= 'OK';
+        }
+        else{
+            $result['msg']= 'error';
+        }
 
+        echo json_encode($result);
+        die();
     }
 }

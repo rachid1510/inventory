@@ -1,13 +1,13 @@
 <?php
 
 
-class productController
+class personalController
 {
     //
 
     public function actionIndex()
     {
-        require 'view/products/boitier.php';
+        require 'view/personals/index.php';
 
     }
 
