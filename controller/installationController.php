@@ -1,6 +1,6 @@
 <?php
 
-
+require ("model/Model.php");
 class installationController
 {
     //
@@ -10,10 +10,5 @@ class installationController
         require 'view/installations/index.php';
 
     }
-    public function actionEdit()
-    {
 
-        require 'view/movements/index.php';
-
-    }
 }

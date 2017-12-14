@@ -72,7 +72,7 @@
                     <div class="alert alert-danger" style="display: none">
                         <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
                     </div>
-                    <form id="addmovement" class="form-horizontal" role="form" method="POST" action="movement/add">
+                    <form id="addmovement" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="movement/add">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Catégorie</label>
@@ -121,7 +121,7 @@
                        <div class="form-group">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">
-                               <input type="file" class="form-control" name="order_id">
+                               <input type="file" class="form-control" name="upload" required>
 
                             </div>
                         </div>
@@ -129,7 +129,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button id="submitfrm" type="button" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
+                                <button id="submitfrm" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
                                      Valider
                                 </button>
                             </div>
