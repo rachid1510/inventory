@@ -38,6 +38,11 @@ class installationController
     public function actionAdd()
     {
         $result = array();
+        $error=array();
+        $personal_id=$_POST["personal_id"];
+        $selected_vehicle=$_POST["selected_vehicle"];
+        $date_installation=$_POST["date_installation"];
+
         //$movement=new Move;ment();
         $installation = Model::create('Installation');
         /*
@@ -53,11 +58,12 @@ class installationController
         /*
          * prepare data to insert in installation table
          */
-        $data = array("status" => $status, "personal_id" => $_POST["personal_id"],"vehicle_id"=>$_POST["vehicle_id"],"user_id"=>1,"installed_at"=>$_POST["date_installation"]);
+        $data = array("status" => $status, "personal_id" => $personal_id,"vehicle_id"=>$selected_vehicle,"user_id"=>1,"installed_at"=>$date_installation);
         /*
          * call function to save installation and get lastinsert id in var $installation_id
          */
         $installation_id = $installation->save($data);
+
          /*
           * check if saved
           */
@@ -65,7 +71,7 @@ class installationController
             /*
              * instance object detail_installation
              */
-            $detail_installation=Model::create('DetailsInstallations');
+            $detail_installation=Model::create('DetailsInstallation');
             /*
              * check if is not costumer's product (card and box)
              */
@@ -73,11 +79,11 @@ class installationController
                 /*
                  * prepare data to insert box data  in detail_installation table
                  */
-                $databoitier = array("product_id" => $_POST["boitier"], "installation_id" => $installation_id);
+                $databoitier = array("product_id" => $_POST["selected_box"], "installation_id" => $installation_id);
                 /*
                  *  prepare data to insert card data  in detail_installation table
                 */
-                $datasim = array("product_id" => $_POST["sim"], "installation_id" => $installation_id);
+                $datasim = array("product_id" => $_POST["selected_card"], "installation_id" => $installation_id);
                 /*
                  * call function to save box in  detail_installation
                  */
@@ -118,7 +124,7 @@ class installationController
         } else {
             $result['msg'] = 'error';
         }
-        //header('content-type:application/json');
+       header('content-type:application/json');
         return $result;
         die();
     }

@@ -53,13 +53,17 @@
             var $this = $(this);
             var frmaction=$this.attr("title");
             var form = $('#'+$this.parent().parent().parent().attr("id"));
-            var data=form.serialize();//  new FormData(form) ;//.serialize();
+            var data=new FormData(form[0]);//form.serialize();//new FormData(form) ;//
 
+             alert(data);
              $.ajax( {
-                type: "POST",
-                url: frmaction,
-                data: data,
-                beforeSend: function() {
+                 type: "POST",
+                 url: frmaction,
+                 data: data ? data : form.serialize(),
+                 cache       : false,
+                 contentType : false,
+                 processData : false,
+                 beforeSend: function() {
 
                     $this.button('loading');
                     },
@@ -68,8 +72,6 @@
                     $this.button('reset');
                     },
                 success: function(resultat ) {
-                  console.log("oui success");
-                  console.log(resultat);
                     if(resultat['msg'] =='OK') {
                        // $('#mymodal').modal('toggle');
                         $(".alert.alert-success").show();
@@ -85,25 +87,25 @@
 
         });
 
-
+        /*
+         * set default value to all datetimepicker control
+         */
         $('.datePicker').val(new Date().toDateInputValue());
-
-        $('.dropdown').change(function(){
-
+         /*
+          * search in select option input text change
+          */
+        $('.search_input').change(function(){
             var text_selected = $(this).val();
             var hidden_element=$(this).attr("title");
-
-            $(this+"> option").each(function()
+            var id_dropdown=$(this).parent(".col-md-6").children(".data_list").children(0).attr('id');
+           $("#"+id_dropdown+"> option").each(function()
             {
-
                 if($(this).text() == text_selected)
                 {
+
                     $('#'+hidden_element).val($(this).attr("data-value"));
                 }
-                    // alert($(this).val);
-
-
-            }
+            });
 
             });
 
