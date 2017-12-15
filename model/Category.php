@@ -1,6 +1,6 @@
 <?php
 
-require ("Model.php");
+
 
 class Category extends Model
 {

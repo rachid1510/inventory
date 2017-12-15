@@ -14,6 +14,11 @@ abstract class Model
 		 $this->db =self::getDb();
 		 
 	 }
+    public static function create($class){
+	    require $class.'.php';
+        $class_name = $class;
+        return new $class_name();
+    }
   static function getDb(){
      
 	   // $dsn = 'mysql:dbname=guidedup_groupeHome;host=127.0.0.1';
@@ -143,11 +148,12 @@ abstract class Model
         try {
            
         $r = $pre->execute($d);
-           /* if ($action == 'insert') {
+            if ($action == 'insert') {
                 $this->$key = $this->db->lastInsertId();
-                $data->$key = $this->$key;
+                //$data[$key] = $this->$key;
+                return $this->$key;
                 //varDump($data);
-            }*/
+            }
             return true;
         } catch (PDOException $exc) {
             if ($exc->getCode() == '23000')

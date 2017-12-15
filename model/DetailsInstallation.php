@@ -1,6 +1,6 @@
 <?php
 
-require ("Model.php");
+
 
 class DetailsInstallation extends Model
 {

@@ -48,7 +48,7 @@
             <thead>
               <tr>
                              
-                <th class="text-center" style="width: 10%;"> IMEI </th>
+                <th class="text-center" style="width: 10%;"> SSID </th>
                 <th class="text-center" style="width: 10%;"> Numèro </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 10%;"> Plan </th>
@@ -59,16 +59,18 @@
               </tr>
             </thead>
             <tbody>
-             
-              <tr>
+            <?php foreach($products as $product):?>
+
+            <tr>
                 
-                 <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
+                 <td class="text-center"><?php echo $product['imei_product']; ?> </td>
+                <td class="text-center"><?php echo $product['label']; ?></td>
+                <td class="text-center"><?php echo $product['provider']; ?> </td>
+                <td class="text-center"><?php echo $product['imei_product']; ?> </td>
+                <td class="text-center"> <?php echo $product['model']; ?></td>
+                <td class="text-center"> <?php echo $product['state']; ?></td>
+                <td class="text-center"><?php echo $product['date_arrived']; ?> </td>
+
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -80,7 +82,7 @@
                   </div>
                 </td>
               </tr>
-              
+              <?php endforeach; ?>
             </tbody>
           </table>
         </div>

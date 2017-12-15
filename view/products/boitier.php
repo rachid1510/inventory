@@ -27,7 +27,7 @@
            </div>
         
            <div class="col-md-2 pull-right"><br/>
-            <a href="#" id="filtrer" class="btn btn-primary">Filtrer</a>
+            <a href="#" id="filtrer" name="search" class="btn btn-primary">Filtrer</a>
           
 
          </div>
@@ -38,24 +38,31 @@
               <tr>
                              
                 <th class="text-center" style="width: 10%;"> IMEI </th>
-                <th class="text-center" style="width: 10%;"> Numèro </th>
+                <th class="text-center" style="width: 10%;"> TYPE de Boitier </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 10%;"> Modèle </th>
                 <th class="text-center" style="width: 10%;"> Etat </th>
-                <th class="text-center" style="width: 10%;"> Activer </th>
+                <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
+                  <th class="text-center" style="width: 10%;"> Activer </th>
+
                 <th class="text-center" style="width: 100px;"> Actions </th>
               </tr>
             </thead>
             <tbody>
-             
-              <tr>
+            <?php foreach($products as $product):?>
+
+            <tr>
                 
-                 <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
+                 <td class="text-center"><?php echo $product['imei_product']; ?> </td>
+                <td class="text-center"> <?php echo $product['label']; ?></td>
+                <td class="text-center"> <?php echo $product['provider']; ?></td>
+                <td class="text-center"> <?php echo $product['model']; ?></td>
+                <td class="text-center"> <?php  if($product['status']=="1"){echo "en stock";}
+                                            elseif($product['status']=="2") echo "en détention du personnel";
+                                            else echo "Installé"; ?></td>
+                <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
+                <td class="text-center"> <?php echo $product['status']; ?></td>
+
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -67,7 +74,8 @@
                   </div>
                 </td>
               </tr>
-              
+            <?php endforeach; ?>
+
             </tbody>
           </table>
         </div>

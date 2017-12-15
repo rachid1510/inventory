@@ -1,5 +1,5 @@
 <?php
-require ("Model.php");
+
 
 class Vehicle extends Model
 {

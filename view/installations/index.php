@@ -39,6 +39,7 @@
                             </div>
                         </div>
                         <div class="panel-body">
+
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -54,23 +55,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center"> </td>
-                                    <td class="text-center">
-                                        <div class="btn-group">
-                                            <a href="#" class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip">
-                                                <span class="glyphicon glyphicon-edit"></span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-
+                                        <?php echo $html;
+                                            ?>
                                 </tbody>
                             </table>
                         </div>
@@ -84,7 +70,7 @@
                     <div class="modal-content ">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Créer Installation</h4>
+                            <h4 class="modal-title" id="myModalLabel">Créer une Installation</h4>
                         </div>
                         <div class="modal-body">
 
@@ -99,7 +85,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Installeur</label>
+                                    <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
                                         <select name="installeur" class="form-control">
                                             <option>ACHRAF</option>

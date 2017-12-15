@@ -25,10 +25,11 @@
               </tr>
             </thead>
             <tbody>
+            <?php foreach($vehicles as $vehicle):?>
                <tr>
-                <td class="text-center"> </td>
-                 <td class="text-center"> </td>
-                <td class="text-center"> </td>
+                <td class="text-center"> <?php echo $vehicle['imei']; ?> </td>
+                 <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
+                <td class="text-center"> <?php echo $vehicle['name']; ?></td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -40,7 +41,8 @@
                   </div>
                 </td>
               </tr>
-              
+            <?php endforeach; ?>
+
             </tbody>
           </table>
         </div>

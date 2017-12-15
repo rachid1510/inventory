@@ -1,6 +1,5 @@
 <?php
 
-require ("Model.php");
 class Product extends Model
 {
     //

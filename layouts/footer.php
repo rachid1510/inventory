@@ -7,7 +7,10 @@
 
     </footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script>
@@ -45,6 +48,7 @@
             $('#myModal').modal();
         });
 
+
         function add() {
             $('#submitfrm').click(function() {
                 var $this = $(this);
@@ -65,6 +69,7 @@
                         $this.button('reset');
                     },
                     success: function(resultat ) {
+
 
                         console.log(resultat);
 

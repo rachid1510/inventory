@@ -8,7 +8,7 @@
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <div class="col-md-9 pull-left">
-                <form id="filtre_sim">
+                <form id="filtre_sim" role="form" method="POST" action="costumer/search" >
                     <div class="form-group col-md-3">
                         <label class="control-label">Nom</label>
                         <input type="text" class="form-control" name="costumer_name" placeholder="Nom client">
@@ -42,13 +42,15 @@
               </tr>
             </thead>
             <tbody>
-               <tr>
-                <td class="text-center"> </td>
-                 <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
+            <?php foreach($customers as $customer):?>
+
+            <tr>
+                <td class="text-center">  <?php echo $customer['name']; ?></td>
+                 <td class="text-center"> <?php echo $customer['type']; ?> </td>
+                <td class="text-center"> <?php echo $customer['phone_number']; ?> </td>
+                <td class="text-center">  <?php echo $customer['city']; ?></td>
+                <td class="text-center"> <?php echo $customer['departement']; ?> </td>
+                <td class="text-center"> <?php echo "en attendant une jointure magique de rachid"; ?> </td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -60,7 +62,7 @@
                   </div>
                 </td>
               </tr>
-              
+            <?php endforeach; ?>
             </tbody>
           </table>
         </div>
