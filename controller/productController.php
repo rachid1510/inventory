@@ -7,6 +7,8 @@ class productController
     
     public function actionBoitier()
     {
+
+
         require 'view/products/boitier.php';
 
     }

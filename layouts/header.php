@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<?php include ("config/config.php");?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Gestion de stock| Acuueil</title>
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css">
 <!--    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/bootstrap.css">-->
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/font-awesome.css">
+    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/chosen.min.css">
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/style.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini" >

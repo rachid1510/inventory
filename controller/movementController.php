@@ -34,13 +34,13 @@ class movementController
             $insert =$this->prepare_query($_POST["category"], $movement_id, $file);
             if($insert)
             {
-                $result['msg'] = 'OK';
+                $result = array('msg' => 'OK');
             }
           } else {
-            $result['msg'] = 'error';
+            $result = array('msg' => 'error');
         }
         header('content-type:application/json');
-        return $result;
+        echo json_encode($result);
         die();
     }
 
@@ -53,7 +53,7 @@ class movementController
         $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
         $product_object = Model::create('Product');
         $arrayCount = count($allDataInSheet);  // Here get total count of row in that Excel sheet
-        $insert=false;
+        $insert=true;
         if ($category == 2) {
             for ($i = 2; $i <= $arrayCount; $i++) {
                 $product_array = array(
@@ -65,10 +65,27 @@ class movementController
                     "movement_id" => $move_id,
                     "user_id" => 1
                 );
-             if($product_object->save($product_array)>0)
+             if($product_object->save($product_array)==0)
              {
-                  $insert=true;
+                  $insert=false;
              }
+
+            }
+        }else{
+            for ($i = 2; $i <= $arrayCount; $i++) {
+                $product_array = array(
+                    "imei_product" => trim($allDataInSheet[$i]["A"]),
+                    "label" => trim($allDataInSheet[$i]["B"]),
+                    "model" => trim($allDataInSheet[$i]["D"]),
+                    "state" => 'enabled',
+                    "status" => 1,
+                    "movement_id" => $move_id,
+                    "user_id" => 1
+                );
+                if($product_object->save($product_array)==0)
+                {
+                    $insert=false;
+                }
 
             }
         }

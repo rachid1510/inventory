@@ -1,4 +1,7 @@
-
+<?php /**
+ * include head
+ */
+include ("layouts/header.php");?>
      <div class="row">
      <div class="col-md-12">
        
@@ -151,3 +154,4 @@
             </div>
         </div>
     </div>
+<?php include ("layouts/footer.php");?>
