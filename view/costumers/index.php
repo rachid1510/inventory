@@ -1,4 +1,8 @@
-     <div class="row">
+<?php /**
+ * include head
+ */
+include ("layouts/header.php");?>
+<div class="row">
      <div class="col-md-12">
          <div class="pull-left">
              <h3>La liste des Clients</h3>
@@ -8,7 +12,7 @@
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <div class="col-md-9 pull-left">
-                <form id="filtre_sim" role="form" method="post" action="costumer" >
+                <form id="filtre" name="filtre" role="form" method="post" action="costumer" >
                     <div class="form-group col-md-3">
                         <label class="control-label">Nom</label>
                         <input type="text" class="form-control" name="costumer_name" placeholder="Nom client">
@@ -136,3 +140,4 @@
             </div>
         </div>
     </div>
+<?php include ("layouts/footer.php");?>

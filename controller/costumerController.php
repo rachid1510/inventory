@@ -10,14 +10,32 @@ class costumerController
 
         $customers = array();
         $customers = Model::create('Costumer');
-        // ,"groupBy"=>"i.id"
-        //"costumers c,vehicles v,installations i", "v.costumer_id=c.id and i.vehicle-id= v.id", array("fields" => "c.*")
-        if(!empty($_POST["costumer_name"]) OR !empty($_POST["costumer_tel"]))
+        /*
+         * var condition string
+         */
+        $condition="";
+        if(!empty($_POST["costumer_name"]))
         {
-            $customers=$customers->findFromRelation( "costumers c","c.name='".$_POST["costumer_name"]. "' AND c.phone_number='".$_POST["costumer_tel"]."'" ,array("fields"=>"c.*"));
+            $condition= "c.name like '%".$_POST["costumer_name"]. "%'";
+        }
+        if(!empty($_POST["costumer_tel"]))
+        {
+            if($condition=='')
+            {
+                $condition= "c.phone_number like '%".$_POST["costumer_tel"]. "%'";
+            }else{
+                $condition .= " AND c.phone_number like '%".$_POST["costumer_tel"]. "%'";
+            }
+        }
+
+
+        if($condition !='')
+        {
+            $customers=$customers->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*"));
 
         }
         else {
+
             $customers = $customers->find();
         }
         require 'view/costumers/index.php';

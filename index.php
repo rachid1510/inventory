@@ -41,11 +41,22 @@
       */
     if (method_exists($instanceController, $action))
     {
-        $instanceController->$action();
+
+        if(count($currentlink)>3){
+            $instanceController->$action($currentlink[4]);
+        }else
+        {
+            $instanceController->$action();
+        }
+
 
     }
     else{
 
         echo 'method not exist';
     }
+    }
+    else
+    {
+        include 'home.php';
     }
