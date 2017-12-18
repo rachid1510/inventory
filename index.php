@@ -12,6 +12,7 @@
     $controllers=['product','movement','installation','costumer','vehicle'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
+
     $act='index';
     if(isset($currentlink[3]) && !empty($currentlink[3])){
         $act=$currentlink[3];
@@ -41,9 +42,13 @@
       */
     if (method_exists($instanceController, $action))
     {
-
         if(count($currentlink)>3){
-            $instanceController->$action($currentlink[4]);
+            if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'xmlhttprequest') == 0) {
+                $instanceController->$action();
+            }
+            else{
+                $instanceController->$action($currentlink[4]);
+            }
         }else
         {
             $instanceController->$action();

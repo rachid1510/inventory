@@ -139,10 +139,10 @@ include ("layouts/header.php");?>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="movement/add" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
-                                <button   id="" type="submit" class="btn btn-primary">
+                                <a title="movement/add" alt="addmovement" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                               <!-- <button   id="" type="submit" class="btn btn-primary">
                                     submit
-                                </button>
+                                </button>-->
                                 <!--<button id="submitfrm" title="movement/add" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
                                      Valider
                                 </button>-->

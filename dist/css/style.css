@@ -338,6 +338,6 @@ a.submenu-toggle {
 .chosen-select-no-results,
 .chosen-select-deselect,
 .chosen-select-rtl,
-.chosen-select-width {
-    width: 100%;
+.chosen-select-width,.chosen-container {
+    width: 100% !important;
 }
