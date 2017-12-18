@@ -13,9 +13,11 @@
             crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="<?php echo $url;?>/dist/js/chosen.jquery.min.js"></script>
 <!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>-->
     <script>
     $(document).ready(function() {
+        $(".chosen-select").chosen({width: "95%"});
         $('#gps_client_check').change(function(){
 
             if(this.checked){
@@ -60,39 +62,35 @@
             var form = $('#'+$this.parent().parent().parent().attr("id"));
             var data=new FormData(form[0]);//form.serialize();//new FormData(form) ;//
 
-             alert(data);
              $.ajax( {
                  type: "POST",
                  url: frmaction,
                  data: data ? data : form.serialize(),
                  cache       : false,
-                 contentType : false,
                  processData : false,
+                 contentType:false,
                  beforeSend: function() {
 
                     $this.button('loading');
                     },
-                 complete: function() {
-                        $this.button('loading');
+
+                complete: function() {
+                    $this.button('reset');
                     },
+                success: function(resultat ) {
 
-                 success: function (resultat) {
-                        if (resultat['msg'] == 'OK') {
-                            // $('#mymodal').modal('toggle');
-                            $(".alert.alert-success").show();
-                            // window.setTimeout(function(){ window.location.href = window.location.origin + "/inventory/movement"; }, 3000);
-
-                        }
-                        else {
-                            $(".alert .alert-danger").show();
-                        }
-
+                    if(resultat.msg === 'OK') {
+                        $(".alert.alert-success").show(0).delay(3000).hide(0);
+                        //setTimeout($(".alert.alert-success").show(),3000);
+                        $this.button('reset');
+                    }else
+                    {
+                        $(".alert .alert-danger").show();
                     }
-                });
+                }
+            } );
+        } );
 
-            });
-
-       // $( "#submitfrm" ).on( "click", add );
 
 
         /*
@@ -112,6 +110,15 @@
                 {
 
                     $('#'+hidden_element).val($(this).attr("data-value"));
+                    if(id_dropdown=='imei_boitier'){
+                       $('#typebox').text('');
+                       $('#typebox').text('Type:'+$(this).attr("title"))
+
+                    }
+                    if(id_dropdown=='imei_gsm'){
+                        $('#typecard').text('');
+                        $('#typecard').text('Type:'+$(this).attr("title"))
+                    }
                 }
             });
 

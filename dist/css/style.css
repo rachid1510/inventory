@@ -332,3 +332,12 @@ a.submenu-toggle {
     margin-left: 15px !important;
     margin-right: 15px !important;
 }
+.select,
+.chosen-select,
+.chosen-select-no-single,
+.chosen-select-no-results,
+.chosen-select-deselect,
+.chosen-select-rtl,
+.chosen-select-width {
+    width: 100%;
+}
