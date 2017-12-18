@@ -152,7 +152,7 @@ abstract class Model
                 $this->$key = $this->db->lastInsertId();
                 //$data[$key] = $this->$key;
                 return $this->$key;
-                //varDump($data);
+                var_dump($this->$key);
             }
             return true;
         } catch (PDOException $exc) {

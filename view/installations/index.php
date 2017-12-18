@@ -10,30 +10,30 @@
 
 
                             <div class="col-md-9 pull-left">
-                                <form>
+                                <form role="form" method="post" action="installation">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control datePicker" name="imei" placeholder="IMEI">
+                                        <input type="date" class="form-control datePicker" name="installed_at" placeholder="IMEI">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">client</label>
-                                        <select name="installeur" class="form-control">
-                                            <option>ACHRAF</option>
+                                        <select name="client" class="form-control">
+                                            <option >ACHRAF</option>
                                             <option>Zakaria</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Matricule</label>
-                                        <select name="installeur" class="form-control">
+                                        <select name="matricule" class="form-control">
                                             <option>97961631649</option>
                                             <option>65464694616</option>
                                         </select>
                                     </div>
+                                    <button type="submit" class="btn btn-primary">Rechercher</button>
                                 </form>
                             </div>
                             <br>
                             <div class="col-md-3 pull-right">
-                                <a href="#" class="btn btn-primary">Filtrer</a>
                                 <a href="#" id="showmodal" class="btn btn-primary">Créer installation</a>
 
                             </div>
@@ -74,56 +74,87 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="addinstallation" class="form-horizontal" role="form" method="POST" action="installation/add">
+                            <form id="addinstallation" class="form-horizontal" role="form"   method="POST" action="installation/add">
 
 
-                                <div class="form-group">
+
+                            <div class="form-group">
                                     <label class="col-md-4 control-label">Date D'installation</label>
                                     <div class="col-md-6">
-                                        <input type="date"  class="form-control datePicker" name="date_installed">
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
+                                        <input type="date"  class="form-control datePicker" name="date_installation">
+
+                                    </div>
+                            </div>
+
+
+                            <div class="form-group">
+
                                     <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
-                                        <select name="installeur" class="form-control">
-                                            <option>ACHRAF</option>
-                                            <option>Zakaria</option>
+                                        <select name="personal_id" class="form-control">
+                                            <option value="1">SALAH</option>
+                                            <option value="2">Zakaria</option>
                                         </select>
                                     </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Status</label>
+                                <div class="col-md-6">
+                                <label class="form-check-label">
+                                    <input checked class="form-check-input" id="status" type="checkbox" value="">
+                                    Installation terminée
+                                </label>
                                 </div>
-
-
-                                <div class="form-group">
+                            </div>
+                            <div class="form-group">
                                     <label class="col-md-4 control-label">Client</label>
                                     <div class="col-md-6">
-                                        <select name="client" class="form-control">
-                                            <option>client1</option>
-                                            <option>client2</option>
-                                        </select>
+                                        <input type="text" title="selected_costmer" autocomplete="off" class="form-control search_input"   list="costumers" id="textrecherche"  placeholder="Rechercher Client..."/>
+                                        <input type="hidden" id="selected_costmer"/>
+                                        <datalist id="costumers" class="data_list">
+                                            <select name="costumer" class="form-control" id="costumer">
+                                                <?php foreach($costumers as $costumer):?>
+                                                <option data-value="<?php echo $costumer['id'];?>"><?php echo $costumer['name'];?></option>
+
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </datalist>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label">Matricule</label>
-                                    <div class="col-md-6">
-                                        <select name="vehicule_id" class="form-control">
-                                            <option>véhicule1</option>
-                                            <option>véhicule2</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Véhicule</label>
+                                <div class="col-md-6">
+                                    <input type="text" autocomplete="off" title="selected_vehicle" class="form-control search_input"   list="vehicle_ids" id="textrecherche"  placeholder="Rechercher matricule..."/>
+                                    <input type="hidden" name="selected_vehicle" id="selected_vehicle"/>
+                                    <datalist id="vehicle_ids" class="data_list" >
+                                        <select name="vehicle_id" class="form-control" id="vehicle_id">
+                                            <?php foreach($vehicles as $vehicle):?>
+                                                <option data-value="<?php echo $vehicle['id'];?>"><?php echo $vehicle['imei'];?></option>
 
-                                <div class="row">
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="row">
+
 
                                     <div class="col-md-6">
                                         <legend class="scheduler-border">Boitier</legend>
                                         <label>Imei</label>
-                                        <select name="imei" class="form-control">
-                                            <option>1216464416</option>
-                                            <option>1216464646</option>
+                                        <input type="text" autocomplete="off" title="selected_box" class="form-control search_input"   list="boitiers" id="search1"  placeholder="Rechercher imei boitier..."/>
+                                        <input type="hidden" name="selected_box" id="selected_box"/>
+                                        <datalist id="boitiers" class="data_list" >
+                                        <select name="imei_boitier" class="form-control" id="imei_boitier" >
+                                            <?php foreach($boitiers as $b):?>
+                                                <option data-value="<?php echo $b['id'];?>"><?php echo $b['imei_product'];?></option>
+
+                                            <?php endforeach; ?>
+
                                         </select>
+                                        </datalist>
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" id="gps_client_check" type="checkbox" value="" style="display: inline-block;">
@@ -137,18 +168,19 @@
                                             <input type="text" class="form-control" name="Marque">
 
                                         </div>
-
-
                                     </div>
-
-
                                     <div class="col-md-6">
                                         <legend class="scheduler-border">SIM</legend>
                                         <label>gsm</label>
-                                        <select name="gsm" class="form-control">
-                                            <option>1216464416</option>
-                                            <option>1216464646</option>
+                                        <input type="text" autocomplete="off" title="selected_card"  class="form-control search_input" list="cartes_sim" id="search2"  placeholder="Rechercher ssid sim..."/>
+                                        <input type="hidden" name="selected_card" id="selected_card" value=""/>
+                                        <datalist id="cartes_sim" name="hidden" class="data_list" >
+                                        <select name="imei_gsm" class="form-control" id="imei_gsm" >
+                                            <?php foreach($cartes as $c):?>
+                                                <option data-value="<?php echo $c['id'];?>"><?php echo $c['label'];?></option>
+                                            <?php endforeach; ?>
                                         </select>
+                                        </datalist>
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" id="sim_client_check" type="checkbox" value="" style="display: inline-block;">
@@ -165,23 +197,18 @@
 
                                 </div>
 
+                            <div class="form-group">
+                                    <label for="exampleTextarea">Observation</label>
 
-
-
-                                <div class="form-group">
-                                    <label name="obser">Observation</label>
                                     <textarea class="form-control" id="observation" rows="3"></textarea>
                                 </div>
-
-
-                                <div class="form-group">
+                            <div class="form-group">
                                     <div class="col-md-3 col-md-offset-3 pull-right">
-                                        <button id="submitfrm" type="submit" class="btn btn-primary">
-                                            Valider
-                                        </button>
                                         <button type="reset" class="btn btn-primary">
-                                            Annuler
-                                        </button>
+
+                                        <a title="installation/add" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
+
                                     </div>
                                 </div>
                             </form>

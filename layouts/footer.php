@@ -13,17 +13,20 @@
             crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-<script>
+<!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>-->
+    <script>
     $(document).ready(function() {
         $('#gps_client_check').change(function(){
 
             if(this.checked){
-
+            //  $("#textrecherche).prop( "disabled", true );
+                $('#search1').prop('readonly', true);
                 $('#autoUpdate1').fadeIn('slow');
                 $('#sim_client_check').hide();
             }
 
             else{
+                $('#search1').prop('readonly', false);
                 $('#autoUpdate1').fadeOut('slow');
                 $('#sim_client_check').show();
             }
@@ -32,10 +35,12 @@
         });
         $('#sim_client_check').change(function(){
             if(this.checked) {
+                $('#search2').prop('readonly', true);
                 $('#autoUpdate2').fadeIn('slow');
                 $('#gps_client_check').hide();
             }
             else{
+                $('#search2').prop('readonly', false);
                 $('#autoUpdate2').fadeOut('slow');
                 $('#gps_client_check').show();
             }
@@ -49,50 +54,69 @@
         });
 
 
-        function add() {
-            $('#submitfrm').click(function() {
-                var $this = $(this);
-                var form = $('#'+$this.parent().parent().parent().attr("id"));
-                var data=form.serialize();
+        $('#submitfrm').click(function() {
+            var $this = $(this);
+            var frmaction=$this.attr("title");
+            var form = $('#'+$this.parent().parent().parent().attr("id"));
+            var data=new FormData(form[0]);//form.serialize();//new FormData(form) ;//
 
+             alert(data);
+             $.ajax( {
+                 type: "POST",
+                 url: frmaction,
+                 data: data ? data : form.serialize(),
+                 cache       : false,
+                 contentType : false,
+                 processData : false,
+                 beforeSend: function() {
 
-                $.ajax( {
-                    type: "POST",
-                    url: form.attr( 'action' ),
-                    data: data,
-                    //dataType: 'json',
-
-                    beforeSend: function() {
+                    $this.button('loading');
+                    },
+                 complete: function() {
                         $this.button('loading');
                     },
-                    complete: function() {
-                        $this.button('reset');
-                    },
-                    success: function(resultat ) {
 
-
-                        console.log(resultat);
-
-                        if(resultat['msg'] =='OK') {
-
+                 success: function (resultat) {
+                        if (resultat['msg'] == 'OK') {
+                            // $('#mymodal').modal('toggle');
                             $(".alert.alert-success").show();
-                            window.setTimeout(function(){ window.location.href = window.location.origin + "/inventory/movement"; }, 3000);
+                            // window.setTimeout(function(){ window.location.href = window.location.origin + "/inventory/movement"; }, 3000);
 
                         }
-                        else
-                        {
+                        else {
                             $(".alert .alert-danger").show();
                         }
+
                     }
-                } );
+                });
 
             });
-        }
-        $( "#submitfrm" ).on( "click", add );
+
+       // $( "#submitfrm" ).on( "click", add );
 
 
-
+        /*
+         * set default value to all datetimepicker control
+         */
         $('.datePicker').val(new Date().toDateInputValue());
+         /*
+          * search in select option input text change
+          */
+        $('.search_input').change(function(){
+            var text_selected = $(this).val();
+            var hidden_element=$(this).attr("title");
+            var id_dropdown=$(this).parent(".col-md-6").children(".data_list").children(0).attr('id');
+           $("#"+id_dropdown+"> option").each(function()
+            {
+                if($(this).text() == text_selected)
+                {
+
+                    $('#'+hidden_element).val($(this).attr("data-value"));
+                }
+            });
+
+            });
+
 
     });
     Date.prototype.toDateInputValue = (function() {
@@ -100,6 +124,8 @@
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
         return local.toJSON().slice(0,10);
     });
+
+
 </script>
 
   </body>

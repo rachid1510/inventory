@@ -8,7 +8,7 @@
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <div class="col-md-9 pull-left">
-                <form id="filtre_sim" role="form" method="POST" action="costumer/search" >
+                <form id="filtre_sim" role="form" method="post" action="costumer" >
                     <div class="form-group col-md-3">
                         <label class="control-label">Nom</label>
                         <input type="text" class="form-control" name="costumer_name" placeholder="Nom client">
@@ -17,13 +17,14 @@
                         <label class="control-label">Télèphone</label>
                         <input type="text" class="form-control" name="costumer_tel" placeholder="Télèphone">
                     </div>
-
-
+<!--                    <a title="costumer/search" class="btn btn-primary">Rechercher</a>-->
+<!--                    <button type="button" class="btn btn-default">Rechercher</button>-->
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
                 </form>
             </div>
 
          <div class="pull-right col-md-3"><br>
-             <a href="#"  class="btn btn-primary">Rechercher</a>
+
            <a href="#" id="showmodal" class="btn btn-primary">Nouveau client</a>
          </div>
         </div>

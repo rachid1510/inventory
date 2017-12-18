@@ -29,13 +29,14 @@
               </tr>
             </thead>
             <tbody>
+            <?php foreach ($movements as $movement):?>
                <tr>
-                <td class="text-center"> </td>
-                 <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
-                <td class="text-center"> </td>
+                <td class="text-center"><?php echo $movement['order_ref'];?>  </td>
+                <td class="text-center"><?php echo $movement['date_arrived'];?>  </td>
+                <td class="text-center"><?php echo $movement['provider'];?></td>
+                <td class="text-center"><?php echo $movement['plan'];?> </td>
+                <td class="text-center"><?php echo $movement['quantity'];?></td>
+                <td class="text-center"><?php echo $movement['observtion'];?> </td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -47,7 +48,7 @@
                   </div>
                 </td>
               </tr>
-              
+              <?php endforeach;?>
             </tbody>
           </table>
         </div>
@@ -72,7 +73,7 @@
                     <div class="alert alert-danger" style="display: none">
                         <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
                     </div>
-                    <form id="addmovement" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="movement/add">
+                    <form id="addmovement" class="form-horizontal" role="form" enctype="multipart/form-data" action="movement/add" method="POST" >
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Catégorie</label>
@@ -105,11 +106,17 @@
                          <div class="form-group">
                             <label class="col-md-4 control-label">PLAN</label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
+                               <input type="text" class="form-control" name="plan">
                                 <small class="help-block"></small>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">QUANTITE</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="quantite">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Date arrivée</label>
                             <div class="col-md-6">
@@ -121,7 +128,7 @@
                        <div class="form-group">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">
-                               <input type="file" class="form-control" name="upload" required>
+                               <input type="file" class="form-control" name="upload" id="upload" required>
 
                             </div>
                         </div>
@@ -129,9 +136,13 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button id="submitfrm" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
-                                     Valider
+                                <a title="movement/add" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <button   id="" type="submit" class="btn btn-primary">
+                                    submit
                                 </button>
+                                <!--<button id="submitfrm" title="movement/add" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
+                                     Valider
+                                </button>-->
                             </div>
                         </div>
                     </form>

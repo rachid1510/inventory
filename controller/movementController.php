@@ -8,6 +8,14 @@ class movementController
     public function actionIndex()
     {
         //$category = Model::create('Category');
+
+        $categories=array();
+        $category = Model::create('Category');
+        $categories=$category->find("categories",array("fields"=>"*"));
+
+        $movement = Model::create('Movement');
+        $movements=$movement->find("movements",array("fields"=>"*"));
+
         require 'view/movements/index.php';
     }
     /*
@@ -18,7 +26,7 @@ class movementController
         $result = array();
         //$movement=new Move;ment();
         $movement = Model::create('Movement');
-        $data = array("provider" => $_POST["provider"], "category_id" => $_POST["category"]);
+        $data = array("plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived']);
         $movement_id = $movement->save($data);
         $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
         if ($movement_id > 0) {
@@ -30,7 +38,7 @@ class movementController
         } else {
             $result['msg'] = 'error';
         }
-        //header('content-type:application/json');
+        header('content-type:application/json');
         return $result;
         die();
     }
