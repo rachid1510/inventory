@@ -14,24 +14,31 @@ include ("layouts/header.php");?>
 
                             <div class="col-md-9 pull-left">
                                 <form role="form" method="post" action="installation">
+
+
                                     <div class="form-group col-md-4">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control datePicker" name="installed_at" placeholder="IMEI">
+                                        <input type="date" class="form-control" name="installed_at" placeholder="IMEI">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">client</label>
+
                                         <select name="client" class="form-control">
-                                            <option >ACHRAF</option>
-                                            <option>Zakaria</option>
+                                            <?php foreach($costumers as $customer):?>
+                                            <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
+                                            <?php endforeach; ?>
+
                                         </select>
+
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
-                                            <option value="1">97961631649</option>
+                                            <?php foreach($vehicles as $vehicle):?>
 
-                                            <option>65464694616</option>
+                                                 <option value="<?php echo $vehicle["id"] ?>"><?php echo $vehicle["imei"] ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>

@@ -12,28 +12,28 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-          <div class="col-md-10 pull-left">
-           <form>
-            <div class="form-group col-md-4">
+          <div class="col-md-12">
+           <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
+
+            <div class="form-group col-md-3">
               <label class="control-label">IMEI</label>
              <input type="text" class="form-control" name="imei" placeholder="IMEI">
            </div>
-             <div class="form-group col-md-4">
+             <div class="form-group col-md-3">
               <label class="control-label">Réf Commande</label>
              <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
            </div>
-             <div class="form-group col-md-4">
+             <div class="form-group col-md-3">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control datePicker" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
+               <div class="form-group col-md-3">
+               <button type="submit" class="btn btn-primary">Rechercher</button>
+               </div>
            </form>
            </div>
         
-           <div class="col-md-2 pull-right"><br/>
-            <a href="#" id="filtrer" name="search" class="btn btn-primary">Filtrer</a>
-          
 
-         </div>
         </div>
         <div class="panel-body">
           <table class="table table-bordered">
@@ -46,9 +46,10 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Modèle </th>
                 <th class="text-center" style="width: 10%;"> Etat </th>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
-                  <th class="text-center" style="width: 10%;"> Activer </th>
+                <th class="text-center" style="width: 10%;"> Cocher </th>
 
-                <th class="text-center" style="width: 100px;"> Actions </th>
+                <th class="text-center" style="width: 10%;"> Actions </th>
+
               </tr>
             </thead>
             <tbody>
@@ -64,7 +65,7 @@ include ("layouts/header.php");?>
                                             elseif($product['status']=="2") echo "en détention du personnel";
                                             else echo "Installé"; ?></td>
                 <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
-                <td class="text-center"> <?php echo $product['status']; ?></td>
+                <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
 
                 <td class="text-center">
                   <div class="btn-group">
@@ -74,13 +75,48 @@ include ("layouts/header.php");?>
                     <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-trash"></span>
                     </a>
+
                   </div>
                 </td>
+
               </tr>
             <?php endforeach; ?>
 
             </tbody>
           </table>
+            <?php
+            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+            if($p>1)
+            {
+                $prec= $p - 1;
+                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$prec."'>Précédent</a></li>";
+            }
+            for ($i=$p; $i<=$p+5; $i++) {
+
+                    if($i==$p)
+                    {
+                        $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
+
+                    }
+                    else
+                    {
+                        $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
+                    }
+
+                if($i>=$total_pages)
+                {
+                    break;
+                }
+            };
+            if($p<$total_records)
+            {
+                $next= $p + 1;
+                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/boitier/".$next."'>Suivant</a></li>";
+            }
+
+            echo $pagLink . "</ul></div>";
+            ?>
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/style.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini" >
+<br>
 <div class="wrapper">
 <header id="header">
       <div class="logo pull-left"><a href="<?php echo $url;?>"> <img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/></a></div>
@@ -110,13 +111,13 @@
                 </a>
             </li>
             <li>
-                <a href="home.php">
+                <a href="<?php echo $url;?>/personal">
                     <i class="glyphicon glyphicon-user"></i>
                     <span>INSTALLATEUR</span>
                 </a>
             </li>
             <li>
-                <a href="home.php">
+                <a href="<?php echo $url;?>">
                     <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>

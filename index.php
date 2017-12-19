@@ -9,7 +9,7 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement','installation','costumer','vehicle'];
+    $controllers=['product','movement','installation','costumer','vehicle','personal'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
     $act='index';
@@ -41,11 +41,23 @@
       */
     if (method_exists($instanceController, $action))
     {
-        $instanceController->$action();
+
+        if(count($currentlink)>=4){
+
+            $instanceController->$action($currentlink[4]);
+        }else
+        {
+            $instanceController->$action();
+        }
+
 
     }
     else{
 
         echo 'method not exist';
     }
+    }
+    else
+    {
+        include 'home.php';
     }
