@@ -26,10 +26,12 @@ class installationController
          */
         $costumer = Model::create('Costumer');
         $vehicle = Model::create('Vehicle');
+        $personal = Model::create('Personal');
 
          /*
          * get list of costumers ,vehicles,boitiers,cartes
          */
+        $personals=$personal->find();
         $costumers=$costumer->find("Costumers",array("fields"=>"*"));
         $vehicles=$vehicle->find("Vehicles",array("fields"=>"*"));
         $boitiers=$product->findFromRelation("products p,movements m",'p.movement_id=m.id and m.category_id=1',array("fields"=>"p.*"));
@@ -112,7 +114,10 @@ class installationController
    {
 
        $product=$product->findFromRelation( "details_installations di,products p,movements m","p.movement_id=m.id and di.product_id=p.id and di.installation_id=$installation_id and m.category_id=$category" ,array("fields"=>"p.*"));
-       return $product[0]["imei_product"];
+       if(count($product)>0){
+           return $product[0]["imei_product"];
+       }
+
 
    }
 
@@ -261,9 +266,8 @@ class installationController
         } else {
             $result = array('msg' => 'error');
         }
-       //header('content-type:application/json');
-
-        echo json_encode($result,JSON_FORCE_OBJECT);
+        header('content-type:application/json');
+        echo json_encode($result);
         die();
     }
 

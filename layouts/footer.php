@@ -14,10 +14,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo $url;?>/dist/js/chosen.jquery.min.js"></script>
+    <script src="<?php echo $url;?>/dist/js/init.js"></script>
 <!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>-->
     <script>
     $(document).ready(function() {
-        $(".chosen-select").chosen({width: "95%"});
+       var list_sim_checked=[];
         $('#gps_client_check').change(function(){
 
             if(this.checked){
@@ -54,13 +55,18 @@
         $('#showmodal').click(function() {
             $('#myModal').modal();
         });
+        $('#modalaffactation').click(function() {
 
+            console.log(list_sim_checked);
+            $('#modalaffactation_block').modal();
+        });
 
         $('#submitfrm').click(function() {
             var $this = $(this);
             var frmaction=$this.attr("title");
-            var form = $('#'+$this.parent().parent().parent().attr("id"));
-            var data=new FormData(form[0]);//form.serialize();//new FormData(form) ;//
+
+            var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
+            var data=new FormData(form[0]);
 
              $.ajax( {
                  type: "POST",
@@ -82,7 +88,7 @@
                     if(resultat.msg === 'OK') {
                         $(".alert.alert-success").show(0).delay(3000).hide(0);
                         //setTimeout($(".alert.alert-success").show(),3000);
-                        $this.button('reset');
+
                     }else
                     {
                         $(".alert .alert-danger").show();
@@ -97,32 +103,22 @@
          * set default value to all datetimepicker control
          */
         $('.datePicker').val(new Date().toDateInputValue());
-         /*
-          * search in select option input text change
-          */
-        $('.search_input').change(function(){
-            var text_selected = $(this).val();
-            var hidden_element=$(this).attr("title");
-            var id_dropdown=$(this).parent(".col-md-6").children(".data_list").children(0).attr('id');
-           $("#"+id_dropdown+"> option").each(function()
-            {
-                if($(this).text() == text_selected)
-                {
 
-                    $('#'+hidden_element).val($(this).attr("data-value"));
-                    if(id_dropdown=='imei_boitier'){
-                       $('#typebox').text('');
-                       $('#typebox').text('Type:'+$(this).attr("title"))
+        $(".chosen-select").chosen({width: "95%",search_contains: true});
 
-                    }
-                    if(id_dropdown=='imei_gsm'){
-                        $('#typecard').text('');
-                        $('#typecard').text('Type:'+$(this).attr("title"))
-                    }
-                }
-            });
+        $('#selected_box').change(function(){
 
-            });
+            $('#typebox').text('');
+            $('#typebox').text('Type:'+$('option:selected', this).attr('title'))
+        });
+
+        $('#selected_card').change(function(){
+
+            $('#typecard').text('');
+            $('#typecard').text('Type:'+$('option:selected', this).attr('title'))
+        });
+
+
 
 
     });
@@ -131,7 +127,13 @@
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
         return local.toJSON().slice(0,10);
     });
+  function checkproduct(id)
+  {
+      if(this.checked){
+          list_sim_checked.push(id);
+      }
 
+  }
 
 </script>
 

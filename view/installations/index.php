@@ -109,9 +109,13 @@ include ("layouts/header.php");?>
 
                                     <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
-                                        <select name="personal_id" class="form-control">
-                                            <option value="1">SALAH</option>
-                                            <option value="2">Zakaria</option>
+
+                                        <select name="personal_id" class="form-control chosen-select" id="personal_id">
+                                            <option value="0">Veuillez selectionner un installateur</option>
+                                            <?php foreach($personals as $persoanl):?>
+                                                <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                             </div>
@@ -127,32 +131,30 @@ include ("layouts/header.php");?>
                             <div class="form-group">
                                     <label class="col-md-4 control-label">Client</label>
                                     <div class="col-md-6">
-                                        <input type="text" title="selected_costmer" autocomplete="off" class="form-control search_input"   list="costumers" id="textrecherche"  placeholder="Rechercher Client..."/>
-                                        <input type="hidden" id="selected_costmer"/>
-                                        <datalist id="costumers" class="data_list">
-                                            <select name="costumer" class="form-control" id="costumer">
+
+                                            <select name="selected_costmer" class="form-control chosen-select" id="selected_costmer">
+                                                <option value="0">Veuillez selectionner un client</option>
                                                 <?php foreach($costumers as $costumer):?>
-                                                <option data-value="<?php echo $costumer['id'];?>"><?php echo $costumer['name'];?></option>
+                                                <option value="<?php echo $costumer['id'];?>"><?php echo $costumer['name'];?></option>
 
                                                 <?php endforeach; ?>
                                             </select>
-                                        </datalist>
+
                                     </div>
                                 </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Véhicule</label>
                                 <div class="col-md-6">
-                                    <input type="text" autocomplete="off" title="selected_vehicle" class="form-control search_input"   list="vehicle_ids" id="textrecherche"  placeholder="Rechercher matricule..."/>
-                                    <input type="hidden" name="selected_vehicle" id="selected_vehicle"/>
-                                    <datalist id="vehicle_ids" class="data_list" >
-                                        <select name="vehicle_id" class="form-control" id="vehicle_id">
+
+                                        <select name="selected_vehicle" class="form-control chosen-select" id="selected_vehicle">
+                                            <option value="0">Veuillez selectionner un matricule</option>
                                             <?php foreach($vehicles as $vehicle):?>
-                                                <option data-value="<?php echo $vehicle['id'];?>"><?php echo $vehicle['imei'];?></option>
+                                                <option value="<?php echo $vehicle['id'];?>"><?php echo $vehicle['imei'];?></option>
 
                                             <?php endforeach; ?>
                                         </select>
-                                    </datalist>
+
                                 </div>
                             </div>
                             <div class="row">
@@ -161,20 +163,17 @@ include ("layouts/header.php");?>
                                     <div class="col-md-6">
                                         <legend class="scheduler-border">Boitier</legend>
 
-                                        <label>Imei</label><label class="pull-right" style="color:red" id="typebox">Type:</label>
-                                        <input type="text" autocomplete="off" title="selected_box" class="form-control search_input"   list="boitiers" id="search1"  placeholder="Rechercher imei boitier..."/>
+                                        <label>Imei</label><label class="pull-right" style="color:red" id="typebox"></label>
 
-
-                                        <input type="hidden" name="selected_box" id="selected_box"/>
-                                        <datalist id="boitiers" class="data_list" >
-                                        <select name="imei_boitier" class="form-control" id="imei_boitier" >
+                                        <select name="selected_box" class="form-control chosen-select" id="selected_box" >
+                                            <option value="0">Veuillez selectionner un bôitier</option>
                                             <?php foreach($boitiers as $box):?>
-                                                <option data-value="<?php echo $box['id'];?>" title="<?php echo $box['label'];?>"><?php echo $box['imei_product'];?></option>
+                                                <option value="<?php echo $box['id'];?>" title="<?php echo $box['label'];?>"><?php echo $box['imei_product'];?></option>
 
                                             <?php endforeach; ?>
 
                                         </select>
-                                        </datalist>
+
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" id="gps_client_check" name="gps_client_check" type="checkbox" value="" style="display: inline-block;">
@@ -189,21 +188,19 @@ include ("layouts/header.php");?>
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                <div class="col-md-6">
                                         <legend class="scheduler-border">SIM</legend>
                                         <label>gsm</label>
 
-                                        <label class="pull-right" style="color:red" id="typecard">Type:</label>
-                                        <input type="text" autocomplete="off" title="selected_card"  class="form-control search_input" list="cartes_sim" id="search2"  placeholder="Rechercher ssid sim..."/>
+                                        <label class="pull-right" style="color:red" id="typecard"></label>
 
-                                        <input type="hidden" name="selected_card" id="selected_card" value=""/>
-                                        <datalist id="cartes_sim" name="hidden" class="data_list" >
-                                        <select name="imei_gsm" class="form-control" id="imei_gsm" >
+                                        <select name="selected_card" class="form-control chosen-select" id="selected_card" >
+                                            <option value="0">Veuillez selectionner une carte</option>
                                             <?php foreach($cartes as $c):?>
-                                                <option data-value="<?php echo $c['id'];?>" title="<?php echo $c['imei_product'];?>"><?php echo $c['label'];?></option>
+                                                <option value="<?php echo $c['id'];?>" title="<?php echo $c['imei_product'];?>"><?php echo $c['label'];?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                        </datalist>
+
                                         <div class="form-check">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" id="sim_client_check" name="sim_client_check" type="checkbox" value="" style="display: inline-block;">
@@ -227,9 +224,9 @@ include ("layouts/header.php");?>
                                 </div>
                             <div class="form-group">
                                     <div class="col-md-3 col-md-offset-3 pull-right">
-                                        <button type="reset" class="btn btn-primary">
 
-                                        <a title="installation/add" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
+                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                                     </div>
                                 </div>

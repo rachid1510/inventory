@@ -67,6 +67,7 @@ class productController
     {
         $products=array();
         /*
+
          * pagination
          */
         $limit=20;
