@@ -45,7 +45,7 @@ include ("layouts/header.php");?>
                         </div>
                         <div class="panel-body">
 
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
 
@@ -219,7 +219,7 @@ include ("layouts/header.php");?>
                                     <div class="col-md-3 col-md-offset-3 pull-right">
 
 
-                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                                     </div>
                                 </div>

@@ -42,7 +42,7 @@ class movementController
         }
         header('content-type:application/json');
         echo json_encode($result);
-        die();
+
     }
     public function prepare_query($category,$move_id,$file)
     {
@@ -71,7 +71,6 @@ class movementController
                 }
             }
         }
-
         else{
             for ($i = 2; $i <= $arrayCount; $i++) {
                 $product_array = array(
@@ -91,5 +90,16 @@ class movementController
 
         }
         return $insert;
+    }
+    /*
+     * function edit
+     */
+    public function actionEdit(){
+        $movement = Model::create('Movement');
+        $movements=$movement->findFromRelation("movements m , categories c","c.id=m.category_id and m.id=129",array("fields"=>"m.*,c.id as cat_id , c.label"));//  find("movements",array("fields"=>"*"));
+        $moves=array("order_ref"=>$movements[0]["order_ref"],"plan"=>$movements[0]["plan"]);
+        header('content-type:application/json');
+        echo json_encode($moves);
+        die();
     }
 }

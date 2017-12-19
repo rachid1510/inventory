@@ -42,7 +42,7 @@
       */
     if (method_exists($instanceController, $action))
     {
-        if(count($currentlink)>3){
+        if(count($currentlink)>4){
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'xmlhttprequest') == 0) {
                 $instanceController->$action();
             }

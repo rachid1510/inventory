@@ -65,7 +65,7 @@ class installationController
             $html.='<td class="text-center">'. $sim.'</td>';
             $html.='<td class="text-center">'. $boitier.'</td>';
 
-            $html.='<td class="text-center"> <div class="btn-group"><a href="#" class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div></td></tr>';
+            $html.='<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div></td></tr>';
 
 
         }
@@ -234,6 +234,16 @@ class installationController
         echo json_encode($result);
         die();
     }
-
+    /*/*
+        * function edit
+        */
+   /* public function actionEdit(){
+        $installation = Model::create('Installation');
+        $installations=$installation->findFromRelation("installations i,details_installation di"," di.installation_id=di.id and i.id=".$_POST['id'],array("fields"=>"i.*"));//  find("movements",array("fields"=>"*"));
+        $moves=array("order_ref"=>$installations[0]["order_ref"],"plan"=>$installations[0]["plan"]);
+        header('content-type:application/json');
+        echo json_encode($moves);
+        die();
+    }*/
 
 }

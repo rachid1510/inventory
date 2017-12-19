@@ -57,17 +57,27 @@
         });
         $('#modalaffactation').click(function() {
 
-            console.log(list_sim_checked);
-            $('#modalaffactation_block').modal();
+            $('#liste').find('input[type="checkbox"]:checked').each(function () {
+                list_sim_checked.push($(this).val());
+            });
+            if(list_sim_checked.length==0)
+            {
+                alert("Merci de couche les produits à affecter");
+            }
+            else{
+                $("#products").val(list_sim_checked);
+                $('#modalaffactation_block').modal();
+            }
+
         });
 
-        $('#submitfrm').click(function() {
+        $('.submitfrm').click(function() {
             var $this = $(this);
             var frmaction=$this.attr("title");
 
             var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
             var data=new FormData(form[0]);
-
+            //alert(frmaction);
              $.ajax( {
                  type: "POST",
                  url: frmaction,
@@ -87,6 +97,8 @@
 
                     if(resultat.msg === 'OK') {
                         $(".alert.alert-success").show(0).delay(3000).hide(0);
+
+                        $('#liste').load(window.location.href + ' #liste');
                         //setTimeout($(".alert.alert-success").show(),3000);
 
                     }else
@@ -117,21 +129,30 @@
             $('#typecard').text('');
             $('#typecard').text('Type:'+$('option:selected', this).attr('title'))
         });
-
-
-
-
     });
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
         local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
         return local.toJSON().slice(0,10);
     });
-  function checkproduct(id)
+  function update_function(id_select)
   {
-      if(this.checked){
-          list_sim_checked.push(id);
-      }
+
+      $.ajax( {
+          type: "POST",
+          url: 'edit',
+          data:{id:id_select},
+          success: function(resultat ) {
+              console.log(resultat);
+              // if(resultat.length>0){
+                  $('#order_id').val(resultat.order_ref);
+                  $('#plan').val(resultat.plan);
+              //}
+              $('#myModal').modal();
+          }
+      } );
+
+
 
   }
 

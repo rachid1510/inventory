@@ -20,7 +20,7 @@
 <body class="hold-transition skin-blue sidebar-mini" >
 <div class="wrapper">
 <header id="header">
-      <div class="logo pull-left"><a href="<?php echo $url;?>" style="display:block;height: 100%;"> <img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/></a></div>
+      <div class="logo pull-left" style="height: 100%;"><a href="<?php echo $url;?>" style="display:block;height: 100%;"> <img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/></a></div>
       <div class="header-content">
       <div class="header-date pull-left">
         <strong><?php echo date("F j, Y, g:i a");?></strong>
