@@ -97,12 +97,11 @@ class installationController
             $html.='<td class="text-center">'.$installation['personnal_name'].'</td>';
             $html.='<td class="text-center">' .$installation['name'].' </td>';
             $html.='<td class="text-center">' .$installation['imei'].'</td>';
-            $html.='<td class="text-center">'. $installation['observation'].'</td>';
             $html.='<td class="text-center">'. $sim.'</td>';
             $html.='<td class="text-center">'. $boitier.'</td>';
-
-            $html.='<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div></td></tr>';
-
+            $html.='<td class="text-center">'. $installation['observation'].'</td>';
+             $html.='<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div></td>';
+            $html.='</tr>';
 
         }
         require 'view/installations/index.php';

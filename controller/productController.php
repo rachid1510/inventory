@@ -26,12 +26,6 @@ class productController
         $start_from = ($p-1) * $limit;
 
         $personals=$personal->find();
-        $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1" ,array("fields"=>"p.*,m.provider,m.date_arrived"));
-        $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1" ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
-        $total_records = count($all_products);
-
-       $total_pages = ceil($total_records / $limit);
-
         $condition="";
         if(!empty($_POST["imei"]))
         {
@@ -59,13 +53,20 @@ class productController
 
         if($condition !='')
         {
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+
+           // $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
 
         }
         else{
+            $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1",array("fields"=>"p.*,m.provider,m.date_arrived"));
 
             $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id ",array("fields"=>"p.*,m.provider,m.date_arrived"));
         }
+
+        $total_records = count($all_products);
+        $total_pages = ceil($total_records / $limit);
         require 'view/products/boitier.php';
 
     }
@@ -90,18 +91,10 @@ class productController
         $p=1;
         if ($page != null) { $p  = $page; }
         $start_from = ($p-1) * $limit;
-
         /*
         * get list data
         */
         $personals=$personal->find();
-        $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived"));
-        $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
-
-        $total_records = count($all_products);
-
-        $total_pages = ceil($total_records / $limit);
-
         $condition="";
         if(!empty($_POST["imei"]))
         {
@@ -129,14 +122,20 @@ class productController
 
         if($condition !='')
         {
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+
+           // $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
 
         }
         else{
-            echo "ok";
-            $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id ",array("fields"=>"p.*,m.provider,m.date_arrived"));
-        }
+            $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
 
+            //$products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id ",array("fields"=>"p.*,m.provider,m.date_arrived"));
+        }
+        $total_records = count($all_products);
+        $total_pages = ceil($total_records / $limit);
         require 'view/products/sim.php';
     }
     /*

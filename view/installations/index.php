@@ -16,14 +16,14 @@ include ("layouts/header.php");?>
                                 <form role="form" method="post" action="installation">
 
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label class="control-label">date</label>
                                         <input type="date" class="form-control" name="installed_at" placeholder="IMEI">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label class="control-label">client</label>
 
-                                        <select name="client" class="form-control">
+                                        <select name="client" class="form-control chosen-select">
                                             <?php foreach($costumers as $customer):?>
                                             <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
                                             <?php endforeach; ?>
@@ -31,7 +31,7 @@ include ("layouts/header.php");?>
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
@@ -41,7 +41,9 @@ include ("layouts/header.php");?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-3"><br/>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>
+                                    </div>
                                 </form>
                             </div>
                             <br>
@@ -60,10 +62,10 @@ include ("layouts/header.php");?>
                                     <th class="text-center" style="width: 10%;"> Installateur</th>
                                     <th class="text-center" style="width: 10%;"> Client </th>
                                     <th class="text-center" style="width: 10%;"> Matricule </th>
-                                    <th class="text-center" style="width: 10%;"> Observation </th>
                                     <th class="text-center" style="width: 10%;"> Carte Sim </th>
                                     <th class="text-center" style="width: 10%;"> Boitier </th>
-                                    <th class="text-center" style="width: 10%;"> Modification d'installation </th>
+                                    <th class="text-center" style="width: 10%;"> Observation </th>
+                                   <th class="text-center" style="width: 10%;"> Modification d'installation </th>
                                 </tr>
                                 </thead>
                                 <tbody>

@@ -12,7 +12,7 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-          <div class="col-md-12">
+          <div class="col-md-10">
            <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
 
             <div class="form-group col-md-3">
@@ -27,7 +27,7 @@ include ("layouts/header.php");?>
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
-               <div class="form-group col-md-3">
+               <div class="form-group col-md-3"><br>
                <button type="submit" class="btn btn-primary">Rechercher</button>
                </div>
            </form>
@@ -48,8 +48,8 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> IMEI </th>
                 <th class="text-center" style="width: 10%;"> TYPE de Boitier </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
-                <th class="text-center" style="width: 10%;"> Modèle </th>
-                <th class="text-center" style="width: 10%;"> Etat </th>
+                <th class="text-center" style="width: 15%;"> Modèle </th>
+                <th class="text-center" style="width: 15%;"> Etat </th>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
@@ -67,7 +67,7 @@ include ("layouts/header.php");?>
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
                 <td class="text-center"> <?php echo $product['model']; ?></td>
                 <td class="text-center"> <?php  if($product['status']=="1"){echo "en stock";}
-                                            elseif($product['status']=="2") echo "en détention du personnel";
+                                            elseif($product['status']=="2") echo "en stock personel";
                                             else echo "Installé"; ?></td>
                 <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
                 <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
