@@ -12,28 +12,33 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-          <div class="col-md-10 pull-left">
-           <form>
-            <div class="form-group col-md-4">
+          <div class="col-md-12">
+           <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
+
+            <div class="form-group col-md-3">
               <label class="control-label">IMEI</label>
              <input type="text" class="form-control" name="imei" placeholder="IMEI">
            </div>
-             <div class="form-group col-md-4">
+             <div class="form-group col-md-3">
               <label class="control-label">Réf Commande</label>
              <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
            </div>
-             <div class="form-group col-md-4">
+             <div class="form-group col-md-3">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control datePicker" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
+               <div class="form-group col-md-3">
+               <button type="submit" class="btn btn-primary">Rechercher</button>
+               </div>
            </form>
            </div>
         
+
            <div class="col-md-2 pull-right"><br/>
             <a href="#" id="filtrer" name="search" class="btn btn-primary">Filtrer</a>
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
 
-         </div>
+
         </div>
         <div class="panel-body">
           <table class="table table-bordered" id="liste">

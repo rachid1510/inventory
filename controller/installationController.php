@@ -39,17 +39,53 @@ class installationController
        /*
         * require view index
         */
-        if(!empty($_POST["installed_at"]) OR !empty($_POST["client"]) OR !empty($_POST["matricule"]))
+        $condition="";
+        if(!empty($_POST["installed_at"]))
         {
-            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id and i.installed_at='".$_POST["installed_at"]."' and i.personal_id=p.id and v.costumer_id=c.id and c.id='".$_POST["client"]."' and v.id='".$_POST["matricule"]."' ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+            $condition= "i.installed_at like '%".$_POST["installed_at"]. "%'";
 
+        }
+        if(!empty($_POST["client"]))
+        {
+            if($condition=='')
+            {
+                $condition= "c.id='".$_POST["client"]."'";
+            }else{
+                $condition .= " AND c.id='".$_POST["client"]."'";
+            }
+        }
+        if(!empty($_POST["matricule"]))
+        {
+            if($condition=='')
+            {
+                $condition= "v.id='".$_POST["matricule"]."'";
+            }else{
+                $condition .= " AND v.id='".$_POST["matricule"]."'";
+            }
+        }
+
+
+        if($condition !='')
+        {
+            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
 
         }
         else {
-            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p","i.vehicle_id=v.id and i.personal_id=p.id and v.costumer_id=c.id" ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
-            //var_dump($installations);
+            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
 
+            //$installations = $installation->find();
         }
+//        if(!empty($_POST["installed_at"]) OR !empty($_POST["client"]) OR !empty($_POST["matricule"]))
+//        {
+//            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id and i.installed_at='".$_POST["installed_at"]."'  and c.id='".$_POST["client"]."' and v.id='".$_POST["matricule"]."' ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+//
+//
+//        }
+//        else {
+//            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p","i.vehicle_id=v.id and i.personal_id=p.id and v.costumer_id=c.id" ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+//            //var_dump($installations);
+//
+//        }
         $html='';
 
         foreach ($installations as $installation){

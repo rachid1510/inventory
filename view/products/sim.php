@@ -11,8 +11,10 @@ include ("layouts/header.php");?>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <div class="col-md-9 pull-left">
-           <form id="filtre_sim">
+
+            <div class="col-md-12">
+            <form id="filtre" name="filtre" role="form" method="post" action="sim" >
+
             <div class="form-group col-md-2">
               <label class="control-label">IMEI</label>
              <input type="text" class="form-control" name="imei" placeholder="IMEI">
@@ -25,8 +27,8 @@ include ("layouts/header.php");?>
             <div class="form-group col-md-2">
               <label class="control-label">Etat</label>
                <select name="provider" class="form-control">
-                        <option>Active</option>
-                        <option>Inactive</option>
+                        <option value="enabled">Active</option>
+                        <option value="disabled">Inactive</option>
                 </select>
            </div>
              <div class="form-group col-md-2">
@@ -37,11 +39,15 @@ include ("layouts/header.php");?>
                    <label class="control-label">Date D'activation</label>
                    <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
                </div>
+                <div class="form-group col-md-3">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
            </form>
            </div>
-        
-          <div class="col-md-3 pull-right"><br/>
-            <a href="#" id="filtrer" class="btn btn-primary">Filtrer</a>
+
+
+          <div class="col-md-2 pull-right"><br/>
+
            <a href="#" id="showmodal" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
 

@@ -9,7 +9,7 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement','installation','costumer','vehicle'];
+    $controllers=['product','movement','installation','costumer','vehicle','personal'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 
@@ -42,6 +42,7 @@
       */
     if (method_exists($instanceController, $action))
     {
+
         if(count($currentlink)>4){
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'xmlhttprequest') == 0) {
                 $instanceController->$action();
@@ -49,6 +50,7 @@
             else{
                 $instanceController->$action($currentlink[4]);
             }
+
         }else
         {
             $instanceController->$action();
