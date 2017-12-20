@@ -19,7 +19,9 @@ include ("layouts/header.php");?>
                                 <th class="text-center" style="width: 10%;"> Installateur </th>
                                 <th class="text-center" style="width: 10%;"> Status </th>
                                 <th class="text-center" style="width: 10%;"> Date de reception de produit </th>
-                                <th class="text-center" style="width: 10%;"> Details </th>
+                                <th class="text-center" style="width: 10%;"> Imei </th>
+                                <th class="text-center" style="width: 10%;"> label </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -29,13 +31,15 @@ include ("layouts/header.php");?>
                                         <td class="text-center"> <?php  echo $detail['personal_name']; ?></td>
                                         <td class="text-center"> <?php  echo $detail['status']; ?> </td>
                                         <td class="text-center"> <?php  echo $detail['created_at']; ?> </td>
+                                        <td class="text-center"> <?php  echo $detail['imei_product']; ?> </td>
+                                        <td class="text-center"> <?php  echo $detail['label']; ?> </td>
 
-                                        <td class="text-center">
-
-                                            <a href="details" class="btn btn-danger btn-xs"  title="Details" data-toggle="tooltip">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </a>
-                                        </td>
+<!--                                        <td class="text-center">-->
+<!---->
+<!--                                            <a href="details" class="btn btn-danger btn-xs"  title="Details" data-toggle="tooltip">-->
+<!--                                                <span class="glyphicon glyphicon-plus"></span>-->
+<!--                                            </a>-->
+<!--                                        </td>-->
                                     </tr>
                                     <?php endforeach; ?>
                             </tbody>

@@ -52,7 +52,7 @@ class productController
 
         if($condition !='')
         {
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $products=$product->findFromRelation( "products p,movementss m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
 
         }
         else{

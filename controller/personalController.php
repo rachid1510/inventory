@@ -20,7 +20,7 @@ class personalController
 
         $details = array();
         $detail = Model::create('InventoryPersonal');
-        $details=$detail->findFromRelation("inventory_personals i,personals p,products c","i.personal_id='".$id."' and i.product_id=c.id ",array("fields"=>"i.*,CONCAT(p.first_name, ' ',p.last_name) AS personal_name"));
+        $details=$detail->findFromRelation("inventory_personals i,personals p,products c","i.personal_id='".$id."' and i.product_id=c.id ",array("fields"=>"i.*,CONCAT(p.first_name, ' ',p.last_name) AS personal_name ,c.imei_product,c.label"));
         echo $details[0]['personal_name'];
         require 'view/personals/details.php';
 
