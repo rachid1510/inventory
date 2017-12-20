@@ -35,7 +35,7 @@ include ("layouts/header.php");?>
         
 
            <div class="col-md-2 pull-right"><br/>
-            <a href="#" id="filtrer" name="search" class="btn btn-primary">Filtrer</a>
+
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
 
 

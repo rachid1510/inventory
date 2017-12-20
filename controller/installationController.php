@@ -4,17 +4,20 @@ require ("model/Model.php");
 class installationController
 {
     //
-    public function actionIndex()
+    public function actionIndex($page=null)
     {
 
         $installations=array();
         $installation = Model::create('Installation');
         $product = Model::create('Product');
-
-
-       // $installations = $installation->find();
-
-
+        /*
+         * pagination
+         */
+        $limit=10;
+        $start_from=0;
+        $p=1;
+        if ($page != null) { $p  = $page; }
+        $start_from = ($p-1) * $limit;
         /*
          * declarr list of $costumers and $boitiers and $cartes
          */
@@ -67,31 +70,23 @@ class installationController
 
         if($condition !='')
         {
-            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+            $all_installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"i.id desc"));
 
         }
         else {
-            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+            $all_installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id" ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"i.id desc"));
 
             //$installations = $installation->find();
         }
-//        if(!empty($_POST["installed_at"]) OR !empty($_POST["client"]) OR !empty($_POST["matricule"]))
-//        {
-//            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id and i.installed_at='".$_POST["installed_at"]."'  and c.id='".$_POST["client"]."' and v.id='".$_POST["matricule"]."' ",array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
 //
-//
-//        }
-//        else {
-//            $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p","i.vehicle_id=v.id and i.personal_id=p.id and v.costumer_id=c.id" ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
-//            //var_dump($installations);
-//
-//        }
         $html='';
 
         foreach ($installations as $installation){
             $boitier=$this->getProductByTypeInstallation($installation['id'],1,$product);
             $sim=$this->getProductByTypeInstallation($installation['id'],2,$product);
-
+            $status= ($installation['status']=='In_progress')? '<span style="padding: 0px !important;" class="alert alert-warning">En cours</span>':'<span style="padding: 0px !important;" class="alert alert-success">Terminé</span>';
 
             $html.='<tr> <td class="text-center">'. $installation["installed_at"].'</td>';
             $html.='<td class="text-center">'.$installation['personnal_name'].'</td>';
@@ -99,11 +94,16 @@ class installationController
             $html.='<td class="text-center">' .$installation['imei'].'</td>';
             $html.='<td class="text-center">'. $sim.'</td>';
             $html.='<td class="text-center">'. $boitier.'</td>';
+            $html.='<td class="text-center">'.$status.'</td>';
             $html.='<td class="text-center">'. $installation['observation'].'</td>';
-             $html.='<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div></td>';
+
+             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div>':'<td></td>';
             $html.='</tr>';
 
         }
+
+        $total_records = count($all_installations);
+        $total_pages = ceil($total_records / $limit);
         require 'view/installations/index.php';
 
     }
@@ -125,11 +125,15 @@ class installationController
      */
     public function actionAdd()
     {
+
         $result = array();
         $error=array();
+        $inventory_personal_data=array();
         $personal_id=$_POST["personal_id"];
         $selected_vehicle=$_POST["selected_vehicle"];
         $date_installation=$_POST["date_installation"];
+       /* $box=(isset($_POST["selected_box"]))? $_POST["selected_box"] :'';
+        $card=(isset($_POST["selected_card"]))? $_POST["selected_card"] :'';*/
         $box=$_POST["selected_box"];
         $card=$_POST["selected_card"];
         /*
@@ -142,12 +146,12 @@ class installationController
         /*
          * set default value off installation's status
          */
-        $status="Completed";
+        $status="In_progress";
         /*
          * check if installation in progress is checked and change default value if checked
          */
-        if(!isset($_POST["status"])){
-            $status="In_progress";
+        if(isset($_POST["status"])){
+            $status="Completed";
         }
         /*
          * prepare data to insert in installation table
@@ -157,7 +161,6 @@ class installationController
          * call function to save installation and get lastinsert id in var $installation_id
          */
         $installation_id = $installation->save($data);
-
          /*
           * check if saved
           */
@@ -165,7 +168,7 @@ class installationController
             /*
              * check if is not costumer's product (card and box)
              */
-            if(!isset($_POST["gps_client_check"]) && !isset($_POST["sim_client_check"])) {
+            if(!isset($_POST["gps_client_check"]) && !isset($_POST["sim_client_check"]) && $card !='' && $box !='') {
                 /*
                  * prepare data to insert box data  in detail_installation table
                  */
@@ -189,7 +192,7 @@ class installationController
                     /*
                     * get inventory personl ids
                     */
-                    $inventory_personal_data[] = $inventory_personl->find(array('conditions' => 'product_id in(' . $card . ',' . $box . ') and personal_id=' . $personal_id));
+                    $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id in(' . $card . ',' . $box . ') and personal_id=' . $personal_id));
                     // var_dump($inventory_personal_data);
                     foreach ($inventory_personal_data as $inventory_perso) {
                         $data_inventory_perso = array("id" => $inventory_perso['id'], "status" => '0');
@@ -205,12 +208,12 @@ class installationController
                /*
                  * check if is not costumer's product (box)
               */
-          elseif (isset($_POST["gps_client_check"]) && $_POST["gps_client_check"] )
+          elseif (isset($_POST["gps_client_check"]) && $card !='')
             {
                 /*
                  * installation is change of the card
                  */
-                 $datasim = array("product_id" => $_POST["sim"], "installation_id" => $installation_id);
+                 $datasim = array("product_id" => $card, "installation_id" => $installation_id);
                  /*
                   * save detail installation
                   */
@@ -222,7 +225,7 @@ class installationController
                     /*
                      * get inventory personl id
                      */
-                    $inventory_personal_data[] = $inventory_personl->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
+                    $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
                     $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
                     $data_product = array("id" => $inventory_personal_data[0]['product_id'], "status" => '0');
                     /*
@@ -233,12 +236,12 @@ class installationController
                 }
 
             }
-          elseif(isset($_POST["sim_client_check"]) && $_POST["sim_client_check"]){
+          elseif(isset($_POST["sim_client_check"]) && $box !=''){
                 //change of the box
                 /*
                  * installation is change of the box
                  */
-                $databoitier =  array("product_id" => $_POST["boitier"], "installation_id" => $installation_id);
+                $databoitier =  array("product_id" => $box, "installation_id" => $installation_id);
                   /*
                   * save detail installation
                   */
@@ -250,7 +253,7 @@ class installationController
                   /*
                   * get inventory personl id
                   */
-                  $inventory_personal_data[] = $inventory_personl->find(array('conditions' => 'product_id =' . $box . ' and personal_id=' . $personal_id));
+                  $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $box . ' and personal_id=' . $personal_id));
                   $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
                   $data_product = array("id" => $inventory_personal_data[0]['product_id'], "status" => '0');
                   /*
@@ -267,18 +270,19 @@ class installationController
         }
         header('content-type:application/json');
         echo json_encode($result);
+        unset($_REQUEST);
         die();
     }
     /*/*
         * function edit
         */
-   /* public function actionEdit(){
+    public function actionEdit(){
         $installation = Model::create('Installation');
-        $installations=$installation->findFromRelation("installations i,details_installation di"," di.installation_id=di.id and i.id=".$_POST['id'],array("fields"=>"i.*"));//  find("movements",array("fields"=>"*"));
+        $installations=$installation->findFromRelation("installations i"," di.installation_id=di.id and i.id=".$_POST['id'],array("fields"=>"i.*"));//  find("movements",array("fields"=>"*"));
         $moves=array("order_ref"=>$installations[0]["order_ref"],"plan"=>$installations[0]["plan"]);
         header('content-type:application/json');
         echo json_encode($moves);
         die();
-    }*/
+    }
 
 }

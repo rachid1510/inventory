@@ -12,7 +12,7 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-            <div class="col-md-12">
+            <div class="col-md-10">
             <form id="filtre" name="filtre" role="form" method="post" action="sim" >
 
             <div class="form-group col-md-2">
@@ -39,7 +39,8 @@ include ("layouts/header.php");?>
                    <label class="control-label">Date D'activation</label>
                    <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
                </div>
-                <div class="form-group col-md-3">
+                <br/>
+                <div class="form-group col-md-2">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                 </div>
            </form>

@@ -23,6 +23,7 @@ include ("layouts/header.php");?>
                     </div>
 <!--                    <a title="costumer/search" class="btn btn-primary">Rechercher</a>-->
 <!--                    <button type="button" class="btn btn-default">Rechercher</button>-->
+                    <br/>
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                 </form>
             </div>
@@ -33,7 +34,7 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                                
@@ -42,7 +43,7 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Telèphone </th>
                 <th class="text-center" style="width: 10%;"> Ville </th>
                 <th class="text-center" style="width: 10%;"> Département </th>
-                <th class="text-center" style="width: 10%;"> Nombre d'installation </th>
+
                 <th class="text-center" style="width: 10%;"> Actions </th>
               </tr>
             </thead>
@@ -55,7 +56,7 @@ include ("layouts/header.php");?>
                 <td class="text-center"> <?php echo $customer['phone_number']; ?> </td>
                 <td class="text-center">  <?php echo $customer['city']; ?></td>
                 <td class="text-center"> <?php echo $customer['departement']; ?> </td>
-                <td class="text-center"> <?php echo "en attendant une jointure magique de rachid"; ?> </td>
+
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -84,18 +85,23 @@ include ("layouts/header.php");?>
                     <h4 class="modal-title" id="myModalLabel">Créer le client</h4>
                 </div>
                 <div class="modal-body">
-
-                    <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                         <div class="form-group">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> Le client a été crée avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreure a été se produit.
+                    </div>
+                    <form id="addcostumer" class="form-horizontal" role="form" method="POST">
+                         <div class="form-group has-error">
                             <label class="col-md-4 control-label">Nom</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumerName" class="form-control">
+                                <input type="text" name="costumer_name" class="form-control required" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Télèphone</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_name" class="form-control">
+                                <input type="text" name="costumer_phone" class="form-control">
                             </div>
                         </div>
 
@@ -124,14 +130,17 @@ include ("layouts/header.php");?>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Adresse</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_adresse" class="form-control">
+                                <input type="text" name="costumer_adress" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
+                                <a title="costumer/add" alt="addcostumer" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
+
+                                <!--<button type="submit" class="btn btn-primary">
                                     Valider
-                                </button>
+                                </button>-->
                             </div>
                         </div>
                     </form>

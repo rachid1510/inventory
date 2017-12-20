@@ -1,15 +1,35 @@
 <?php include ("layouts/header.php");?>
 <div class="row">
      <div class="col-md-12">
-       
+         <div class="pull-left">
+         <h3>La liste des véhicules</h3>
+         </div>
      </div>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-          <div class="pull-left">
-           <h3>La liste des véhicules</h3>
-         </div>
 
+         <div class="col-md-9 pull-left">
+                <form id="filtre" name="filtre" role="form" method="post" action="vehicle" >
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Matricule</label>
+                        <input type="text" class="form-control" name="matricule_searsh" placeholder="Matricule">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">client</label>
+
+                        <select name="client" class="form-control chosen-select">
+                            <?php foreach($costumers as $customer):?>
+                                <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
+
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+          </div>
          <div class="pull-right">
            <a href="#" id="showmodal" class="btn btn-primary">Nouveau véhicule</a>
          </div>
@@ -60,12 +80,17 @@
                     <h4 class="modal-title" id="myModalLabel">Créer véhicule</h4>
                 </div>
                 <div class="modal-body">
-
-                    <form id="addvehicule" class="form-horizontal" role="form" method="POST" action="#">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> Le véhicule a été crée avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreure a été se produit.
+                    </div>
+                    <form id="addvehicle" class="form-horizontal" role="form" method="POST">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Matricule</label>
                             <div class="col-md-6">
-                                <input type="text" name="vehicle_imei" class="form-control">
+                                <input type="text" name="vehicle_imei" id="vehicle_imei" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -77,18 +102,20 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Client</label>
                             <div class="col-md-6">
-                            <select name="costumer_id" class="form-control">
-                                <option>client1</option>
-                                <option>client2</option>
-                            </select>
+                                <select name="costumer_id" class="form-control chosen-select" id="costumer_id">
+                                    <option value="">Veuillez selectionner un client</option>
+                                    <?php foreach($costumers as $costumer):?>
+                                        <option value="<?php echo $costumer['id'];?>"><?php echo $costumer['name'];?></option>
+
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    Valider
-                                </button>
+                                <a title="vehicle/add" alt="addvehicle" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
                             </div>
                         </div>
                     </form>

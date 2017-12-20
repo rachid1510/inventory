@@ -62,7 +62,7 @@ class productController
         else{
             $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1",array("fields"=>"p.*,m.provider,m.date_arrived"));
 
-            $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id ",array("fields"=>"p.*,m.provider,m.date_arrived"));
+            $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ",array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
         }
 
         $total_records = count($all_products);
