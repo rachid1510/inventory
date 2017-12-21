@@ -117,7 +117,7 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo $url;?>/dashboard">
+                <a href="<?php echo $url;?>/home">
                     <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>

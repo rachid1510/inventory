@@ -17,7 +17,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo $url;?>/dist/js/chosen.jquery.min.js"></script>
     <script src="<?php echo $url;?>/dist/js/init.js"></script>
-    <script src="http://localhost/inventory/dist/js/graphs.js"></script>
+    <script src="<?php echo $url;?>/dist/js/graphs.js"></script>
 <!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>-->
     <script>
     $(document).ready(function() {

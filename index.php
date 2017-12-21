@@ -9,7 +9,7 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement','installation','costumer','vehicle','personal'];
+    $controllers=['product','movement','installation','costumer','vehicle','personal','Dashboard'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 
@@ -65,5 +65,6 @@
     }
     else
     {
-        include 'home.php';
+        echo 'hhhhh';
+       // include 'home.php';
     }

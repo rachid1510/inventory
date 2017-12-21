@@ -39,7 +39,7 @@ class movementController
           } else {
             $result = array('msg' => 'error');
 
-        }
+            }
         header('content-type:application/json');
         echo json_encode($result);
         die();
