@@ -82,6 +82,7 @@ include ("layouts/header.php");?>
                             <label class="col-md-4 control-label">Catégorie</label>
                             <div class="col-md-6">
                                 <select name="category" class="form-control">
+                                    <option value="">Veuillez selectionner une catégorie</option>
                                     <option value="1">Boitier</option>
                                     <option value="2">Carte SIM</option>
                                 </select>

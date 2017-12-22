@@ -136,6 +136,34 @@ class installationController
         $card=(isset($_POST["selected_card"]))? $_POST["selected_card"] :'';*/
         $box=$_POST["selected_box"];
         $card=$_POST["selected_card"];
+       /*
+        * validation
+        */
+        if(!$this->validation($date_installation)){
+            $result = 'Veuillez selectionner une date';
+            $this->__message($result);
+        }
+        if(!$this->validation($personal_id)){
+            $result = 'Veuillez selectionner un installateur';
+            $this->__message($result);
+        }
+        if(!$this->validation($selected_vehicle)){
+            $result = 'Veuillez selectionner un matricule';
+            $this->__message($result);
+        }
+
+        if(!isset($_POST["gps_client_check"])){
+        if(!$this->validation($box)){
+            $result = 'Veuillez selectionner un boitier';
+            $this->__message($result);
+        }
+       }
+        if(!isset($_POST["sim_client_check"])){
+            if(!$this->validation($card)){
+                $result = 'Veuillez selectionner une carte SIM';
+                $this->__message($result);
+            }
+        }
         /*
          * instances
          */
@@ -201,42 +229,52 @@ class installationController
                          * update status of product on product's table and personal's inventory
                          */
                         $inventory_personl->save($data_inventory_perso);
-                        $product->save($data_product);
+                        if($product->save($data_product)>0){
+                            $result ='OK';
+                        }
                     }
                 }
             }
                /*
                  * check if is not costumer's product (box)
               */
-          elseif (isset($_POST["gps_client_check"]) && $card !='')
+          if (isset($_POST["gps_client_check"]))
             {
-                /*
-                 * installation is change of the card
-                 */
-                 $datasim = array("product_id" => $card, "installation_id" => $installation_id);
-                 /*
-                  * save detail installation
-                  */
-                $detail_installation->save($datasim);
-                /*
-                * check if installation is completed
-                */
-                if($status=="Completed") {
+                if($card !='') {
                     /*
-                     * get inventory personl id
+                     * installation is change of the card
                      */
-                    $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
-                    $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
-                    $data_product = array("id" => $inventory_personal_data[0]['product_id'], "status" => '0');
+                    $datasim = array("product_id" => $card, "installation_id" => $installation_id);
                     /*
-                        * update status of product on product's table and personal's inventory
-                        */
-                    $inventory_personl->save($data_inventory_perso);
-                    $product->save($data_product);
-                }
+                     * save detail installation
+                     */
+                    $detail_installation->save($datasim);
+                    /*
+                    * check if installation is completed
+                    */
+                    if ($status == "Completed") {
+                        /*
+                         * get inventory personl id
+                         */
+                        $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
+                        $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
+                        $data_product = array("id" => $inventory_personal_data[0]['product_id'], "status" => '0');
+                        /*
+                            * update status of product on product's table and personal's inventory
+                            */
+                        $inventory_personl->save($data_inventory_perso);
+                        if ($product->save($data_product) > 0) {
+                            $result = 'OK';
+                        }
 
+                    }
+                }
+                else{
+                    $result = 'Veuillez selectionner une carte SIM';
+                }
             }
-          elseif(isset($_POST["sim_client_check"]) && $box !=''){
+          if(isset($_POST["sim_client_check"])){
+              if($box !=''){
                 //change of the box
                 /*
                  * installation is change of the box
@@ -260,29 +298,62 @@ class installationController
                       * update status of product on product's table and personal's inventory
                       */
                   $inventory_personl->save($data_inventory_perso);
-                  $product->save($data_product);
+                 if($product->save($data_product)>0){
+                      $result = 'OK';
+                  }
               }
             }
-            $result = array('msg' => 'OK');
+             else
+              {
+                  $result ='Veuillez selectionner un boitier';
+              }
+         }
+
 
         } else {
-            $result = array('msg' => 'error');
+            $result = 'error';
         }
-        header('content-type:application/json');
-        echo json_encode($result);
-        unset($_REQUEST);
-        die();
+       $this->__message($result);
     }
     /*/*
         * function edit
         */
     public function actionEdit(){
+        $installations=array();
+        $installation_id=$_POST['id'];
         $installation = Model::create('Installation');
-        $installations=$installation->findFromRelation("installations i"," di.installation_id=di.id and i.id=".$_POST['id'],array("fields"=>"i.*"));//  find("movements",array("fields"=>"*"));
-        $moves=array("order_ref"=>$installations[0]["order_ref"],"plan"=>$installations[0]["plan"]);
+        $installations=$installation->findFromRelation( "installations i,details_installations di,products p,movements m","p.movement_id=m.id and di.product_id=p.id and i.id=$installation_id" ,array("fields"=>"i.*,p.*"));
+
+        $installations=$installation->find(array("fields"=>"*","conditions"=>"id=".$_POST['id']));//  find("movements",array("fields"=>"*"));
+       // $moves=array("order_ref"=>$installations[0]["order_ref"],"plan"=>$installations[0]["plan"]);
         header('content-type:application/json');
-        echo json_encode($moves);
+        echo json_encode($installations);
         die();
     }
+    function changerFormatDate($datetime)
+    {
+        $datetime=  $datetime;
+        //$date_tab= explode(' ', $datetime);
+        $date_fr = explode('/', $datetime);
+        $date_fin= $date_fr[2] . '-' . $date_fr[1] . '-' . $date_fr[0];
+        return $date_fin;
 
+    }
+    public function  validation($input,$ruls='required')
+    {
+        $result=true;
+        if($ruls=='required'){
+            if($input=='' || $input==0)
+            {
+                $result=false;
+            }
+        }
+        return $result;
+    }
+   public function __message($result)
+   {
+       header('content-type:application/json');
+       echo json_encode(array('msg' => $result));
+       die();
+   }
 }

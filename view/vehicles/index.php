@@ -15,10 +15,12 @@
                         <label class="control-label">Matricule</label>
                         <input type="text" class="form-control" name="matricule_searsh" placeholder="Matricule">
                     </div>
+
                     <div class="form-group col-md-3">
                         <label class="control-label">client</label>
 
                         <select name="client" class="form-control chosen-select">
+                            <option value="0">Veuillez selectionner un client</option>
                             <?php foreach($costumers as $customer):?>
                                 <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
                             <?php endforeach; ?>
@@ -99,6 +101,7 @@
                                 <input type="text" name="vehicle_model" class="form-control">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Client</label>
                             <div class="col-md-6">

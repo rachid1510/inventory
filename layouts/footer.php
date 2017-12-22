@@ -12,6 +12,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo $url;?>/dist/js/chosen.jquery.min.js"></script>
     <script src="<?php echo $url;?>/dist/js/init.js"></script>
+
     <script src="<?php echo $url;?>/dist/js/functions.js"></script>
+
   </body>
   </html>

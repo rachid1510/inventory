@@ -24,6 +24,7 @@ include ("layouts/header.php");?>
                                         <label class="control-label">client</label>
 
                                         <select name="client" class="form-control chosen-select">
+                                            <option value="">Veuillez selectionner un client</option>
                                             <?php foreach($costumers as $customer):?>
                                             <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
                                             <?php endforeach; ?>
@@ -35,6 +36,7 @@ include ("layouts/header.php");?>
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
+                                            <option value="">Veuillez selectionner un matricule</option>
                                             <?php foreach($vehicles as $vehicle):?>
 
                                                  <option value="<?php echo $vehicle["id"] ?>"><?php echo $vehicle["imei"] ?></option>
@@ -141,12 +143,12 @@ include ("layouts/header.php");?>
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group has-error">
 
                                     <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
 
-                                        <select name="personal_id" class="form-control chosen-select" id="personal_id" required aria-required="true">
+                                        <select name="personal_id"   class="form-control chosen-select-deselect" id="personal_id" required aria-required="true">
                                             <option value="">Veuillez selectionner un installateur</option>
                                             <?php foreach($personals as $persoanl):?>
                                                 <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
@@ -159,7 +161,7 @@ include ("layouts/header.php");?>
                                 <label class="col-md-4 control-label">Status</label>
                                 <div class="col-md-6">
                                 <label class="form-check-label">
-                                    <input  class="form-check-input" name="status" id="status" type="checkbox" value="">
+                                    <input checked class="form-check-input" name="status" id="status" type="checkbox" value="">
                                     Installation terminée
                                 </label>
                                 </div>

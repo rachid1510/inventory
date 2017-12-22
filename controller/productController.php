@@ -54,7 +54,7 @@ class productController
         if($condition !='')
         {
             $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref","limit"=>$start_from.','.$limit));
 
            // $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
 
@@ -62,7 +62,7 @@ class productController
         else{
             $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1",array("fields"=>"p.*,m.provider,m.date_arrived"));
 
-            $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ",array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+            $products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=1 ",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref","limit"=>$start_from.','.$limit));
         }
 
         $total_records = count($all_products);
@@ -119,18 +119,38 @@ class productController
             }
         }
 
+        if(!empty($_POST["state"]))
+        {
+            if($condition=='')
+            {
+                $condition= "p.state like '".$_POST["state"]. "'";
+            }else{
+                $condition .= " AND p.state like '".$_POST["state"]. "'";
+            }
+        }
+
+        if(!empty($_POST["stock"]))
+        {
+
+            if($condition=='')
+            {
+                $condition= "p.status = '".$_POST["stock"]. "'";
+            }else{
+                $condition .= " AND p.status = '".$_POST["stock"]. "'";
+            }
+        }
 
         if($condition !='')
         {
             $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref","limit"=>$start_from.','.$limit));
 
            // $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id AND ".$condition ,array("fields"=>"p.*,m.provider,m.date_arrived"));
 
         }
         else{
             $all_products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived"));
-            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived","limit"=>$start_from.','.$limit));
+            $products=$product->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2" ,array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref","limit"=>$start_from.','.$limit));
 
             //$products = $product->findFromRelation( "products p,movements m","p.movement_id=m.id ",array("fields"=>"p.*,m.provider,m.date_arrived"));
         }
@@ -184,7 +204,7 @@ class productController
        else
            $result = array('msg' => 'ERROR');
 
-       header('content-type:application/json');
+       //header('content-type:application/json');
        echo json_encode($result);
    }
 

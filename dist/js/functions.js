@@ -59,8 +59,9 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-        // alert(frmaction);
-        // console.log(data);
+
+
+
         $.ajax( {
             type: "POST",
             url: frmaction,
@@ -79,19 +80,13 @@ $(document).ready(function() {
 
             },
             success: function(resultat ) {
-
+                console.log(resultat);
                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(3000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
-
-                   // alert(form);
-                    //$('#'+form).reset();
-                    //form[0].reset();
-
-                    //setTimeout($(".alert.alert-success").show(),3000);
-
                 }else
                 {
+                    $(".alert.alert-danger").html(resultat.msg);
                     $(".alert.alert-danger").show(0).delay(3000).hide(0);
                     //$(".alert .alert-danger").show();
                 }
@@ -108,7 +103,7 @@ $(document).ready(function() {
      */
     $('.datePicker').val(new Date().toDateInputValue());
 
-    $(".chosen-select").chosen({width: "95%",search_contains: true});
+
 
     $('#selected_box').change(function(){
 
@@ -121,25 +116,60 @@ $(document).ready(function() {
         $('#typecard').text('');
         $('#typecard').text('Type:'+$('option:selected', this).attr('title'))
     });
+    $('#personal_id').change(function() {
+        $('#selected_box').empty();
+        $('#selected_card').empty();
+        $('#selected_box').trigger('chosen:updated');
+        $('#selected_card').trigger('chosen:updated');
+
+        filter_drop('selected_box', 'personal/getbox','id', 'imei_product', $(this).val(),'model');
+        filter_drop('selected_card', 'personal/getsim','id', 'label', $(this).val(),'model');
+    });
 });
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
+function filter_drop(select_to_update,action,v,txt,selected_value,title){
+    console.log(action)
+    $.ajax( {
+        type: "POST",
+        url: action,
+        dataType:'json',
+        data:{id:selected_value},
+        success: function(resultat ) {
+   console.log(resultat);
+            if(resultat.length>0){
+                $('#'+select_to_update).append($('<option></option>').attr('value', '').text('veuillez selectionner'));
+                $.each(resultat, function (key, entry) {
+
+                    $('#'+select_to_update).append($('<option></option>').attr({'value': entry[v],'title':entry[title]}).text(entry[txt]));
+                });
+                $('#'+select_to_update).trigger('chosen:updated');
+
+            }
+            $('#myModal').modal();
+        }
+    } );
+}
 function update_function(id_select)
 {
 
     $.ajax( {
         type: "POST",
-        url: 'edit',
+        url: 'installation/edit',
         data:{id:id_select},
         success: function(resultat ) {
             console.log(resultat);
-            // if(resultat.length>0){
-            $('#order_id').val(resultat.order_ref);
-            $('#plan').val(resultat.plan);
-            //}
+            if(resultat.length>0){
+            $('select#personal_id').val(resultat[0].personal_id).trigger("change");
+            $('#personal_id').trigger('chosen:updated');
+            $('#date_installation').val(resultat[0].installed_at);
+            $('select#selected_costmer').val(resultat[0].co).trigger("change");
+            $('#personal_id').trigger('chosen:updated');
+            //$('#plan').val(resultat.plan);
+            }
             $('#myModal').modal();
         }
     } );

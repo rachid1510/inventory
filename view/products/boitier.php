@@ -49,8 +49,10 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> TYPE de Boitier </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 15%;"> Modèle </th>
-                <th class="text-center" style="width: 15%;"> Etat </th>
+
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
+                  <th class="text-center" style="width: 10%;"> Ref commande </th>
+                  <th class="text-center" style="width: 15%;"> Etat </th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
                 <th class="text-center" style="width: 10%;"> Actions </th>
@@ -66,10 +68,14 @@ include ("layouts/header.php");?>
                 <td class="text-center"> <?php echo $product['label']; ?></td>
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
                 <td class="text-center"> <?php echo $product['model']; ?></td>
-                <td class="text-center"> <?php  if($product['status']=="1"){echo "en stock";}
-                                            elseif($product['status']=="2") echo "en stock personel";
-                                            else echo "Installé"; ?></td>
                 <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
+                <td class="text-center"> <?php echo $product['order_ref']; ?></td>
+                <td class="text-center">   <?php  if($product['status']=="1"){
+                        echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                    }elseif($product['status']=="2"){
+                        echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                    }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
+                    }?></td>
                 <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
 
                 <td class="text-center">

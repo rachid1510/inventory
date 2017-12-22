@@ -12,12 +12,12 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-            <div class="col-md-10">
+            <div class="col-md-12">
             <form id="filtre" name="filtre" role="form" method="post" action="sim" >
 
             <div class="form-group col-md-2">
-              <label class="control-label">IMEI</label>
-             <input type="text" class="form-control" name="imei" placeholder="IMEI">
+              <label class="control-label">SSID</label>
+             <input type="text" class="form-control" name="imei" placeholder="SSID">
            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Réf Commande</label>
@@ -26,21 +26,31 @@ include ("layouts/header.php");?>
 
             <div class="form-group col-md-2">
               <label class="control-label">Etat</label>
-               <select name="provider" class="form-control">
+               <select name="state" class="form-control">
+                   <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
                 </select>
            </div>
+            <div class="form-group col-md-2">
+                    <label class="control-label">Etat de stock</label>
+                    <select name="stock" class="form-control">
+                        <option value="">Sélectionnez</option>
+                        <option value="0">Installé</option>
+                        <option value="1">En stock</option>
+                        <option value="2">en stock personel</option>
+                    </select>
+                </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control datePicker" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
            </div>
                <div class="form-group col-md-2">
                    <label class="control-label">Date D'activation</label>
                    <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
                </div>
                 <br/>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-2 pull-right">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                 </div>
            </form>
@@ -63,9 +73,11 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Numèro </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 10%;"> Plan </th>
-                <th class="text-center" style="width: 10%;"> Etat </th>
+
                 <th class="text-center" style="width: 10%;"> Activer </th>
                 <th class="text-center" style="width: 10%;">Date d'activation </th>
+                  <th class="text-center" style="width: 10%;"> Ref commande </th>
+                  <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
               </tr>
@@ -79,9 +91,18 @@ include ("layouts/header.php");?>
                 <td class="text-center"><?php echo $product['label']; ?></td>
                 <td class="text-center"><?php echo $product['provider']; ?> </td>
                 <td class="text-center"><?php echo $product['model']; ?> </td>
-                <td class="text-center"> <?php echo $product['status']; ?></td>
+
                 <td class="text-center"> <?php echo $product['state']; ?></td>
-                <td class="text-center"><?php echo $product['date_arrived']; ?> </td>
+                <td class="text-center"><?php echo $product['enabled_date']; ?> </td>
+                <td class="text-center"> <?php echo $product['order_ref']; ?></td>
+                <td class="text-center">
+                    <?php  if($product['status']=="1"){
+                                          echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                     }elseif($product['status']=="2"){
+                     echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                    }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
+                    }?>
+                     </td>
                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>"  name="checked_box[]" value="<?php echo $product['id']; ?>"><?php }?></td>
 
                 <td class="text-center">
@@ -99,7 +120,8 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+            $next=  $start_from+$limit;
+            $pagLink ="<div class='pagination pull-left'>".$start_from."-".$next."/".$total_records.  "</div><div class='pagination pull-right'><ul class='pagination'>";
             if($p>1)
             {
                 $prec= $p - 1;
