@@ -35,6 +35,9 @@ class movementController
             {
                 $result = array('msg' => 'OK');
             }
+            else{
+                $result = array('msg' => 'error insert product');
+            }
 
           } else {
             $result = array('msg' => 'error');
@@ -42,7 +45,7 @@ class movementController
         }
         header('content-type:application/json');
         echo json_encode($result);
-        die();
+
     }
     public function prepare_query($category,$move_id,$file)
     {
@@ -71,25 +74,35 @@ class movementController
                 }
             }
         }
-
         else{
             for ($i = 2; $i <= $arrayCount; $i++) {
                 $product_array = array(
-                    "imei_product" => trim($allDataInSheet[$i]["A"]),
+                    "imei_product" => trim($allDataInSheet[$i]["C"]),
                     "label" => trim($allDataInSheet[$i]["B"]),
-                    "model" => trim($allDataInSheet[$i]["D"]),
-                    "state" => 'disabled',
+                    "model" => trim($allDataInSheet[$i]["Y"]),
+                    "state" => 'enabled',
                     "status" => 1,
                     "movement_id" => $move_id,
                     "user_id" => 1
                 );
-                if($product_object->save($product_array)>0)
+                if($product_object->save($product_array)==0)
                 {
-                    $insert=true;
+                    $insert=false;
                 }
             }
 
         }
         return $insert;
+    }
+    /*
+     * function edit
+     */
+    public function actionEdit(){
+        $movement = Model::create('Movement');
+        $movements=$movement->findFromRelation("movements m , categories c","c.id=m.category_id and m.id=129",array("fields"=>"m.*,c.id as cat_id , c.label"));//  find("movements",array("fields"=>"*"));
+        $moves=array("order_ref"=>$movements[0]["order_ref"],"plan"=>$movements[0]["plan"]);
+        header('content-type:application/json');
+        echo json_encode($moves);
+        die();
     }
 }

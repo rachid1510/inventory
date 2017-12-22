@@ -18,7 +18,7 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                                
@@ -42,7 +42,7 @@ include ("layouts/header.php");?>
                 <td class="text-center"><?php echo $movement['observtion'];?> </td>
                 <td class="text-center">
                   <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                    <a href="#" onclick="javascript:update_function(<?php echo $movement['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
                     <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
@@ -61,7 +61,7 @@ include ("layouts/header.php");?>
 
 
 
- <!-- Modal -->
+ <!-- Modal create -->
     <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -82,6 +82,7 @@ include ("layouts/header.php");?>
                             <label class="col-md-4 control-label">Catégorie</label>
                             <div class="col-md-6">
                                 <select name="category" class="form-control">
+                                    <option value="">Veuillez selectionner une catégorie</option>
                                     <option value="1">Boitier</option>
                                     <option value="2">Carte SIM</option>
                                 </select>
@@ -90,7 +91,7 @@ include ("layouts/header.php");?>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Ref commande</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
+                                <input type="text" class="form-control" name="order_id" id="">
                                 <small class="help-block"></small>
                             </div>
                         </div>
@@ -98,7 +99,7 @@ include ("layouts/header.php");?>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Fournisseur</label>
                             <div class="col-md-6">
-                                <select name="provider" class="form-control">
+                                <select name="provider" class="form-control" id="">
                                   <option>Four1</option>
                                   <option>Four2</option>
                                 </select>
@@ -107,23 +108,23 @@ include ("layouts/header.php");?>
 
 
                          <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
+                            <label class="col-md-4 control-label">PLAN/model</label>
                             <div class="col-md-6">
-                               <input type="text" class="form-control" name="plan">
+                               <input type="text" class="form-control" name="plan" id="">
                                 <small class="help-block"></small>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">QUANTITE</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="quantite">
+                                <input type="text" class="form-control" name="quantite" id="">
                                 <small class="help-block"></small>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Date arrivée</label>
                             <div class="col-md-6">
-                                <input type="date"  class="form-control datePicker" name="date_arrived">
+                                <input type="date"  class="form-control datePicker" name="date_arrived" id="">
                                 <small class="help-block"></small>
                             </div>
                         </div>
@@ -131,7 +132,7 @@ include ("layouts/header.php");?>
                        <div class="form-group">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">
-                               <input type="file" class="form-control" name="upload" id="upload" required>
+                               <input type="file" class="form-control" name="upload" id="" required>
 
                             </div>
                         </div>
@@ -139,10 +140,105 @@ include ("layouts/header.php");?>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="movement/add" alt="addmovement" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="movement/add" alt="addmovement" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
                                <!-- <button   id="" type="submit" class="btn btn-primary">
                                     submit
                                 </button>-->
+                                <!--<button id="submitfrm" title="movement/add" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
+                                     Valider
+                                </button>-->
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal update -->
+    <div class="modal fade bd-example-modal-lg" id="updatemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modifier Mouvement</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> Indicates a successful or positive action.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                    </div>
+                    <form id="updatemovement" class="form-horizontal" role="form" enctype="multipart/form-data" action="movement/update" method="POST" >
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Catégorie</label>
+                            <div class="col-md-6">
+                                <select name="category" class="form-control">
+                                    <option value="1">Boitier</option>
+                                    <option value="2">Carte SIM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Ref commande</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="order_id" id=""order_id>
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Fournisseur</label>
+                            <div class="col-md-6">
+                                <select name="provider" class="form-control" id="provider">
+                                    <option>Four1</option>
+                                    <option>Four2</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">PLAN/model</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="plan" id="plan">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">QUANTITE</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="quantite" id="quantite">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Date arrivée</label>
+                            <div class="col-md-6">
+                                <input type="date"  class="form-control datePicker" name="date_arrived" id="date_arrived">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Importer fichier</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="upload" id="upload" required>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4 pull-right">
+                                <a title="movement/update" alt="updatemovement" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <!-- <button   id="" type="submit" class="btn btn-primary">
+                                     submit
+                                 </button>-->
                                 <!--<button id="submitfrm" title="movement/add" class="btn btn-primary btn-lg" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">
                                      Valider
                                 </button>-->

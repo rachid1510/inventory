@@ -229,7 +229,7 @@ abstract class Model
 		if (isset($req['groupBy'])) {
             $sql .= ' GROUP BY ' . $req['groupBy'];
         }
-        if ((isset($req['orderBy'])) and (isset($req['groupBy'])))  {
+        if ((isset($req['orderBy'])))  {
             $sql .= ' ORDER BY ' . $req['orderBy'];
         }
 	

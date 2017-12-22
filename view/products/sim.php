@@ -16,8 +16,8 @@ include ("layouts/header.php");?>
             <form id="filtre" name="filtre" role="form" method="post" action="sim" >
 
             <div class="form-group col-md-2">
-              <label class="control-label">IMEI</label>
-             <input type="text" class="form-control" name="imei" placeholder="IMEI">
+              <label class="control-label">SSID</label>
+             <input type="text" class="form-control" name="imei" placeholder="SSID">
            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Réf Commande</label>
@@ -26,20 +26,31 @@ include ("layouts/header.php");?>
 
             <div class="form-group col-md-2">
               <label class="control-label">Etat</label>
-               <select name="provider" class="form-control">
+               <select name="state" class="form-control">
+                   <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
                 </select>
            </div>
+            <div class="form-group col-md-2">
+                    <label class="control-label">Etat de stock</label>
+                    <select name="stock" class="form-control">
+                        <option value="">Sélectionnez</option>
+                        <option value="0">Installé</option>
+                        <option value="1">En stock</option>
+                        <option value="2">en stock personel</option>
+                    </select>
+                </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control datePicker" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
            </div>
                <div class="form-group col-md-2">
                    <label class="control-label">Date D'activation</label>
                    <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
                </div>
-                <div class="form-group col-md-3">
+                <br/>
+                <div class="form-group col-md-2 pull-right">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                 </div>
            </form>
@@ -54,17 +65,19 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
-          <table class="table table-bordered" id="list_sim">
+          <table class="table table-bordered" id="liste">
             <thead>
               <tr>
-                             
+                  <th class="text-center" style="width: 10%;"> # </th>
                 <th class="text-center" style="width: 10%;"> SSID </th>
                 <th class="text-center" style="width: 10%;"> Numèro </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 10%;"> Plan </th>
-                <th class="text-center" style="width: 10%;"> Etat </th>
+
                 <th class="text-center" style="width: 10%;"> Activer </th>
                 <th class="text-center" style="width: 10%;">Date d'activation </th>
+                  <th class="text-center" style="width: 10%;"> Ref commande </th>
+                  <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
               </tr>
@@ -73,15 +86,24 @@ include ("layouts/header.php");?>
             <?php foreach($products as $product):?>
 
             <tr>
-                
+                <td class="text-center"><?php echo $product['id']; ?> </td>
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
                 <td class="text-center"><?php echo $product['label']; ?></td>
                 <td class="text-center"><?php echo $product['provider']; ?> </td>
                 <td class="text-center"><?php echo $product['model']; ?> </td>
-                <td class="text-center"> <?php echo $product['status']; ?></td>
+
                 <td class="text-center"> <?php echo $product['state']; ?></td>
-                <td class="text-center"><?php echo $product['date_arrived']; ?> </td>
-                <td class="text-center coche"><?php if($product['status']==1){?> <input type="checkbox" onchange="checkproduct(<?php echo $product['id']; ?>)" name="checked_box[]" value="<?php echo $product['id']; ?>"><?php }?></td>
+                <td class="text-center"><?php echo $product['enabled_date']; ?> </td>
+                <td class="text-center"> <?php echo $product['order_ref']; ?></td>
+                <td class="text-center">
+                    <?php  if($product['status']=="1"){
+                                          echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                     }elseif($product['status']=="2"){
+                     echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                    }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
+                    }?>
+                     </td>
+                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>"  name="checked_box[]" value="<?php echo $product['id']; ?>"><?php }?></td>
 
                 <td class="text-center">
                   <div class="btn-group">
@@ -98,22 +120,23 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+            $next=  $start_from+$limit;
+            $pagLink ="<div class='pagination pull-left'>".$start_from."-".$next."/".$total_records.  "</div><div class='pagination pull-right'><ul class='pagination'>";
             if($p>1)
             {
                 $prec= $p - 1;
-                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$prec."'>Précédent</a></li>";
+                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$prec."'>Précédent</a></li>";
             }
             for ($i=$p; $i<=$p+5; $i++) {
 
                 if($i==$p)
                 {
-                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
+                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
 
                 }
                 else
                 {
-                    $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
+                    $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
                 }
 
                 if($i>=$total_pages)
@@ -125,7 +148,7 @@ include ("layouts/header.php");?>
             {
                 $next= $p + 1;
                 //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/boitier/".$next."'>Suivant</a></li>";
+                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/sim/".$next."'>Suivant</a></li>";
             }
 
             echo $pagLink . "</ul></div>";
@@ -143,21 +166,26 @@ include ("layouts/header.php");?>
                      <h4 class="modal-title" id="myModalLabel">Activer les cartes SIM</h4>
                  </div>
                  <div class="modal-body">
+                     <div class="alert alert-success" style="display: none">
+                         <strong>Success!</strong> l'activation avec succés.
+                     </div>
+                     <div class="alert alert-danger" style="display: none">
+                         <strong>Danger!</strong>Erreure a été se produit.
+                     </div>
+                     <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="activation">
 
-                     <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                          <div class="form-group">
                              <label class="col-md-4 control-label">Position</label>
                              <div class="col-md-6">
-                                 <input type="number" class="form-control" name="order_id">
+                                 <input type="number" class="form-control" name="position">
                                  <small class="help-block"></small>
                              </div>
                          </div>
                          <div class="form-group">
                              <label class="col-md-4 control-label">Nombre à activer</label>
                              <div class="col-md-6">
-                                 <input type="number" class="form-control" name="order_id">
+                                 <input type="number" class="form-control" name="nomber">
                                  <small class="help-block"></small>
                              </div>
                          </div>
@@ -165,7 +193,7 @@ include ("layouts/header.php");?>
                          <div class="form-group">
                              <label class="col-md-4 control-label">Date activation</label>
                              <div class="col-md-6">
-                                 <input type="date" class="form-control" name="date_arrived">
+                                 <input type="date" class="form-control" name="date_activation">
                                  <small class="help-block"></small>
                              </div>
                          </div>
@@ -173,9 +201,8 @@ include ("layouts/header.php");?>
 
                          <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <button type="submit" class="btn btn-primary">
-                                     Valider
-                                 </button>
+                                 <a title="activation" alt="actevationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
                              </div>
                          </div>
                      </form>
@@ -195,8 +222,13 @@ include ("layouts/header.php");?>
                      <h4 class="modal-title" id="myModalLabel">L'Affectation des cartes aux personnels</h4>
                  </div>
                  <div class="modal-body">
-
-                     <form id="affectationfrm" class="form-horizontal" role="form" method="POST" action="product/affactation">
+                     <div class="alert alert-success" style="display: none">
+                         <strong>Success!</strong> l'affectation avec succés.
+                     </div>
+                     <div class="alert alert-danger" style="display: none">
+                         <strong>Danger!</strong>Erreure a été se produit.
+                     </div>
+                     <form id="affectationfrm" class="form-horizontal" role="form" method="POST">
 
 
                          <div class="form-group">
@@ -213,9 +245,10 @@ include ("layouts/header.php");?>
                                  </select>
                              </div>
                          </div>
+                         <input type="hidden" name="products" id="products" value="">
                           <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <a title="product/affactation" alt="affectationfrm" class="btn btn-primary btn-lg" id="submitfrm" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                 <a title="affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                              </div>
                          </div>

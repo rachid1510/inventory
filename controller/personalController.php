@@ -21,12 +21,27 @@ class personalController
         $details = array();
         $detail = Model::create('InventoryPersonal');
         $details=$detail->findFromRelation("inventory_personals i,personals p,products c","i.personal_id='".$id."' and i.product_id=c.id ",array("fields"=>"i.*,CONCAT(p.first_name, ' ',p.last_name) AS personal_name"));
-        echo $details[0]['personal_name'];
+        //echo $details[0]['personal_name'];
         require 'view/personals/details.php';
 
 
 
     }
+    public function actionGetBox(){
+        $box = array();
+        $personal=$_POST['id'];
+        //echo $personal;
+        $InventoryPersonal = Model::create('InventoryPersonal');
+        $box=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=1 and i.status='1'",array("fields"=>"p.*"));
+        echo json_encode($box);
+       }
+    public function actionGetSim(){
+        $sims = array();
+        $personal=$_POST['id'];
+        $InventoryPersonal = Model::create('InventoryPersonal');
+        $sims=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=2 and i.status='1'",array("fields"=>"p.*"));
+        echo json_encode($sims);
 
+    }
      
 }

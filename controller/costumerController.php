@@ -42,16 +42,36 @@ class costumerController
 
 
     }
-//    public function actionSearch()
-//    {
-//        echo "test";
-//        $customers = array();
-//        $customers = Model::create('Costumer');
-//        $customers->find();
-//
-//
-//
-//
-//
-//    }
+    public function actionAdd()
+    {
+        $result = array();
+
+        /*
+         * bind data from post
+         */
+        $name=(isset($_POST["costumer_name"]))? $_POST["costumer_name"] : '';
+        $phone=(isset($_POST["costumer_phone"]))? $_POST["costumer_phone"] :'';
+        $city=(isset($_POST["costumer_city"]))? $_POST["costumer_city"]:'';
+        $departement=(isset($_POST["costumer_departement"])) ? $_POST["costumer_departement"] :'';
+        $adress=(isset($_POST["costumer_adress"])) ? $_POST["costumer_adress"] :'';
+        $type=(isset($_POST["costumer_type"])) ? $_POST["costumer_type"] :'' ;
+        /*
+         * instance costumer
+         */
+        $costumer=Model::create('Costumer');
+        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress);
+
+        if($costumer->save($data)>0)
+        {
+            $result = array("msg"=>"OK");
+
+        }
+        else{
+            $result = array("msg"=>"ERRORR");
+        }
+        header('content-type:application/json');
+        echo json_encode($result);
+        die();
+
+    }
 }
