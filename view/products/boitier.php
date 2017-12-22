@@ -40,6 +40,7 @@ include ("layouts/header.php");?>
 
 
         </div>
+        </div>
         <div class="panel-body">
           <table class="table table-bordered" id="liste">
             <thead>
@@ -132,6 +133,7 @@ include ("layouts/header.php");?>
       </div>
     </div>
   </div>
+
 
     <div class="modal fade" id="modalaffactation_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

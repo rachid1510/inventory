@@ -11,6 +11,7 @@ include ("layouts/header.php");?>
     <div class="col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
+        </div>
             <div class="panel-body">
                 <table class="table table-bordered">
                     <thead>
@@ -44,6 +45,6 @@ include ("layouts/header.php");?>
         </div>
     </div>
     </div>
-    </div>
+
 
 <?php include ("layouts/footer.php");?>

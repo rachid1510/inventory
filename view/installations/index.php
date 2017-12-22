@@ -16,11 +16,11 @@ include ("layouts/header.php");?>
                                 <form role="form" method="post" action="installation">
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control" name="installed_at" placeholder="IMEI">
+                                        <input type="date" class="form-control" name="installed_at">
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">client</label>
 
                                         <select name="client" class="form-control chosen-select">
@@ -32,7 +32,7 @@ include ("layouts/header.php");?>
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
@@ -43,7 +43,16 @@ include ("layouts/header.php");?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3"><br/>
+                                    <div class="form-group col-md-2">
+                                        <label class="control-label">Type Boitier</label>
+                                        <select name="state" class="form-control chosen-select">
+                                            <option value="">Sélectionnez</option>
+                                            <option value="advanced">Avancer</option>
+                                            <option value="light">Light</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2"><br/>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>
                                     </div>
                                 </form>
@@ -157,7 +166,7 @@ include ("layouts/header.php");?>
                                         </select>
                                     </div>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-4 control-label">Status</label>
                                 <div class="col-md-6">
                                 <label class="form-check-label">
@@ -165,7 +174,7 @@ include ("layouts/header.php");?>
                                     Installation terminée
                                 </label>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                     <label class="col-md-4 control-label">Client</label>
                                     <div class="col-md-6">
@@ -194,6 +203,7 @@ include ("layouts/header.php");?>
 
                                 </div>
                             </div>
+<!--                                <input type="checkbox" value="afficher tous" id="displayallbox" checked><label for="displayallbox">Afficher tous</label>-->
                             <div class="row">
 
 

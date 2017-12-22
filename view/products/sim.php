@@ -30,6 +30,7 @@ include ("layouts/header.php");?>
                    <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
+                   <option value="blocked">Bloqué</option>
                 </select>
            </div>
             <div class="form-group col-md-2">

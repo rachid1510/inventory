@@ -180,7 +180,7 @@ class productController
            /*
             * insert into table inventory_personal
             */
-             $data=array("product_id"=>$product,"personal_id"=>$personal_id,"status"=>"1","user_id"=>1);
+             $data=array("product_id"=>$product,"personal_id"=>$personal_id,"status"=>"1","user_id"=>3);
              if($InventoryPersonal->save($data)==0)
              {
                  $return=false;
