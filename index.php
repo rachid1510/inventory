@@ -9,7 +9,7 @@
     /*
      * list off controller
      */
-    $controllers=['product','movement','installation','costumer','vehicle','personal','Dashboard'];
+    $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 

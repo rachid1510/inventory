@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 
     $.ajax({
-        url: "Dashboard/getdata",
+        url: "dashboard/getdata",
         method: "GET",
         dataType:'json',
         success: function(data) {
