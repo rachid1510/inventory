@@ -176,13 +176,13 @@ include ("layouts/header.php");?>
                      <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="activation">
 
 
-                         <div class="form-group">
+                        <!-- <div class="form-group">
                              <label class="col-md-4 control-label">Position</label>
                              <div class="col-md-6">
                                  <input type="number" class="form-control" name="position">
                                  <small class="help-block"></small>
                              </div>
-                         </div>
+                         </div>-->
                          <div class="form-group">
                              <label class="col-md-4 control-label">Nombre à activer</label>
                              <div class="col-md-6">
@@ -194,7 +194,7 @@ include ("layouts/header.php");?>
                          <div class="form-group">
                              <label class="col-md-4 control-label">Date activation</label>
                              <div class="col-md-6">
-                                 <input type="date" class="form-control" name="date_activation">
+                                 <input type="date" class="form-control datePicker" name="date_activation">
                                  <small class="help-block"></small>
                              </div>
                          </div>

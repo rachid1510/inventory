@@ -129,7 +129,7 @@ class productController
             }
         }
 
-        if(!empty($_POST["stock"]))
+        if(isset($_POST["stock"]))
         {
 
             if($condition=='')
@@ -210,7 +210,7 @@ class productController
 
     public function actionActivation()
     {
-        $position=$_POST['position'];
+       //$position=$_POST['position'];
         $nomber=$_POST['nomber'];
         $date_activation=$_POST['date_activation'];
         $return=true;
@@ -222,7 +222,7 @@ class productController
         /*
          * get list of product to active
          */
-        $products=$prod->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 and p.id>=$position" ,array("fields"=>"p.*","limit"=>$nomber));
+        $products=$prod->findFromRelation( "products p,movements m","p.movement_id=m.id and m.category_id=2 and p.state ='disabled'" ,array("fields"=>"p.*","limit"=>$nomber,"orderBy"=>'id'));
 
         /*
          * loop list of product checked to delevried

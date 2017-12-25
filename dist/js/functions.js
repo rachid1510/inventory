@@ -84,6 +84,10 @@ $(document).ready(function() {
                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(6000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
+                    //$('#myModal form').resetForm(true);
+                    //$('#myModal form :input').val("");
+
+                    //$('#myModal').load(window.location.href + ' #myModal');
                 }else
                 {
                     //$(".alert.alert-danger").html(resultat.msg);
