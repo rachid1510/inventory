@@ -43,7 +43,7 @@ $(document).ready(function() {
         });
         if(list_sim_checked.length==0)
         {
-            alert("Merci de couche les produits à affecter");
+            alert("Merci de cocher les produits à affecter");
         }
         else{
             $("#products").val(list_sim_checked);

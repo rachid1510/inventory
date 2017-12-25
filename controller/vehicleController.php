@@ -54,8 +54,9 @@ class vehicleController
         $matricule=(isset($_POST["vehicle_imei"])) ? $_POST["vehicle_imei"] :'';
         $model=(isset($_POST["vehicle_model"])) ? $_POST["vehicle_model"]:'';
         $client=(isset($_POST["costumer_id"])) ? $_POST["costumer_id"] :'';
+        $marque=(isset($_POST["vehicle_marque"])) ? $_POST["vehicle_marque"] :'';
 
-        $data = array("imei" => $matricule, "model" => $model,"costumer_id"=>$client);
+        $data = array("imei" => $matricule, "model" => $model,"marque" =>$marque,"costumer_id"=>$client);
 
         $vec =$vehicle->save($data);
         if($vec>0)

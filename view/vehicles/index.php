@@ -42,6 +42,7 @@
               <tr>
                                
                 <th class="text-center" style="width: 10%;"> Matricule </th>
+                <th class="text-center" style="width: 10%;"> Marque </th>
                 <th class="text-center" style="width: 10%;"> Model </th>
                 <th class="text-center" style="width: 10%;"> Client </th>
                 <th class="text-center" style="width: 10%;"> Actions </th>
@@ -51,8 +52,9 @@
             <?php foreach($vehicles as $vehicle):?>
                <tr>
                 <td class="text-center"> <?php echo $vehicle['imei']; ?> </td>
-                 <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
-                <td class="text-center"> <?php echo $vehicle['name']; ?></td>
+                 <td class="text-center"> <?php echo $vehicle['marque']; ?> </td>
+                   <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
+                   <td class="text-center"> <?php echo $vehicle['name']; ?></td>
                 <td class="text-center">
                   <div class="btn-group">
                     <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
@@ -101,6 +103,13 @@
                                 <input type="text" name="vehicle_model" class="form-control">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Marque</label>
+                            <div class="col-md-6">
+                                <input type="text" name="vehicle_marque" class="form-control">
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Client</label>

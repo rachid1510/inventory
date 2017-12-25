@@ -13,6 +13,7 @@ class installationController
         /*
          * pagination
          */
+        if(isset($_POST['']))
         $limit=10;
         $start_from=0;
         $p=1;
@@ -69,7 +70,8 @@ class installationController
 
 
         if($condition !='')
-        {
+        { $p=1;
+            $start_from = ($p-1) * $limit;
             $all_installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
             $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"i.id desc"));
 
@@ -97,7 +99,7 @@ class installationController
             $html.='<td class="text-center">'.$status.'</td>';
             $html.='<td class="text-center">'. $installation['observation'].'</td>';
 
-             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div>':'<td></td>';
+             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div>':'</td>';
             $html.='</tr>';
 
         }

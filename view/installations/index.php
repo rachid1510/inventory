@@ -13,7 +13,7 @@ include ("layouts/header.php");?>
 
 
                             <div class="col-md-9 pull-left">
-                                <form role="form" method="post" action="installation">
+                                <form role="form" method="post" action="">
 
 
                                     <div class="form-group col-md-3">
