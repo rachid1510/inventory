@@ -37,7 +37,7 @@ $(document).ready(function() {
         $('#myModal').modal();
     });
     $('#modalaffactation').click(function() {
-
+        var enstockde =0;
         $('#liste').find('input[type="checkbox"]:checked').each(function () {
             list_sim_checked.push($(this).val());
         });
@@ -51,7 +51,35 @@ $(document).ready(function() {
         }
 
     });
+    /*
+     *action transfer product between personals
+     */
+    $('#modaltransfer').click(function () {
+        $('#liste').find('input[type="checkbox"]:checked').each(function () {
 
+            if($(this).attr("alt")!=2){
+                alert("L'un des produits selectionnés ne peut pas étre transferer");
+                return false;
+            }
+            else{
+                list_sim_checked.push($(this).val());
+                $('#transferdulabel').text($(this).attr("title"));
+                $('#enstockde').val($(this).attr("name"));
+            }
+
+        });
+        if(list_sim_checked.length==0)
+        {
+            alert("Merci de couche les produits à transferer");
+        }
+        else{
+            $("#products_transfer").val(list_sim_checked);
+            $('#modaltransfer_block').modal();
+        }
+    });
+    /*
+     * submit form
+     */
     $('.submitfrm').click(function() {
         var $this = $(this);
         var frmaction=$this.attr("title");
@@ -59,7 +87,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-
+        console.log(frmaction);
         $.ajax( {
             type: "POST",
             url: frmaction,
@@ -69,28 +97,21 @@ $(document).ready(function() {
             contentType:false,
             dataType:"json",
             beforeSend: function() {
-
                 $this.button('loading');
             },
-
             complete: function() {
                 $this.button('reset');
-
             },
             success: function(resultat ) {
                 console.log(resultat);
                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(6000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
-                    //$('#myModal form').resetForm(true);
-                    //$('#myModal form :input').val("");
 
-                    //$('#myModal').load(window.location.href + ' #myModal');
                 }else
                 {
-                    //$(".alert.alert-danger").html(resultat.msg);
                     $(".alert.alert-danger").show(0).delay(6000).hide(0);
-                    //$(".alert .alert-danger").show();
+
                 }
             }
         } );
@@ -139,12 +160,7 @@ $(document).ready(function() {
        filter_drop('selected_vehicle', 'vehicle/getvehiclebycostumer','id', 'imei', $(this).val(),'model');
 
     });
-   /* $('#displayallbox').change(function() {
-        if($(this).is(':checked')) {
-            filter_drop('selected_box', 'personal/getbox','id', 'imei_product', 0,'model');
-            filter_drop('selected_card', 'personal/getsim','id', 'label', 0,'model');
-        }
-    });*/
+
 });
 Date.prototype.toDateInputValue = (function() {
     var local = new Date(this);

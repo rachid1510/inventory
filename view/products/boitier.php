@@ -54,9 +54,10 @@ include ("layouts/header.php");?>
            </div>
         
 
-           <div class="col-md-2 pull-right"><br/>
+           <div class="col-md-4 pull-right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
+               <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
                <a href=""  class="btn btn-primary">Lister</a>
 
         </div>
@@ -101,7 +102,7 @@ include ("layouts/header.php");?>
                     }?></td>
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
-                <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
+                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
 
@@ -261,6 +262,53 @@ include ("layouts/header.php");?>
                         </div>
                     </form>                       
   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal trnsfer enter persoan -->
+    <div class="modal fade" id="modaltransfer_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Le transfer du <span id="transferdulabel"></span> </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> le transfer avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreure a été se produit.
+                    </div>
+                    <form id="transferfrm" class="form-horizontal" role="form" method="POST">
+
+
+                        <div class="form-group">
+                            <input type="hidden" name="enstockde" id="enstockde" value="">
+                            <label class="col-md-4 control-label">Transferer à </label>
+                            <div class="col-md-6">
+
+                                <select name="personal_id_stock" class="form-control chosen-select" id="personal_id_stock">
+                                    <option value="0">Veuillez selectionner un installateur</option>
+                                    <?php foreach($personals as $persoanl):?>
+                                        <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="products_transfer" id="products_transfer" value="">
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4 pull-right">
+                                <a title="transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

@@ -237,7 +237,7 @@ abstract class Model
             $sql .= ' LIMIT ' . $req['limit'];
         }
         //debug($sql);
-  // echo $sql;
+  //echo $sql;
         $pre = $this->db->prepare($sql);
         $pre->execute();
       return $pre->fetchAll();
