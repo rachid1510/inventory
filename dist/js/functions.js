@@ -60,8 +60,6 @@ $(document).ready(function() {
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
 
-
-
         $.ajax( {
             type: "POST",
             url: frmaction,

@@ -13,7 +13,7 @@ class installationController
         /*
          * pagination
          */
-        $limit=10;
+        $limit=20;
         $start_from=0;
         $p=1;
         if ($page != null) { $p  = $page; }
@@ -70,6 +70,8 @@ class installationController
 
         if($condition !='')
         {
+            $p=1;
+            $start_from = ($p-1) * $limit;
             $all_installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
             $installations=$installation->findFromRelation( "installations i,costumers c,vehicles v,personals p"," i.vehicle_id=v.id  and i.personal_id=p.id and v.costumer_id=c.id AND ".$condition ,array("fields"=>"i.*,v.imei,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"i.id desc"));
 
@@ -97,7 +99,7 @@ class installationController
             $html.='<td class="text-center">'.$status.'</td>';
             $html.='<td class="text-center">'. $installation['observation'].'</td>';
 
-             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div>':'<td></td>';
+             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a   onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-info btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-edit"></span></a></div>':'<td></td>';
             $html.='</tr>';
 
         }
@@ -111,10 +113,27 @@ class installationController
 
    public  function getProductByTypeInstallation($installation_id,$category,$product)
    {
+       $products=array();
+       $products=$product->findFromRelation( "details_installations di,products p,movements m","p.movement_id=m.id and di.product_id=p.id and di.installation_id=$installation_id and m.category_id=$category" ,array("fields"=>"p.*"));
+       if(count($products)>0){
+           if($category==1){
+               return $products[0]["imei_product"];
+           }
+           else{
+               return $products[0]["label"];
+           }
 
-       $product=$product->findFromRelation( "details_installations di,products p,movements m","p.movement_id=m.id and di.product_id=p.id and di.installation_id=$installation_id and m.category_id=$category" ,array("fields"=>"p.*"));
-       if(count($product)>0){
-           return $product[0]["imei_product"];
+       }
+       else{
+           $products=$product->findFromRelation( "costumer_products cp","cp.installation_id=$installation_id" ,array("fields"=>"cp.*"));
+           if(!empty($products[0]["imei_product"])){
+               $data='<span style="padding: 3px !important;" class="alert alert-danger">'.$products[0]["imei_product"].'</span>';
+
+           }else{
+               $data='-------';
+
+           }
+          return $data;
        }
 
 
@@ -177,7 +196,7 @@ class installationController
         $detail_installation=Model::create('DetailsInstallation');
         $inventory_personl=Model::create('InventoryPersonal');
         $product=Model::create('Product');
-
+        $CostumerProduct=Model::create('CostumerProduct');
 
         /*
          * check if installation in progress is checked and change default value if checked
@@ -252,6 +271,8 @@ class installationController
           if (isset($_POST["gps_client_check"]))
             {
                 if($card !='') {
+                    $imei_product_costumer=$_POST['imei_product_costumer'];
+                    $provider_product_costumer=$_POST['provider_product_costumer'];
                     /*
                      * installation is change of the card
                      */
@@ -281,6 +302,13 @@ class installationController
                     }
 
                    // }
+
+                    $costumer_products = array('imei_product'=>$imei_product_costumer,'provider'=>$provider_product_costumer,'installation_id'=>$installation_id);
+                    //$product->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
+                   if($CostumerProduct->save($costumer_products)>0){
+                       $result = 'OK';
+                   }
+
                 }
                 else{
                     $result = 'Veuillez selectionner une carte SIM';
@@ -288,6 +316,8 @@ class installationController
             }
           if(isset($_POST["sim_client_check"])){
               if($box !=''){
+                  $gsm_product_costumer=$_POST['gsm_product_costumer'];
+                  $operateur_product_costumer=$_POST['operateur_product_costumer'];
                 //change of the box
                 /*
                  * installation is change of the box
@@ -316,7 +346,12 @@ class installationController
                   else{
                       $result ='L\'installation a été ajouter sans avoir mettre le stock';
                   }
-
+                  $costumer_products = array('imei_product'=>$gsm_product_costumer,'provider'=>$operateur_product_costumer,'installation_id'=>$installation_id);
+                  //$product->find(array('conditions' => 'product_id =' . $card . ' and personal_id=' . $personal_id));
+                  $CostumerProduct->save($costumer_products);
+                  if($CostumerProduct->save($costumer_products)>0){
+                      $result = 'OK';
+                  }
               //}
             }
              else
@@ -335,7 +370,8 @@ class installationController
         * function edit
         */
     public function actionEdit(){
-        $installations=array();
+        require 'view/installations/update.php';
+       /* $installations=array();
         $installation_id=$_POST['id'];
         $installation = Model::create('Installation');
         $installations=$installation->findFromRelation( "installations i,details_installations di,products p,movements m","p.movement_id=m.id and di.product_id=p.id and i.id=$installation_id" ,array("fields"=>"i.*,p.*"));
@@ -344,7 +380,7 @@ class installationController
        // $moves=array("order_ref"=>$installations[0]["order_ref"],"plan"=>$installations[0]["plan"]);
         header('content-type:application/json');
         echo json_encode($installations);
-        die();
+        die();*/
     }
     function changerFormatDate($datetime)
     {

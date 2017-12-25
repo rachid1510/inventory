@@ -13,7 +13,7 @@ include ("layouts/header.php");?>
 
 
                             <div class="col-md-9 pull-left">
-                                <form role="form" method="post" action="installation">
+                                <form role="form" method="post" action="">
 
 
                                     <div class="form-group col-md-2">
@@ -60,6 +60,7 @@ include ("layouts/header.php");?>
                             <br>
                             <div class="col-md-3 pull-right">
                                 <a href="#" id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
                         </div>
@@ -229,9 +230,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate1" style="display: none;">
                                             <label>Imei</label>
-                                            <input type="text" class="form-control" name="imei">
+                                            <input type="text" class="form-control" name="imei_product_costumer">
                                             <label>Marque</label>
-                                            <input type="text" class="form-control" name="Marque">
+                                            <input type="text" class="form-control" name="provider_product_costumer">
 
                                         </div>
                                     </div>
@@ -256,9 +257,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate2" style="display: none;">
                                             <label>gsm</label>
-                                            <input type="text" class="form-control" name="gsm">
+                                            <input type="text" class="form-control" name="gsm_product_costumer">
                                             <label>Opérateur</label>
-                                            <input type="text" class="form-control" name="operateur">
+                                            <input type="text" class="form-control" name="operateur_product_costumer">
                                         </div>
                                     </div>
 

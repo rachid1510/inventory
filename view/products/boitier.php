@@ -15,19 +15,39 @@ include ("layouts/header.php");?>
           <div class="col-md-10">
            <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
 
-            <div class="form-group col-md-3">
-              <label class="control-label">IMEI</label>
-             <input type="text" class="form-control" name="imei" placeholder="IMEI">
-           </div>
-             <div class="form-group col-md-3">
-              <label class="control-label">Réf Commande</label>
-             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
-           </div>
-             <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
+                  <label class="control-label">IMEI</label>
+                 <input type="text" class="form-control" name="imei" placeholder="IMEI">
+               </div>
+
+               <div class="form-group col-md-2">
+                   <label class="control-label">Réf Commande</label>
+                   <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
+               </div>
+
+               <div class="form-group col-md-2">
+                   <label class="control-label">Etat</label>
+                   <select name="state" class="form-control">
+                       <option value="">Sélectionnez</option>
+                       <option value="enabled">Active</option>
+                       <option value="disabled">Inactive</option>
+                       <option value="blocked">Bloqué</option>
+                   </select>
+               </div>
+               <div class="form-group col-md-2">
+                   <label class="control-label">Etat de stock</label>
+                   <select name="stock" class="form-control">
+                       <option value="">Sélectionnez</option>
+                       <option value="0">Installé</option>
+                       <option value="1">En stock</option>
+                       <option value="2">en stock personel</option>
+                   </select>
+               </div>
+             <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
-               <div class="form-group col-md-3"><br>
+               <div class="form-group col-md-2"><br>
                <button type="submit" class="btn btn-primary">Rechercher</button>
                </div>
            </form>
@@ -37,7 +57,7 @@ include ("layouts/header.php");?>
            <div class="col-md-2 pull-right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
-
+               <a href=""  class="btn btn-primary">Lister</a>
 
         </div>
         </div>
@@ -54,9 +74,11 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 15%;"> Etat </th>
+                  <th class="text-center" style="width: 10%;"> Installateur </th>
+                  <th class="text-center" style="width: 10%;"> Matricule </th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
-                <th class="text-center" style="width: 10%;"> Actions </th>
+
 
               </tr>
             </thead>
@@ -77,19 +99,11 @@ include ("layouts/header.php");?>
                         echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
                     }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
                     }?></td>
+                <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
 
-                <td class="text-center">
-                  <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </a>
 
-                  </div>
-                </td>
 
               </tr>
             <?php endforeach; ?>
@@ -97,7 +111,10 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+            $next=  $start_from+$limit;
+            $pagLink ="<div class='pagination pull-left'>".$start_from."-".$next."/".$total_records.  "</div><div class='pagination pull-right'><ul class='pagination'>";
+
+           // $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
             if($p>1)
             {
                 $prec= $p - 1;

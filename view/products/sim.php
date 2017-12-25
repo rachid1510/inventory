@@ -41,7 +41,7 @@ include ("layouts/header.php");?>
                         <option value="1">En stock</option>
                         <option value="2">en stock personel</option>
                     </select>
-                </div>
+            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
@@ -58,10 +58,11 @@ include ("layouts/header.php");?>
            </div>
 
 
-          <div class="col-md-2 pull-right"><br/>
+          <div class="col-md-3 pull-right">
 
            <a href="#" id="showmodal" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
+           <a href=""  class="btn btn-primary">Lister</a>
 
          </div>
         </div>
@@ -79,8 +80,10 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;">Date d'activation </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 10%;"> Etat </th>
+                  <th class="text-center" style="width: 10%;"> Installateur </th>
+                  <th class="text-center" style="width: 10%;"> Matricule </th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
-                <th class="text-center" style="width: 100px;"> Actions </th>
+
               </tr>
             </thead>
             <tbody>
@@ -104,18 +107,12 @@ include ("layouts/header.php");?>
                     }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
                     }?>
                      </td>
+
+                <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>"  name="checked_box[]" value="<?php echo $product['id']; ?>"><?php }?></td>
 
-                <td class="text-center">
-                  <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                  </div>
-                </td>
+
               </tr>
               <?php endforeach; ?>
             </tbody>
