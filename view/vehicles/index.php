@@ -37,12 +37,21 @@
          </div>
         </div>
         <div class="panel-body">
-          <table class="table table-bordered">
+            <form role="form" method="post" action="">
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pagination</label>
+                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                </div>
+                <div class="form-group col-md-2"><br/>
+                    <button type="submit" class="invisible">Appliquer</button>
+                </div>
+            </form>
+          <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                                
                 <th class="text-center" style="width: 10%;"> Matricule </th>
-                <th class="text-center" style="width: 10%;"> Marque </th>
+                  <th class="text-center" style="width: 10%;"> Marque </th>
                 <th class="text-center" style="width: 10%;"> Model </th>
                 <th class="text-center" style="width: 10%;"> Client </th>
                 <th class="text-center" style="width: 10%;"> Actions </th>
@@ -52,17 +61,18 @@
             <?php foreach($vehicles as $vehicle):?>
                <tr>
                 <td class="text-center"> <?php echo $vehicle['imei']; ?> </td>
-                 <td class="text-center"> <?php echo $vehicle['marque']; ?> </td>
-                   <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
-                   <td class="text-center"> <?php echo $vehicle['name']; ?></td>
+
+                   <td class="text-center"> <?php echo $vehicle['marque']; ?> </td>
+                 <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
+                <td class="text-center"> <?php echo $vehicle['name']; ?></td>
                 <td class="text-center">
                   <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                    <a href="#" onclick="javascript:update_function(<?php echo $customer['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
+                  <!--  <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-trash"></span>
-                    </a>
+                    </a>-->
                   </div>
                 </td>
               </tr>
@@ -95,6 +105,12 @@
                             <label class="col-md-4 control-label">Matricule</label>
                             <div class="col-md-6">
                                 <input type="text" name="vehicle_imei" id="vehicle_imei" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Marque</label>
+                            <div class="col-md-6">
+                                <input type="text" name="vehicle_marque" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">

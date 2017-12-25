@@ -34,6 +34,15 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
+            <form role="form" method="post" action="">
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pagination</label>
+                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                </div>
+                <div class="form-group col-md-2"><br/>
+                    <button type="submit" class="invisible">Appliquer</button>
+                </div>
+            </form>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -59,12 +68,12 @@ include ("layouts/header.php");?>
 
                 <td class="text-center">
                   <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                    <a href="#" onclick="javascript:update_function(<?php echo $customer['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
+                    <!--<a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-trash"></span>
-                    </a>
+                    </a>-->
                   </div>
                 </td>
               </tr>

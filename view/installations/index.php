@@ -16,11 +16,11 @@ include ("layouts/header.php");?>
                                 <form role="form" method="post" action="">
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control" name="installed_at" placeholder="IMEI">
+                                        <input type="date" class="form-control" name="installed_at">
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">client</label>
 
                                         <select name="client" class="form-control chosen-select">
@@ -32,7 +32,7 @@ include ("layouts/header.php");?>
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
@@ -43,7 +43,16 @@ include ("layouts/header.php");?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3"><br/>
+                                    <div class="form-group col-md-2">
+                                        <label class="control-label">Type Boitier</label>
+                                        <select name="state" class="form-control chosen-select">
+                                            <option value="">Sélectionnez</option>
+                                            <option value="advanced">Avancer</option>
+                                            <option value="light">Light</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2"><br/>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>
                                     </div>
                                 </form>
@@ -51,11 +60,20 @@ include ("layouts/header.php");?>
                             <br>
                             <div class="col-md-3 pull-right">
                                 <a href="#" id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
                         </div>
                         <div class="panel-body">
-
+                            <form role="form" method="post" action="">
+                            <div class="form-group col-md-3">
+                                <label class="control-label">Pagination</label>
+                                <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                            </div>
+                            <div class="form-group col-md-2"><br/>
+                                <button type="submit" class="invisible">Appliquer</button>
+                            </div>
+                            </form>
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
@@ -157,7 +175,7 @@ include ("layouts/header.php");?>
                                         </select>
                                     </div>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-4 control-label">Status</label>
                                 <div class="col-md-6">
                                 <label class="form-check-label">
@@ -165,7 +183,7 @@ include ("layouts/header.php");?>
                                     Installation terminée
                                 </label>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                     <label class="col-md-4 control-label">Client</label>
                                     <div class="col-md-6">
@@ -194,6 +212,7 @@ include ("layouts/header.php");?>
 
                                 </div>
                             </div>
+<!--                                <input type="checkbox" value="afficher tous" id="displayallbox" checked><label for="displayallbox">Afficher tous</label>-->
                             <div class="row">
 
 
@@ -219,9 +238,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate1" style="display: none;">
                                             <label>Imei</label>
-                                            <input type="text" class="form-control" name="imei">
+                                            <input type="text" class="form-control" name="imei_product_costumer">
                                             <label>Marque</label>
-                                            <input type="text" class="form-control" name="Marque">
+                                            <input type="text" class="form-control" name="provider_product_costumer">
 
                                         </div>
                                     </div>
@@ -246,9 +265,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate2" style="display: none;">
                                             <label>gsm</label>
-                                            <input type="text" class="form-control" name="gsm">
+                                            <input type="text" class="form-control" name="gsm_product_costumer">
                                             <label>Opérateur</label>
-                                            <input type="text" class="form-control" name="operateur">
+                                            <input type="text" class="form-control" name="operateur_product_costumer">
                                         </div>
                                     </div>
 

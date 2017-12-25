@@ -32,14 +32,27 @@ class personalController
         $personal=$_POST['id'];
         //echo $personal;
         $InventoryPersonal = Model::create('InventoryPersonal');
-        $box=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=1 and i.status='1'",array("fields"=>"p.*"));
+        if($personal==0){
+            $box=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.product_id=p.id and m.id=p.movement_id and m.category_id=1 and i.status='1'",array("fields"=>"p.*"));
+
+
+        }else{
+            $box=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=1 and i.status='1'",array("fields"=>"p.*"));
+
+        }
         echo json_encode($box);
        }
     public function actionGetSim(){
         $sims = array();
         $personal=$_POST['id'];
         $InventoryPersonal = Model::create('InventoryPersonal');
-        $sims=$InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=2 and i.status='1'",array("fields"=>"p.*"));
+        if($personal==0) {
+            $sims = $InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m","i.product_id=p.id and m.id=p.movement_id and m.category_id=1 and i.status='1'",  array("fields" => "p.*"));
+
+        }else{
+              $sims = $InventoryPersonal->findFromRelation("inventory_personals i,products p,movements m", "i.personal_id=$personal and i.product_id=p.id and m.id=p.movement_id and m.category_id=2 and i.status='1'", array("fields" => "p.*"));
+
+        }
         echo json_encode($sims);
 
     }

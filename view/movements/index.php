@@ -18,6 +18,10 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
+            <div class="form-group col-md-3">
+                <label class="control-label">Pagination</label>
+                <input type="text" class="form-control" name="pagination" placeholder="pagination">
+            </div>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -45,8 +49,8 @@ include ("layouts/header.php");?>
                     <a href="#" onclick="javascript:update_function(<?php echo $movement['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-trash"></span>
+                   <!-- <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
+                      <span class="glyphicon glyphicon-trash"></span>-->
                     </a>
                   </div>
                 </td>
@@ -71,10 +75,10 @@ include ("layouts/header.php");?>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-success" style="display: none">
-                        <strong>Success!</strong> Indicates a successful or positive action.
+                        <strong>Success!</strong> La commande a été ajouter avec succès.
                     </div>
                     <div class="alert alert-danger" style="display: none">
-                        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                        <strong>Danger!</strong> Error:la commande n'a pas été ajouter
                     </div>
                     <form id="addmovement" class="form-horizontal" role="form" enctype="multipart/form-data" action="movement/add" method="POST" >
 
@@ -167,10 +171,10 @@ include ("layouts/header.php");?>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-success" style="display: none">
-                        <strong>Success!</strong> Indicates a successful or positive action.
+                        <strong>Success!</strong> La commande a été ajouter avec succès.
                     </div>
                     <div class="alert alert-danger" style="display: none">
-                        <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                        <strong>Danger!</strong> Error:la commande n'a pas été ajouter
                     </div>
                     <form id="updatemovement" class="form-horizontal" role="form" enctype="multipart/form-data" action="movement/update" method="POST" >
 

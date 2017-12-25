@@ -30,6 +30,7 @@ include ("layouts/header.php");?>
                    <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
+                   <option value="blocked">Bloqué</option>
                 </select>
            </div>
             <div class="form-group col-md-2">
@@ -40,7 +41,7 @@ include ("layouts/header.php");?>
                         <option value="1">En stock</option>
                         <option value="2">en stock personel</option>
                     </select>
-                </div>
+            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
@@ -57,14 +58,24 @@ include ("layouts/header.php");?>
            </div>
 
 
-          <div class="col-md-2 pull-right"><br/>
+          <div class="col-md-3 pull-right">
 
            <a href="#" id="showmodal" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
+           <a href=""  class="btn btn-primary">Lister</a>
 
          </div>
         </div>
         <div class="panel-body">
+            <form role="form" method="post" action="">
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pagination</label>
+                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                </div>
+                <div class="form-group col-md-2"><br/>
+                    <button type="submit" class="invisible">Appliquer</button>
+                </div>
+            </form>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -78,8 +89,10 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;">Date d'activation </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 10%;"> Etat </th>
+                  <th class="text-center" style="width: 10%;"> Installateur </th>
+                  <th class="text-center" style="width: 10%;"> Matricule </th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
-                <th class="text-center" style="width: 100px;"> Actions </th>
+
               </tr>
             </thead>
             <tbody>
@@ -103,18 +116,12 @@ include ("layouts/header.php");?>
                     }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
                     }?>
                      </td>
+
+                <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>"  name="checked_box[]" value="<?php echo $product['id']; ?>"><?php }?></td>
 
-                <td class="text-center">
-                  <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                  </div>
-                </td>
+
               </tr>
               <?php endforeach; ?>
             </tbody>
@@ -175,13 +182,13 @@ include ("layouts/header.php");?>
                      <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="activation">
 
 
-                         <div class="form-group">
+                        <!-- <div class="form-group">
                              <label class="col-md-4 control-label">Position</label>
                              <div class="col-md-6">
                                  <input type="number" class="form-control" name="position">
                                  <small class="help-block"></small>
                              </div>
-                         </div>
+                         </div>-->
                          <div class="form-group">
                              <label class="col-md-4 control-label">Nombre à activer</label>
                              <div class="col-md-6">
@@ -193,7 +200,7 @@ include ("layouts/header.php");?>
                          <div class="form-group">
                              <label class="col-md-4 control-label">Date activation</label>
                              <div class="col-md-6">
-                                 <input type="date" class="form-control" name="date_activation">
+                                 <input type="date" class="form-control datePicker" name="date_activation">
                                  <small class="help-block"></small>
                              </div>
                          </div>

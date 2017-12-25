@@ -29,14 +29,15 @@ class movementController
         $data = array("plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived']);
         $movement_id = $movement->save($data);
         $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
+        $insert=true;
         if ($movement_id > 0) {
             $insert =$this->prepare_query($_POST["category"], $movement_id, $file);
+
             if($insert)
             {
                 $result = array('msg' => 'OK');
-            }
-            else{
-                $result = array('msg' => 'error insert product');
+            }else{
+                $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement');
             }
 
           } else {
@@ -59,37 +60,38 @@ class movementController
         $insert=true;
         if ($category == 2) {
             for ($i = 2; $i <= $arrayCount; $i++) {
-                $product_array = array(
+                $product_array= array(
                     "imei_product" => trim($allDataInSheet[$i]["A"]),
                     "label" => trim($allDataInSheet[$i]["B"]),
                     "model" => trim($allDataInSheet[$i]["D"]),
                     "state" => 'disabled',
-                    "status" => 1,
+                    "status" => '1',
                     "movement_id" => $move_id,
-                    "user_id" => 1
+                    "user_id" => 3
                 );
 
                 if ($product_object->save($product_array) == 0) {
                     $insert = false;
                 }
             }
+
         }
         else{
             for ($i = 2; $i <= $arrayCount; $i++) {
-                $product_array = array(
+                $product_array= array(
                     "imei_product" => trim($allDataInSheet[$i]["C"]),
                     "label" => trim($allDataInSheet[$i]["B"]),
                     "model" => trim($allDataInSheet[$i]["Y"]),
-                    "state" => 'enabled',
-                    "status" => 1,
+                    "state" => 'disabled',
+                    "status" => '1',
                     "movement_id" => $move_id,
-                    "user_id" => 1
+                    "user_id" => 3
                 );
-                if($product_object->save($product_array)==0)
-                {
-                    $insert=false;
+                if ($product_object->save($product_array) == 0) {
+                    $insert = false;
                 }
             }
+
 
         }
         return $insert;
