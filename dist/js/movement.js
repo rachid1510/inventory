@@ -5,7 +5,7 @@ function update_movement(id_select)
 
     $('#id_movement_form_submit').attr('title','movement/update');
     $('#id_movement').val(id_select);//attr('title','installation/update');
-    $('.import_file').css("display",'none');
+
     $('#myModalLabel').html('Modifier le mouvement');
     $.ajax( {
         type: "POST",

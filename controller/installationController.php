@@ -99,7 +99,7 @@ class installationController
             $html.='<td class="text-center">'. $sim.'</td>';
             $html.='<td class="text-center">'. $boitier.'</td>';
             $html.='<td class="text-center">'.$status.'</td>';
- 
+
             $html.= (!empty($installation['observation']))?'<td class="text-center">'.$installation['observation'].'</td>':'<td class="text-center">----</td>';
             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a   onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-secondary btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-cog"></span></a></div></td>':'<td class="text-center"><a   onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-secondary btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-cog"></span></a></td>';
 

@@ -119,12 +119,7 @@
                                 <input type="text" name="vehicle_model" id="vehicle_model" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Marque</label>
-                            <div class="col-md-6">
-                                <input type="text" name="vehicle_marque" class="form-control">
-                            </div>
-                        </div>
+                         
 
 
                         <div class="form-group">
