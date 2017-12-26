@@ -19,7 +19,11 @@ class productController
         /*
          * pagination
          */
-        $limit=20;
+        $limit = 20;
+
+        if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
+            $limit = $_POST["pagination"];
+        }
         $start_from=0;
         $p=1;
         if ($page != null && is_numeric($page)) { $p  = $page; }
@@ -109,7 +113,11 @@ class productController
         * pagination
         */
 
-        $limit=20;
+        $limit = 20;
+
+        if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
+            $limit = $_POST["pagination"];
+        }
         $start_from=0;
         $p=1;
         if ($page != null && is_numeric($page)) { $p  = $page; }

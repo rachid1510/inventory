@@ -37,6 +37,15 @@
          </div>
         </div>
         <div class="panel-body">
+            <form role="form" method="post" action="">
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pagination</label>
+                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                </div>
+                <div class="form-group col-md-2"><br/>
+                    <button type="submit" class="invisible">Appliquer</button>
+                </div>
+            </form>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -52,6 +61,7 @@
             <?php foreach($vehicles as $vehicle):?>
                <tr>
                 <td class="text-center"> <?php echo $vehicle['imei']; ?> </td>
+
                    <td class="text-center"> <?php echo $vehicle['marque']; ?> </td>
                  <td class="text-center"> <?php echo $vehicle['model']; ?> </td>
                 <td class="text-center"> <?php echo $vehicle['name']; ?></td>
@@ -109,6 +119,13 @@
                                 <input type="text" name="vehicle_model" id="vehicle_model" class="form-control">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Marque</label>
+                            <div class="col-md-6">
+                                <input type="text" name="vehicle_marque" class="form-control">
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Client</label>

@@ -4,7 +4,7 @@ require ("model/Model.php");
 class vehicleController
 {
     //
-    public function actionIndex()
+    public function actionIndex($page=null)
     {
         /*
          * var $condition string concat searsh's conditions
@@ -13,6 +13,21 @@ class vehicleController
         /*
          * arry vehicles list off véhicles
          */
+        /*
+         * pagination limit
+         */
+        $limit = 20;
+
+        if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
+            $limit = $_POST["pagination"];
+        }
+
+        $start_from = 0;
+        $p = 1;
+        if ($page != null) {
+            $p = $page;
+        }
+        $start_from = ($p - 1) * $limit;
         $vehicles=array();
         /*
          * instance
@@ -30,17 +45,18 @@ class vehicleController
         {
             if($condition=='')
             {
-                $condition= "v.id='".$_POST["matricule_searsh"]."'";
-            }else{
-                $condition .= " AND v.id='".$_POST["matricule_searsh"]."'";
+                $condition= "v.imei='".$_POST["matricule_searsh"]."'";
+            }
+            else{
+                $condition .= " AND v.imei='".$_POST["matricule_searsh"]."'";
             }
         }
-        $costumers=$costumer->find("Costumers",array("fields"=>"*"));
+        $costumers = $costumer->find("Costumers",array("fields"=>"*"));
         if($condition!=''){
-            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id AND $condition" ,array("fields"=>"v.*,c.name"));
+            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id AND $condition" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
 
         }else{
-            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name"));
+            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
 
         }
          require 'view/vehicles/index.php';
@@ -57,7 +73,6 @@ class vehicleController
         $marque=(isset($_POST["vehicle_marque"])) ? $_POST["vehicle_marque"] :'';
 
         $data = array("imei" => $matricule, "model" => $model,"marque" =>$marque,"costumer_id"=>$client);
-        //$data = array("imei" => $matricule, "model" => $model,"costumer_id"=>$client);
 
         $vec =$vehicle->save($data);
         if($vec>0)

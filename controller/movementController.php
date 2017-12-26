@@ -128,7 +128,7 @@ class movementController
              $result = array('msg' => 'error');
          }
         $movement_id = $movement->save($data);
-        
+
         echo json_encode($result);
 
     }

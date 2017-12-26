@@ -13,11 +13,13 @@ class installationController
         /*
          * pagination
          */
+
         $limit=20;
         $start_from=0;
         $p=1;
         if ($page != null && is_numeric($page)) { $p  = $page; }
         $start_from = ($p-1) * $limit;
+
         /*
          * declarr list of $costumers and $boitiers and $cartes
          */
@@ -69,6 +71,7 @@ class installationController
 
 
         if($condition !='')
+
         {
             $p=1;
             $start_from = ($p-1) * $limit;
@@ -96,8 +99,10 @@ class installationController
             $html.='<td class="text-center">'. $sim.'</td>';
             $html.='<td class="text-center">'. $boitier.'</td>';
             $html.='<td class="text-center">'.$status.'</td>';
+ 
             $html.= (!empty($installation['observation']))?'<td class="text-center">'.$installation['observation'].'</td>':'<td class="text-center">----</td>';
             $html.=($installation['status']=='In_progress')? '<td class="text-center"> <div class="btn-group"><a   onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-secondary btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-cog"></span></a></div></td>':'<td class="text-center"><a   onclick="javascript:update_function('. $installation["id"].')"   class="btn btn-secondary btn-xs" title="Edit" data-toggle="tooltip"><span class="glyphicon glyphicon-cog"></span></a></td>';
+
             $html.='</tr>';
 
         }
@@ -127,7 +132,8 @@ class installationController
            if(!empty($products[0]["imei_product"])){
                $data='<span style="padding: 3px !important;" class="alert alert-danger">'.$products[0]["imei_product"].'</span>';
 
-           }else{
+           }
+           else{
                $data='-------';
 
            }

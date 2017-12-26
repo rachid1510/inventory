@@ -5,7 +5,7 @@ class costumerController
 {
     //
 
-    public function actionIndex()
+    public function actionIndex($page=null)
     {
 
         $customers = array();
@@ -13,7 +13,24 @@ class costumerController
         /*
          * var condition string
          */
+        /*
+         * pagination
+         */
+        $limit = 20;
+
+        if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
+            $limit = $_POST["pagination"];
+        }
+
+        $start_from = 0;
+        $p = 1;
+        if ($page != null) {
+            $p = $page;
+        }
+        $start_from = ($p - 1) * $limit;
+
         $condition="";
+
         if(!empty($_POST["costumer_name"]))
         {
             $condition= "c.name like '%".$_POST["costumer_name"]. "%'";
@@ -23,7 +40,8 @@ class costumerController
             if($condition=='')
             {
                 $condition= "c.phone_number like '%".$_POST["costumer_tel"]. "%'";
-            }else{
+            }
+            else{
                 $condition .= " AND c.phone_number like '%".$_POST["costumer_tel"]. "%'";
             }
         }
@@ -31,7 +49,7 @@ class costumerController
 
         if($condition !='')
         {
-            $customers=$customers->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*"));
+            $customers=$customers->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*","limit"=>$start_from.','.$limit));
 
         }
         else {
