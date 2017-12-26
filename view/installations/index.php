@@ -147,7 +147,7 @@ include ("layouts/header.php");?>
                                     <label class="col-md-4 control-label">Date D'installation</label>
                                     <div class="col-md-6">
 
-                                        <input type="date"  class="form-control datePicker" name="date_installation">
+                                        <input type="date"  class="form-control datePicker" id="date_installation" name="date_installation">
 
                                     </div>
                             </div>
@@ -191,8 +191,8 @@ include ("layouts/header.php");?>
                                 </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Véhicule</label>
-                                <div class="col-md-6">
+                                <label class="col-md-4 control-label ">Véhicule</label>
+                                <div class="col-md-6 ">
 
                                         <select name="selected_vehicle" class="form-control chosen-select" id="selected_vehicle" required aria-required="true">
                                             <option value="">Veuillez selectionner un matricule</option>
@@ -203,6 +203,18 @@ include ("layouts/header.php");?>
                                         </select>
 
                                 </div>
+                                <input type="checkbox" value="Nouveau véhicule" name="displaynewvehicle" class="displaynewvehicle" id="displaynewvehicle"><label  class="displaynewvehicle" for="displaynewvehicle">Nouveau véhicule</label>
+
+
+                            </div>
+
+                            <div class="form-group newvehicle" style="display: none">
+                                    <label class="col-md-4 control-label">Un nouveau véhicule</label>
+                                    <div class="col-md-6">
+                                    <input type="text" name="newvehicle" id="newvehicle" placeholder="Matricule">
+
+
+                                    </div>
                             </div>
 <!--                                <input type="checkbox" value="afficher tous" id="displayallbox" checked><label for="displayallbox">Afficher tous</label>-->
                             <div class="row">
@@ -230,9 +242,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate1" style="display: none;">
                                             <label>Imei</label>
-                                            <input type="text" class="form-control" name="imei_product_costumer">
+                                            <input type="text" class="form-control" id="imei_product_costumer" name="imei_product_costumer">
                                             <label>Marque</label>
-                                            <input type="text" class="form-control" name="provider_product_costumer">
+                                            <input type="text" class="form-control" id="provider_product_costumer" name="provider_product_costumer">
 
                                         </div>
                                     </div>
@@ -257,9 +269,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate2" style="display: none;">
                                             <label>gsm</label>
-                                            <input type="text" class="form-control" name="gsm_product_costumer">
+                                            <input type="text" class="form-control" id="gsm_product_costumer" name="gsm_product_costumer">
                                             <label>Opérateur</label>
-                                            <input type="text" class="form-control" name="operateur_product_costumer">
+                                            <input type="text" class="form-control" name="operateur_product_costumer" id="operateur_product_costumer">
                                         </div>
                                     </div>
 
@@ -272,10 +284,10 @@ include ("layouts/header.php");?>
                                 </div>
                             <div class="form-group">
                                     <div class="col-md-3 col-md-offset-3 pull-right">
-
-                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                                        <input type="hidden" name="id_installation" value="" id="id_installation">
+<!--                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>-->
 <!--                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
-                                        <input type="button" title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">
+                                        <input type="button" title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="installation_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">
                                     </div>
                                 </div>
                             </form>

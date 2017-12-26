@@ -87,10 +87,10 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-        console.log(frmaction);
+        console.log(url+'/'+frmaction);
         $.ajax( {
             type: "POST",
-            url: frmaction,
+            url:url+'/'+frmaction,
             data: data ? data : form.serialize(),
             cache       : false,
             processData : false,
@@ -107,6 +107,8 @@ $(document).ready(function() {
                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(6000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
+                    //location.reload();
+                    //$("#myModal").modal();
 
                 }else
                 {
@@ -160,6 +162,27 @@ $(document).ready(function() {
        filter_drop('selected_vehicle', 'vehicle/getvehiclebycostumer','id', 'imei', $(this).val(),'model');
 
     });
+    $('#displaynewvehicle').change(function() {
+        if ($(this).is(':checked')) {
+            if($('#selected_costmer').val()==''){
+                alert("Merci de sélectionner le client");
+                $(this).prop('checked', false);
+                return false;
+            }else
+            {
+
+
+                $('.newvehicle').fadeIn('slow');
+            }
+
+        }
+        else
+        {
+
+            $('.newvehicle').fadeOut('slow');
+        }
+    });
+
 
 });
 Date.prototype.toDateInputValue = (function() {
@@ -171,7 +194,7 @@ function filter_drop(select_to_update,action,v,txt,selected_value,title){
 
     $.ajax( {
         type: "POST",
-        url: action,
+        url:url+'/'+ action,
         dataType:'json',
         data:{id:selected_value},
         success: function(resultat ) {
@@ -191,20 +214,90 @@ function filter_drop(select_to_update,action,v,txt,selected_value,title){
 }
 function update_function(id_select)
 {
-
+    $('#date_installation').removeClass('datePicker');
+    $('#installation_form_submit').attr('title','installation/update');
+    $('#id_installation').val(id_select);//attr('title','installation/update');
+    $('.displaynewvehicle').fadeOut('slow');
+    $('#myModalLabel').html('Modifier installation');
     $.ajax( {
         type: "POST",
-        url: 'installation/edit',
+        url: url+'/installation/edit',
         data:{id:id_select},
+        dataType:'json',
         success: function(resultat ) {
-            console.log(resultat);
+           console.log(resultat);
             if(resultat.length>0){
-            $('select#personal_id').val(resultat[0].personal_id).trigger("change");
-            $('#personal_id').trigger('chosen:updated');
-            $('#date_installation').val(resultat[0].installed_at);
-            $('select#selected_costmer').val(resultat[0].co).trigger("change");
-            $('#personal_id').trigger('chosen:updated');
-            //$('#plan').val(resultat.plan);
+                $('#date_installation').val(resultat[0].installed_at);
+
+                $("select#personal_id option").each(function()
+                {
+                     if($(this).val()==resultat[0].personal_id)
+                     {
+                         $(this).prop('selected', true);
+                     }
+                });
+                $('select#personal_id').trigger('chosen:updated');
+
+                $("select#selected_vehicle option").each(function()
+                {
+                    if($(this).val()==resultat[0].vehicle_id)
+                    {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('select#selected_vehicle').trigger('chosen:updated');
+                $("select#selected_costmer option").each(function()
+                {
+                    if($(this).val()==resultat[0].costumer)
+                    {
+                        $(this).prop('selected', true);
+                    }
+                });
+                $('select#selected_costmer').trigger('chosen:updated');
+
+               if(resultat.length==2) {
+                   $("select#selected_box option").each(function () {
+                       if ($(this).val() == resultat[0].id_product || $(this).val() == resultat[1].id_product) {
+                           $(this).prop('selected', true);
+                       }
+                   });
+                   $('select#selected_box').trigger('chosen:updated');
+
+                   $("select#selected_card option").each(function () {
+                       if ($(this).val() == resultat[0].id_product || $(this).val() == resultat[1].id_product) {
+                           $(this).prop('selected', true);
+                       }
+                   });
+                   $('select#selected_card').trigger('chosen:updated');
+               }
+               else{
+
+                   if(resultat[0].category==1)
+                   {
+                       $("select#selected_box option").each(function () {
+                           if ($(this).val() == resultat[0].id_product) {
+                               $(this).prop('selected', true);
+                           }
+                       });
+                       $('select#selected_box').trigger('chosen:updated');
+                   }
+                   else
+                   {
+                       $("select#selected_card option").each(function () {
+                           if ($(this).val() == resultat[0].id_product) {
+                               $(this).prop('selected', true);
+                           }
+                       });
+                       $('select#selected_card').trigger('chosen:updated');
+                   }
+                       //gps_client_check
+                   get_costumer_product(resultat[0].installation_id,resultat[0].category);
+
+
+               }
+
+            // $('select#selected_costmer').val(resultat[0].co).trigger("change");
+
             }
             $('#myModal').modal();
         }
@@ -212,4 +305,33 @@ function update_function(id_select)
 
 
 
+}
+function get_costumer_product(installation,category){
+
+    $.ajax( {
+        type: "POST",
+        url: url+'/costumer/getproduct',
+        data:{id:installation},
+        dataType:'json',
+        success: function(resultat) {
+            console.log(resultat);
+         if(resultat.length>0)
+         {
+             if(category==1){
+                 $("#gsm_product_costumer").val(resultat[0].imei_product);
+                 $("#operateur_product_costumer").val(resultat[0].provider);
+                 $("#sim_client_check").prop('checked', true);
+                 $('#autoUpdate2').fadeIn('slow');
+             }else
+             {
+                 $("#imei_product_costumer").val(resultat[0].imei_product);
+                 $("#provider_product_costumer").val(resultat[0].provider);
+                 $("#gps_client_check").prop('checked', true);
+                 $('#autoUpdate1').fadeIn('slow');
+             }
+
+
+         }
+        }
+        });
 }

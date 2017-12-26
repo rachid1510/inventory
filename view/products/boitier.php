@@ -185,7 +185,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products" id="products" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>
@@ -196,76 +196,6 @@ include ("layouts/header.php");?>
         </div>
     </div>
  
- <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Ajouter Mouvement</h4>
-                </div>
-                <div class="modal-body">
-  
-                    <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Ref commande</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Fournisseur</label>
-                            <div class="col-md-6">
-                                <select name="provider" class="form-control">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
-                                </select>
-                            </div>
-                        </div>
-
-
-                         <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
-                            <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Date arrivée</label>
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                       <div class="form-group">
-                            <label class="col-md-4 control-label">Importer fichier</label>
-                            <div class="col-md-6">
-                               <input type="file" class="form-control" name="order_id">
-                                
-                            </div>
-                        </div>
-  
-  
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    Valider
-                                </button>
-                            </div>
-                        </div>
-                    </form>                       
-  
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <!-- Modal trnsfer enter persoan -->
@@ -303,7 +233,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products_transfer" id="products_transfer" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>

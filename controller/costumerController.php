@@ -74,4 +74,67 @@ class costumerController
         die();
 
     }
+  /*
+   * get costumer product
+   */
+    public function actionGetProduct(){
+        //require 'view/installations/update.php';
+        $products=array();
+        $costumerprod=Model::create('CostumerProduct');
+        $installation_id=$_POST['id'];
+        $products=$costumerprod->findFromRelation( "costumer_products c","c.installation_id=$installation_id" ,array("fields"=>"c.*"));
+        echo json_encode($products);
+
+    }
+
+    /*/*
+      * function edit
+      */
+    public function actionEdit(){
+
+        $costumers=array();
+        $costumer_id=$_POST['id'];
+        $Costumer = Model::create('Costumer');
+        $costumers=$Costumer->findFromRelation( "costumers c","c.id=$costumer_id" ,array("fields"=>"c.*"));
+        echo json_encode($costumers);
+
+    }
+
+    public function actionUpdate()
+    {
+        $result = array();
+
+        /*
+         * bind data from post
+         */
+        $name=(isset($_POST["costumer_name"]))? $_POST["costumer_name"] : '';
+        $phone=(isset($_POST["costumer_phone"]))? $_POST["costumer_phone"] :'';
+        $city=(isset($_POST["costumer_city"]))? $_POST["costumer_city"]:'';
+        $departement=(isset($_POST["costumer_departement"])) ? $_POST["costumer_departement"] :'';
+        $adress=(isset($_POST["costumer_adress"])) ? $_POST["costumer_adress"] :'';
+        $type=(isset($_POST["costumer_type"])) ? $_POST["costumer_type"] :'' ;
+
+        /*
+         * instance costumer
+         */
+        $costumer=Model::create('Costumer');
+        if(isset($_POST["id_costumer"])) {
+            $id = $_POST["id_costumer"];
+            $data = array("id"=> $id, "name" => $name, "phone_number" => $phone, "type" => $type, "city" => $city, "departement" => $departement, "adress" => $adress);
+
+            if ($costumer->save($data)) {
+                $result = array("msg" => "OK");
+
+            } else {
+                $result = array("msg" => "ERRORR");
+            }
+        }
+        else{
+            $result = array("msg" => "ERRORR");
+        }
+
+        echo json_encode($result);
+        die();
+
+    }
 }

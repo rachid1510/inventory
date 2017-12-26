@@ -44,11 +44,11 @@ include ("layouts/header.php");?>
             </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
-             <input type="date" class="form-control" name="date_debut" placeholder="DATE ARRIVEE">
+             <input type="date" class="form-control" name="date_arrived" placeholder="DATE ARRIVEE">
            </div>
                <div class="form-group col-md-2">
                    <label class="control-label">Date D'activation</label>
-                   <input type="date" class="form-control" name="date_debut" placeholder="DATE d'activation">
+                   <input type="date" class="form-control" name="date_activation" placeholder="DATE d'activation">
                </div>
                 <br/>
                 <div class="form-group col-md-2 pull-right">
@@ -200,7 +200,7 @@ include ("layouts/header.php");?>
 
                          <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <a title="activation" alt="actevationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                 <a title="product/activation" alt="actevationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                              </div>
                          </div>
@@ -247,7 +247,7 @@ include ("layouts/header.php");?>
                          <input type="hidden" name="products" id="products" value="">
                           <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <a title="affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                 <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                              </div>
                          </div>
@@ -293,7 +293,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products_transfer" id="products_transfer" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>

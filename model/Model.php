@@ -152,7 +152,7 @@ abstract class Model
                 $this->$key = $this->db->lastInsertId();
                 //$data[$key] = $this->$key;
                 return $this->$key;
-                var_dump($this->$key);
+               // var_dump($this->$key);
             }
             return true;
         } catch (PDOException $exc) {
@@ -237,7 +237,7 @@ abstract class Model
             $sql .= ' LIMIT ' . $req['limit'];
         }
         //debug($sql);
-  //echo $sql;
+
         $pre = $this->db->prepare($sql);
         $pre->execute();
       return $pre->fetchAll();

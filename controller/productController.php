@@ -27,7 +27,7 @@ class productController
 
         $personals=$personal->find();
         $condition="";
-        if(isset($_POST["imei"]))
+        if(!empty($_POST["imei"]))
         {
             $condition= "p.imei_product like '%".$_POST["imei"]. "%'";
         }
@@ -60,8 +60,9 @@ class productController
             }
         }
 
-        if(!empty($_POST["stock"]) && $_POST["stock"]!=0 )
+        if(!empty($_POST["stock"]) || $_POST["stock"]!='')
         {
+
 
             if($condition=='')
             {
@@ -77,7 +78,7 @@ class productController
             $p=1;
             $start_from = ($p-1) * $limit;
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=1 and $condition",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id"));
-            $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id and $condition","m.category_id=1",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
+            $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id ","m.category_id=1 and $condition",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
 
         }
         else{
@@ -118,7 +119,7 @@ class productController
         */
         $personals=$personal->find();
         $condition="";
-        if(isset($_POST["imei"]))
+        if(isset($_POST["imei"]) && !empty($_POST["imei"]))
         {
             $condition= "p.imei_product like '%".$_POST["imei"]. "%'";
         }
@@ -131,16 +132,24 @@ class productController
                 $condition .= " AND m.order_ref like '%".$_POST["ref_order"]. "%'";
             }
         }
-        if(!empty($_POST["date_debut"]))
+        if(!empty($_POST["date_activation"]))
         {
             if($condition=='')
             {
-                $condition= "m.date_arrived like '%".$_POST["date_debut"]. "%'";
+                $condition= "p.enabled_date like '%".$_POST["date_activation"]. "%'";
             }else{
-                $condition .= " AND m.date_arrived like '%".$_POST["date_debut"]. "%'";
+                $condition .= " AND p.enabled_date like '%".$_POST["date_activation"]. "%'";
             }
         }
-
+        if(!empty($_POST["date_arrived"]))
+        {
+            if($condition=='')
+            {
+                $condition= "m.date_arrived like '%".$_POST["date_arrived"]. "%'";
+            }else{
+                $condition .= " AND m.date_arrived like '%".$_POST["date_arrived"]. "%'";
+            }
+        }
         if(!empty($_POST["state"]))
         {
             if($condition=='')
@@ -151,7 +160,7 @@ class productController
             }
         }
 
-        if(!empty($_POST["stock"]) && $_POST["stock"]!=0 )
+        if(!empty($_POST["stock"]) || $_POST["stock"]!='' )
         {
 
             if($condition=='')
@@ -167,7 +176,7 @@ class productController
             $p=1;
             $start_from = ($p-1) * $limit;
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 and $condition",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id"));
-              $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
+              $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 and $condition",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
 
         }
         else{

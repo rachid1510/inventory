@@ -104,16 +104,17 @@
                     <span>VEHICULES</span>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo $url;?>/personal">
-                    <i class="glyphicon glyphicon-user"></i>
-                    <span>INSTALLATEUR</span>
-                </a>
-            </li>
+
             <li>
                 <a href="<?php echo $url;?>/installation">
                     <i class="glyphicon glyphicon-wrench"></i>
                     <span>INSTALLATIONS</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $url;?>/personal">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>INSTALLATEUR</span>
                 </a>
             </li>
             <li>
