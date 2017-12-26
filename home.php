@@ -5,5 +5,12 @@
  * Date: 18/12/2017
  * Time: 12:32
  */
-include "layouts/header.php";
-include "layouts/footer.php";
+session_start();
+
+if (isset($_SESSION["login"])) {
+    include "layouts/header.php";
+    include "layouts/footer.php";
+}
+else
+    header("Location:login.php?error=e");
+

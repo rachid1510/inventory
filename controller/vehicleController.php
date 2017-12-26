@@ -59,7 +59,15 @@ class vehicleController
             $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
 
         }
-         require 'view/vehicles/index.php';
+
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/vehicles/index.php';
+        }
+        else
+            header("Location:login.php?error=e");
+
 
     }
     public function actionAdd()

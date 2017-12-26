@@ -118,7 +118,13 @@ class installationController
 
         $total_records = count($all_installations);
         $total_pages = ceil($total_records / $limit);
-        require 'view/installations/index.php';
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/installations/index.php';        }
+        else
+            header("Location:login.php?error=e");
+
 
     }
 

@@ -5,7 +5,15 @@ class dashboardController
 {
     public function  actionIndex(){
 
-        require 'view/dashboard/index.php';
+        session_start();
+
+        if (isset($_SESSION["login"]) and $_SESSION["fonction"]=='admin' ) {
+            require 'view/dashboard/index.php';
+        }
+        else
+            header('location:home.php');
+
+
 
     }
     public function actionGetinstallation()

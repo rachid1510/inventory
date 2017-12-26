@@ -61,7 +61,7 @@
     <div class="sidebar">
         <ul>
             <li>
-                <a href="<?php echo $url;?>">
+                <a href="<?php echo $url;?>/dashboard">
                     <i class="glyphicon glyphicon-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -117,7 +117,8 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo $url;?>">
+                <a href="<?php echo $url;?>/dashboard">
+
                     <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>

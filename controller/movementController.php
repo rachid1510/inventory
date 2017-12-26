@@ -16,7 +16,13 @@ class movementController
         $movement = Model::create('Movement');
         $movements=$movement->find("movements",array("fields"=>"*"));
 
-        require 'view/movements/index.php';
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/movements/index.php';
+        }
+        else
+            header("Location:login.php?error=e");
     }
     /*
      * action add insert into table movements

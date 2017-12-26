@@ -56,7 +56,13 @@ class costumerController
 
             $customers = $customers->find();
         }
-        require 'view/costumers/index.php';
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/costumers/index.php';
+        }
+        else
+            header("Location:login.php?error=e");
 
 
     }

@@ -1,5 +1,48 @@
- 
+<?php
+include ("config/config.php");
+session_start();
 
+try {
+    $databaseConnection = new PDO('mysql:host=localhost;dbname=stock', 'root', '');
+    $databaseConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
+}
+
+
+    if(isset($_POST['submit'])){
+        $errMsg = '';
+        //username and password sent from Form
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        if($username == '')
+            $errMsg .= 'veuillez entrez votre identifiant<br>';
+
+        if($password == '')
+            $errMsg .= 'veuillez entrez votre mot de passe<br>';
+
+
+        if($errMsg == '')
+        {
+            $records = $databaseConnection->prepare('SELECT * FROM  users WHERE name = :username LIMIT 1');
+            $records->bindParam(':username', $username);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+            if(count($results) > 0 && $password==$results['password'])
+            {
+                $_SESSION['login'] = $results['name'];
+                $_SESSION['fonction'] = $results['fonction'];
+                header('location:'.$url."/home.php");
+                exit;
+            }else{
+                $errMsg .= 'veuillez entrez les bonnes informations<br>';
+            }
+        }
+
+}
+
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
@@ -10,25 +53,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Login Form</title>
  <style>
- @import '../../shared/mixins',
-        '../../shared/reset',
-        '../../shared/about-light';
 
-/*
- * Copyright (c) 2012-2013 Thibaut Courouble
- * http://www.cssflow.com
- *
- * Licensed under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- */
 
 body {
   font: 13px/20px 'Lucida Grande', Tahoma, Verdana, sans-serif;
   color: #404040;
-  background: #0ca3d2;
+  background: #3d8fd8;
+
+
 }
 
 .container {
+
   margin: 80px auto;
   width: 640px;
 }
@@ -39,10 +75,12 @@ body {
   padding: 20px 20px 20px;
   width: 310px;
   background: white;
+
   border-radius: 3px;
   @include box-shadow(0 0 200px rgba(white, .5), 0 1px 2px rgba(black, .3));
 
   &:before {
+
     content: '';
     position: absolute;
     top: -8px; right: -8px; bottom: -8px; left: -8px;
@@ -52,6 +90,8 @@ body {
   }
 
   h1 {
+      background-image: url("dist/img/logo-website_new.png");
+      background-repeat: no-repeat, repeat;
     margin: -20px -20px 21px;
     line-height: 40px;
     font-size: 15px;
@@ -181,20 +221,24 @@ label {
   <section class="container">
     <div class="login">
       <h1>Login </h1>
-      <form method="post" action="<?php $_SERVER['DOCUMENT_ROOT'];?>index.php?c=Utilisateur&a=login">
-        <p><label>Utilisateur</label><input type="text" name="login" value="" placeholder="Nom d'utilisateur"></p>
-        <p><label>Mot de passe</label><input type="password" name="password" value="" placeholder="Mots de passe"></p>
-        <p class="remember_me" style="color:red">
-          <?php 
-		  if(isset($_GET["error"]))
-		  {
-			  echo 'Login ou password incorrect';
-			  
-			 // header("location:login.php");
-		  }
-		  ?>
+        <form action="" method="post">
+        <p><label>Utilisateur</label><input required type="text" name="username" value="" placeholder="Nom d'utilisateur"></p>
+        <p><label>Mot de passe</label><input required type="password" name="password" value="" placeholder="Mots de passe"></p>
+          <h3 align="left"> <a href="changer_mdp1.php">changer password ?</a></h3>
+
+          <p class="remember_me" style="color:red">
+
+          <?php
+          if (isset($_GET["error"])) : ?>
+            <div style = "color:red;">Erreur de connexion</div>
+            <?php endif; ?>
+            <?php
+            if(isset($errMsg)){
+					echo '<div style="color:#FF0000;text-align:center;font-size:15px;">'.$errMsg.'</div>';
+				}
+			?>
         </p>
-        <p class="submit"><input type="submit" name="commit" value="Connecter"></p>
+        <p class="submit"><input type="submit" name='submit' value="Submit" class='submit'/><br /></p>
       </form>
     </div>
 

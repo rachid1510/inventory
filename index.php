@@ -3,13 +3,16 @@
     * check session
     **/
 
-   /* session_start();
-    if(empty($_SESSION['user_id'] ))	{ header("location:".$url."/login.php");	}*/
+//          session_start();
+//
+//       if (!empty($_SESSION["login"])) {
+//       require 'view/costumers/index.php';
+//       }
+//       else
+//       header("Location:login.php?error=e");
+//
 
-    /*
-     * list off controller
-     */
-    $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard'];
+$controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 
@@ -65,5 +68,5 @@
     }
     else
     {
-        include 'home.php';
+        include 'login.php';
     }
