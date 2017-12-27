@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require ("model/Model.php");
 class costumerController
 {
@@ -7,9 +7,14 @@ class costumerController
 
     public function actionIndex($page=null)
     {
-
+        /*
+         *
+         */
+        if (!isset($_SESSION["login"])) {
+            header("Location:login.php?error=e");
+        }
         $customers = array();
-        $customers = Model::create('Costumer');
+        $customer = Model::create('Costumer');
         /*
          * var condition string
          */
@@ -49,21 +54,18 @@ class costumerController
 
         if($condition !='')
         {
-            $customers=$customers->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*","limit"=>$start_from.','.$limit));
+            $customers=$customer->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*","limit"=>$start_from.','.$limit));
 
         }
         else {
 
-            $customers = $customers->find();
+            $customers = $customer->find();
         }
-        session_start();
-
-        if (isset($_SESSION["login"])) {
-            require 'view/costumers/index.php';
+        if(isset($_POST['export'])) {
+            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
+            $customer->export_excel($customers, $header, 'listecostumer');
         }
-        else
-            header("Location:login.php?error=e");
-
+         require 'view/costumers/index.php';
 
     }
     public function actionAdd()
@@ -83,7 +85,7 @@ class costumerController
          * instance costumer
          */
         $costumer=Model::create('Costumer');
-        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress);
+        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress,'user_id'=>$_SESSION['user_id']);
 
         if($costumer->save($data)>0)
         {
@@ -93,7 +95,6 @@ class costumerController
         else{
             $result = array("msg"=>"ERRORR");
         }
-        header('content-type:application/json');
         echo json_encode($result);
         die();
 

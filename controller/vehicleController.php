@@ -1,11 +1,17 @@
 <?php
-
+session_start();
 require ("model/Model.php");
 class vehicleController
 {
     //
     public function actionIndex($page=null)
     {
+        /*
+         * check session
+         */
+        if (!isset($_SESSION["login"])) {
+            header("Location:login.php?error=e");
+        }
         /*
          * var $condition string concat searsh's conditions
          */
@@ -17,7 +23,6 @@ class vehicleController
          * pagination limit
          */
         $limit = 20;
-
         if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
             $limit = $_POST["pagination"];
         }
@@ -60,13 +65,7 @@ class vehicleController
 
         }
 
-        session_start();
-
-        if (isset($_SESSION["login"])) {
-            require 'view/vehicles/index.php';
-        }
-        else
-            header("Location:login.php?error=e");
+        require 'view/vehicles/index.php';
 
 
     }
@@ -79,8 +78,7 @@ class vehicleController
         $model=(isset($_POST["vehicle_model"])) ? $_POST["vehicle_model"]:'';
         $client=(isset($_POST["costumer_id"])) ? $_POST["costumer_id"] :'';
         $marque=(isset($_POST["vehicle_marque"])) ? $_POST["vehicle_marque"] :'';
-
-        $data = array("imei" => $matricule, "model" => $model,"marque" =>$marque,"costumer_id"=>$client);
+        $data = array("imei" => $matricule, "model" => $model,"marque" =>$marque,"costumer_id"=>$client,"user_id"=>$_SESSION['user_id']);
 
         $vec =$vehicle->save($data);
         if($vec>0)
@@ -128,7 +126,7 @@ class vehicleController
         $marque=(isset($_POST["vehicle_marque"])) ? $_POST["vehicle_marque"] :'';
         if(isset($_POST["id_vehicle"])) {
             $id = $_POST["id_vehicle"];
-            $data = array("id"=>$id,"imei" => $matricule, "model" => $model, "marque" => $marque, "costumer_id" => $client);
+            $data = array("id"=>$id,"imei" => $matricule, "model" => $model, "marque" => $marque, "costumer_id" => $client,"user_id"=>$_SESSION['user_id']);
            if($vehicle->save($data))
              {
                 $result = array("msg" => "OK");

@@ -7,7 +7,7 @@ $(document).ready(function(){
         method: "GET",
         dataType:'json',
         success: function(data) {
-            console.log(data);
+
             var date = [];
             var count = [];
             //console.log(data[0].playerid);
@@ -15,7 +15,7 @@ $(document).ready(function(){
 
                 //   console.log(key+'  '+value.playerid);
                 // console.log(key);
-                console.log(value.annee);
+
                 if(value.annee==2017) {
                     date.push("le mois " + value.mois);
 
@@ -24,7 +24,7 @@ $(document).ready(function(){
                 }
 
             });
-            console.log(count);
+
             // }
             // for(var i in data) {
             //     // console.log(data.playerid);
@@ -85,7 +85,7 @@ $(document).ready(function(){
         method: "GET",
         dataType:'json',
         success: function(data) {
-            console.log(data);
+
             var date = [];
             var count = [];
             //console.log(data[0].playerid);
@@ -94,10 +94,10 @@ $(document).ready(function(){
                 //   console.log(key+'  '+value.playerid);
                 // console.log(key);
 
-                console.log(value.model);
+
                 date.push("model " + value.model);
 
-                console.log(value.nombre);
+
                 count.push(value.nombre);
 
 
@@ -139,7 +139,7 @@ $(document).ready(function(){
         method: "GET",
         dataType:'json',
         success: function(data) {
-            console.log(data);
+
             var date = [];
             var count = [];
             //console.log(data[0].playerid);
@@ -148,10 +148,10 @@ $(document).ready(function(){
                 //   console.log(key+'  '+value.playerid);
                 // console.log(key);
 
-                console.log(value.model);
+
                 date.push("model " + value.model);
 
-                console.log(value.nombre);
+
                 count.push(value.nombre);
 
 

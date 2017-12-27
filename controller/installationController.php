@@ -1,12 +1,17 @@
 <?php
-
+session_start();
 require ("model/Model.php");
 class installationController
 {
     //
     public function actionIndex($page=null)
     {
-
+        /*
+        * check session
+        */
+        if (!isset($_SESSION["login"])) {
+            header("Location:login.php?error=e");
+        }
         $installations=array();
         $installation = Model::create('Installation');
         $product = Model::create('Product');
@@ -112,14 +117,7 @@ class installationController
 
         $total_records = count($all_installations);
         $total_pages = ceil($total_records / $limit);
-        session_start();
-
-        if (isset($_SESSION["login"])) {
-            require 'view/installations/index.php';        }
-        else
-            header("Location:login.php?error=e");
-
-
+        require 'view/installations/index.php';
     }
 
 
@@ -233,11 +231,10 @@ class installationController
         {
             $status="Completed";
         }
-
         /*
          * prepare data to insert in installation table
          */
-        $data = array("status" => $status, "personal_id" => $personal_id,"vehicle_id"=>$selected_vehicle,"user_id"=>3,"installed_at"=>$date_installation);
+        $data = array("status" => $status, "personal_id" => $personal_id,"vehicle_id"=>$selected_vehicle,"user_id"=>$_SESSION['user_id'],"installed_at"=>$date_installation);
         /*
          * call function to save installation and get lastinsert id in var $installation_id
          */
@@ -319,7 +316,7 @@ class installationController
                         $result = 'OK';
                     }
                     else{
-                        $result ='L\'installation a été ajouter sans avoir mettre le stock';
+                        $result ='L\'installation a été ajouter sans avoir mettre jour le stock';
                     }
                     /*
                      * data product's costumer
@@ -367,7 +364,7 @@ class installationController
                       $result ='L\'installation a été ajouter sans avoir mettre le stock';
                   }
                   $costumer_products = array('imei_product'=>$gsm_product_costumer,'provider'=>$operateur_product_costumer,'installation_id'=>$installation_id);
-                   $CostumerProduct->save($costumer_products);
+
                   if($CostumerProduct->save($costumer_products)>0){
                       $result = 'OK';
                   }
