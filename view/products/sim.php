@@ -17,11 +17,11 @@ include ("layouts/header.php");?>
 
             <div class="form-group col-md-2">
               <label class="control-label">SSID</label>
-             <input type="text" class="form-control" name="imei" placeholder="SSID">
+             <input type="text" class="form-control" id="imei_searsh" name="imei" placeholder="SSID">
            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Réf Commande</label>
-             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
+             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE" value="<?php  if(isset($_POST["ref_order"])){ echo $_POST["ref_order"];} ?>"/>
            </div>
 
             <div class="form-group col-md-2">
@@ -60,7 +60,7 @@ include ("layouts/header.php");?>
 
           <div class="col-md-4 pull-right">
 
-           <a href="#" id="showmodal" class="btn btn-primary">Activer</a>
+           <a href="#" id="modalactivation_btn" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
            <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
            <a href=""  class="btn btn-primary">Lister</a>
@@ -92,6 +92,8 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
+                  <th class="text-center" style="width: 10%;">Installée avec</th>
+                  <th class="text-center" style="width: 10%;">Boitier Client</th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
 
               </tr>
@@ -120,6 +122,8 @@ include ("layouts/header.php");?>
 
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
@@ -166,7 +170,7 @@ include ("layouts/header.php");?>
     </div>
   </div>
      <!-- Modal -->
-     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+     <div class="modal fade" id="modalactivation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
          <div class="modal-dialog">
              <div class="modal-content">
                  <div class="modal-header">

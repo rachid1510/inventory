@@ -1,4 +1,7 @@
 $(document).ready(function() {
+   /* $('#myModal').on('hidden.bs.modal', function () {
+        location.reload();
+    })*/
     var list_sim_checked=[];
     $('#gps_client_check').change(function(){
 
@@ -36,6 +39,11 @@ $(document).ready(function() {
     $('#showmodal').click(function() {
         $('#myModal').modal();
     });
+
+    $('#modalactivation_btn').click(function() {
+        $('#modalactivation').modal();
+    });
+
     $('#modalaffactation').click(function() {
         var enstockde =0;
         $('#liste').find('input[type="checkbox"]:checked').each(function () {
@@ -62,9 +70,18 @@ $(document).ready(function() {
                 return false;
             }
             else{
+                var enstockde=$(this).attr("name");
                 list_sim_checked.push($(this).val());
                 $('#transferdulabel').text($(this).attr("title"));
-                $('#enstockde').val($(this).attr("name"));
+                $('#enstockde').val(enstockde);
+                $("select#personal_id_stock option").each(function()
+                {
+                    if($(this).val()==enstockde)
+                    {
+                        $(this).remove();
+                    }
+                });
+                $('select#personal_id_stock').trigger('chosen:updated');
             }
 
         });
@@ -87,7 +104,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-        console.log(url+'/'+frmaction);
+
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
@@ -105,9 +122,12 @@ $(document).ready(function() {
             success: function(resultat ) {
                 console.log(resultat);
                 if(resultat.msg == 'OK') {
-                    $(".alert.alert-success").show(0).delay(6000).hide(0);
+                    $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
-                    //location.reload();
+                   //  $("#personal_id option:first").attr('selected','selected');
+                   //
+                   // $('#personal_id').trigger("chosen:updated");
+                     //location.reload();
                     //$("#myModal").modal();
 
                 }else
@@ -120,6 +140,7 @@ $(document).ready(function() {
     } );
 
     $('.modal').on('hidden.bs.modal', function(){
+        location.reload();
         $(this).find('form')[0].reset();
     });
 
@@ -182,7 +203,12 @@ $(document).ready(function() {
             $('.newvehicle').fadeOut('slow');
         }
     });
-
+    /*
+     * submit on search imei product
+     */
+    $("#imei_searsh").blur(function() {
+        $("#filtre").submit();
+    });
 
 });
 Date.prototype.toDateInputValue = (function() {

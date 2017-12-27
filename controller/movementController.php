@@ -1,4 +1,5 @@
 <?php
+session_start();
 require ("model/Model.php");
 class movementController
 {
@@ -7,22 +8,20 @@ class movementController
     */
     public function actionIndex()
     {
-        //$category = Model::create('Category');
-
+        /*
+        * check session
+        */
+        if (!isset($_SESSION["login"])) {
+            header("Location:login.php?error=e");
+        }
         $categories=array();
         $category = Model::create('Category');
         $categories=$category->find("categories",array("fields"=>"*"));
 
         $movement = Model::create('Movement');
         $movements=$movement->find("movements",array("fields"=>"*"));
+        require 'view/movements/index.php';
 
-        session_start();
-
-        if (isset($_SESSION["login"])) {
-            require 'view/movements/index.php';
-        }
-        else
-            header("Location:login.php?error=e");
     }
     /*
      * action add insert into table movements
@@ -32,7 +31,7 @@ class movementController
         $result = array();
         //$movement=new Move;ment();
         $movement = Model::create('Movement');
-        $data = array("plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived']);
+        $data = array("plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
         $movement_id = $movement->save($data);
         $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
         $insert=true;
@@ -73,7 +72,7 @@ class movementController
                     "state" => 'disabled',
                     "status" => '1',
                     "movement_id" => $move_id,
-                    "user_id" => 3
+                    "user_id" => $_SESSION['user_id'],
                 );
 
                 if ($product_object->save($product_array) == 0) {
@@ -91,7 +90,7 @@ class movementController
                     "state" => 'disabled',
                     "status" => '1',
                     "movement_id" => $move_id,
-                    "user_id" => 3
+                    "user_id" => $_SESSION['user_id'],
                 );
                 if ($product_object->save($product_array) == 0) {
                     $insert = false;
@@ -130,7 +129,7 @@ class movementController
         $result = array();
         $movement = Model::create('Movement');
         $movement_id=$_POST['id_movement'];
-        $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived']);
+        $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
          if($movement->save($data)){
              $result = array('msg' => 'OK');
          }

@@ -17,7 +17,7 @@ include ("layouts/header.php");?>
 
                 <div class="form-group col-md-2">
                   <label class="control-label">IMEI</label>
-                 <input type="text" class="form-control" name="imei" placeholder="IMEI">
+                 <input type="text" class="form-control" id="imei_searsh" name="imei" placeholder="IMEI">
                </div>
 
                <div class="form-group col-md-2">
@@ -87,6 +87,8 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 15%;"> Autre produit installés </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
+                  <th class="text-center" style="width: 10%;">Installé avec</th>
+                  <th class="text-center" style="width: 10%;">SIM Client</th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
 
@@ -120,7 +122,10 @@ include ("layouts/header.php");?>
 
         <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
-                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
+                <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
+
+                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
 

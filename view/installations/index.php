@@ -59,7 +59,7 @@ include ("layouts/header.php");?>
                             </div>
                             <br>
                             <div class="col-md-3 pull-right">
-                                <a href="#" id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <a   id="showmodal" class="btn btn-primary">Créer installation</a>
                                 <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
@@ -166,7 +166,7 @@ include ("layouts/header.php");?>
                                     <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
 
-                                        <select name="personal_id"   class="form-control chosen-select-deselect" id="personal_id" required aria-required="true">
+                                        <select name="personal_id"   class="form-control chosen-select" id="personal_id" required aria-required="true">
                                             <option value="">Veuillez selectionner un installateur</option>
                                             <?php foreach($personals as $persoanl):?>
                                                 <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>

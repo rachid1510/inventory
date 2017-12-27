@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require ("model/Model.php");
 class costumerController
 {
@@ -7,15 +7,15 @@ class costumerController
 
     public function actionIndex($page=null)
     {
-        session_start();
 
+        /*
+         *
+         */
         if (!isset($_SESSION["login"])) {
-
             header("Location:login.php?error=e");
-
         }
         $customers = array();
-        $customers = Model::create('Costumer');
+        $customer = Model::create('Costumer');
         /*
          * var condition string
          */
@@ -49,87 +49,21 @@ class costumerController
         }
 
 
-        if ($condition != '') {
-            $customers = $customers->findFromRelation("costumers c", $condition, array("fields" => "c.*", "limit" => $start_from . ',' . $limit));
-            if (isset($_POST["export"])) {
 
-            }
-        } else {
-            $customers = $customers->find();
+        if($condition !='')
+        {
+            $customers=$customer->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*","limit"=>$start_from.','.$limit));
 
         }
+        else {
 
-
-        if (isset($_POST["export"])) {
-//            require_once '../Classes/PHPExcel.php';
-
-
-
-//            include 'model/phpexcel/PHPExcel/RichText.php';
-            error_reporting(E_ALL);
-            /*include 'model/phpexcel/PHPExcel/Autoloader.php';
-            include 'model/PHPExcel.php';
-            include 'model/phpexcel/PHPExcel/RichText.php';*/
-            $objPHPExcel = Model::create('PHPExcel');
-
-// Set the active Excel worksheet to sheet 0
-            $objPHPExcel->setActiveSheetIndex(0);
-// Initialise the Excel row number
-            $rowCount = 1;
-
-//start of printing column names as names of MySQL fields
-//            $column = 'A';
-//            for ($i = 1; $i < count($customers[0]); $i++) {
-//                echo count($customers);
-//                $objPHPExcel->getActiveSheet()->setCellValue($column . $rowCount, $customers['0']);
-//                $column++;
-//            }
-//end of adding column names
-
-//start while loop to get data
-            foreach($customers as $customer){
-                // Set cell An to the "name" column from the database (assuming you have a column called name)
-                //    where n is the Excel row number (ie cell A1 in the first row)
-                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $customer['name']);
-                // Set cell Bn to the "age" column from the database (assuming you have a column called age)
-                //    where n is the Excel row number (ie cell A1 in the first row)
-                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $customer['departement']);
-                // Increment the Excel row counter
-                $rowCount++;
-            }
-
-
-
-
-// Redirect output to a client’s web browser (Excel5)
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Limesurvey_Results.xls"');
-            header('Cache-Control: max-age=0');
-            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-            $objWriter->save('php://output');
-
+            $customers = $customer->find();
         }
-        require 'view/costumers/index.php';
-
-    }
-    public function actionExport()
-    {
-//        while($row = mysql_fetch_array($result)){
-//            // Set cell An to the "name" column from the database (assuming you have a column called name)
-//            //    where n is the Excel row number (ie cell A1 in the first row)
-//            $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $row['name']);
-//            // Set cell Bn to the "age" column from the database (assuming you have a column called age)
-//            //    where n is the Excel row number (ie cell A1 in the first row)
-//            $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $row['age']);
-//            // Increment the Excel row counter
-//            $rowCount++;
-//        }
-//
-//// Instantiate a Writer to create an OfficeOpenXML Excel .xlsx file
-//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-//// Write the Excel file to filename some_excel_file.xlsx in the current directory
-//        $objWriter->save('some_excel_file.xlsx');
-
+        if(isset($_POST['export'])) {
+            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
+            $customer->export_excel($customers, $header, 'listecostumer');
+        }
+         require 'view/costumers/index.php';
 
     }
     public function actionAdd()
@@ -149,7 +83,7 @@ class costumerController
          * instance costumer
          */
         $costumer=Model::create('Costumer');
-        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress);
+        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress,'user_id'=>$_SESSION['user_id']);
 
         if($costumer->save($data)>0)
         {
@@ -159,7 +93,6 @@ class costumerController
         else{
             $result = array("msg"=>"ERRORR");
         }
-        header('content-type:application/json');
         echo json_encode($result);
         die();
 
