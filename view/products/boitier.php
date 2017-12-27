@@ -84,6 +84,7 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 15%;"> Etat </th>
+                  <th class="text-center" style="width: 15%;"> Autre produit installés </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
@@ -96,7 +97,7 @@ include ("layouts/header.php");?>
             <?php foreach($products as $product):?>
 
             <tr>
-                
+<!--                --><?php //if($product['status']=="0") ?>
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
                 <td class="text-center"> <?php echo $product['label']; ?></td>
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
@@ -109,7 +110,15 @@ include ("layouts/header.php");?>
                         echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
                     }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
                     }?></td>
-                <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <?php  if($product['status']=="0"):?>
+              <td class="text-center"><?php  echo $product['status']; ?> </td>
+                <?php  else: ?>
+                    <td class="text-center">makayn walo </td>
+                       <?php endif; ?>
+
+
+
+        <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                  <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 

@@ -12,7 +12,7 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <div class="col-md-9 pull-left">
-                <form id="filtre" name="filtre" role="form" method="post" action="costumer" >
+                <form id="filtre" name="filtre" role="form" method="post" action="" >
                     <div class="form-group col-md-3">
                         <label class="control-label">Nom</label>
                         <input type="text" class="form-control" name="costumer_name" placeholder="Nom client">
@@ -25,6 +25,8 @@ include ("layouts/header.php");?>
 <!--                    <button type="button" class="btn btn-default">Rechercher</button>-->
                     <br/>
                     <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <button type="submit" name="export" class="btn btn-primary">exporter</button>
+
                 </form>
             </div>
 
@@ -42,6 +44,7 @@ include ("layouts/header.php");?>
                 <div class="form-group col-md-2"><br/>
                     <button type="submit" class="invisible">Appliquer</button>
                 </div>
+
             </form>
           <table class="table table-bordered" id="liste">
             <thead>

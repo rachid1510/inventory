@@ -7,7 +7,13 @@ class costumerController
 
     public function actionIndex($page=null)
     {
+        session_start();
 
+        if (!isset($_SESSION["login"])) {
+
+            header("Location:login.php?error=e");
+
+        }
         $customers = array();
         $customers = Model::create('Costumer');
         /*
@@ -18,7 +24,7 @@ class costumerController
          */
         $limit = 20;
 
-        if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
+        if (isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
             $limit = $_POST["pagination"];
         }
 
@@ -29,40 +35,100 @@ class costumerController
         }
         $start_from = ($p - 1) * $limit;
 
-        $condition="";
+        $condition = "";
 
-        if(!empty($_POST["costumer_name"]))
-        {
-            $condition= "c.name like '%".$_POST["costumer_name"]. "%'";
+        if (!empty($_POST["costumer_name"])) {
+            $condition = "c.name like '%" . $_POST["costumer_name"] . "%'";
         }
-        if(!empty($_POST["costumer_tel"]))
-        {
-            if($condition=='')
-            {
-                $condition= "c.phone_number like '%".$_POST["costumer_tel"]. "%'";
-            }
-            else{
-                $condition .= " AND c.phone_number like '%".$_POST["costumer_tel"]. "%'";
+        if (!empty($_POST["costumer_tel"])) {
+            if ($condition == '') {
+                $condition = "c.phone_number like '%" . $_POST["costumer_tel"] . "%'";
+            } else {
+                $condition .= " AND c.phone_number like '%" . $_POST["costumer_tel"] . "%'";
             }
         }
 
 
-        if($condition !='')
-        {
-            $customers=$customers->findFromRelation( "costumers c",$condition ,array("fields"=>"c.*","limit"=>$start_from.','.$limit));
+        if ($condition != '') {
+            $customers = $customers->findFromRelation("costumers c", $condition, array("fields" => "c.*", "limit" => $start_from . ',' . $limit));
+            if (isset($_POST["export"])) {
 
-        }
-        else {
-
+            }
+        } else {
             $customers = $customers->find();
-        }
-        session_start();
 
-        if (isset($_SESSION["login"])) {
-            require 'view/costumers/index.php';
         }
-        else
-            header("Location:login.php?error=e");
+
+
+        if (isset($_POST["export"])) {
+//            require_once '../Classes/PHPExcel.php';
+
+
+
+//            include 'model/phpexcel/PHPExcel/RichText.php';
+            error_reporting(E_ALL);
+            /*include 'model/phpexcel/PHPExcel/Autoloader.php';
+            include 'model/PHPExcel.php';
+            include 'model/phpexcel/PHPExcel/RichText.php';*/
+            $objPHPExcel = Model::create('PHPExcel');
+
+// Set the active Excel worksheet to sheet 0
+            $objPHPExcel->setActiveSheetIndex(0);
+// Initialise the Excel row number
+            $rowCount = 1;
+
+//start of printing column names as names of MySQL fields
+//            $column = 'A';
+//            for ($i = 1; $i < count($customers[0]); $i++) {
+//                echo count($customers);
+//                $objPHPExcel->getActiveSheet()->setCellValue($column . $rowCount, $customers['0']);
+//                $column++;
+//            }
+//end of adding column names
+
+//start while loop to get data
+            foreach($customers as $customer){
+                // Set cell An to the "name" column from the database (assuming you have a column called name)
+                //    where n is the Excel row number (ie cell A1 in the first row)
+                $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $customer['name']);
+                // Set cell Bn to the "age" column from the database (assuming you have a column called age)
+                //    where n is the Excel row number (ie cell A1 in the first row)
+                $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $customer['departement']);
+                // Increment the Excel row counter
+                $rowCount++;
+            }
+
+
+
+
+// Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Limesurvey_Results.xls"');
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+
+        }
+        require 'view/costumers/index.php';
+
+    }
+    public function actionExport()
+    {
+//        while($row = mysql_fetch_array($result)){
+//            // Set cell An to the "name" column from the database (assuming you have a column called name)
+//            //    where n is the Excel row number (ie cell A1 in the first row)
+//            $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $row['name']);
+//            // Set cell Bn to the "age" column from the database (assuming you have a column called age)
+//            //    where n is the Excel row number (ie cell A1 in the first row)
+//            $objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $row['age']);
+//            // Increment the Excel row counter
+//            $rowCount++;
+//        }
+//
+//// Instantiate a Writer to create an OfficeOpenXML Excel .xlsx file
+//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+//// Write the Excel file to filename some_excel_file.xlsx in the current directory
+//        $objWriter->save('some_excel_file.xlsx');
 
 
     }

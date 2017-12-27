@@ -87,7 +87,7 @@ class productController
         }
         else{
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=1",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id"));
-            $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=1",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
+            $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 or m.category_id=1 ",array("fields"=>" p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id","limit"=>$start_from.','.$limit));
 
         }
 

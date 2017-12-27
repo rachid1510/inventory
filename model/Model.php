@@ -236,6 +236,7 @@ abstract class Model
         if (isset($req['limit'])) {
             $sql .= ' LIMIT ' . $req['limit'];
         }
+        echo $sql;
         //debug($sql);
 
         $pre = $this->db->prepare($sql);

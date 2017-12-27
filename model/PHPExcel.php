@@ -40,7 +40,7 @@ if (!defined('PHPEXCEL_ROOT')) {
  * @package    PHPExcel
  * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel
+class PHPExcel extends  Model
 {
 	/**
 	 * Document properties
@@ -148,7 +148,7 @@ class PHPExcel
 	 */
 	public function getProperties()
 	{
-		return $this->_properties;
+		return 'bb';//$this->_properties;
 	}
 
 	/**
