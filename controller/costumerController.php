@@ -18,13 +18,13 @@ class costumerController
          */
         $limit = 20;
 
-        if(isset($_POST["pagination"]) and !empty($_POST["pagination"])) {
+        if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
             $limit = $_POST["pagination"];
         }
 
         $start_from = 0;
         $p = 1;
-        if ($page != null) {
+        if ($page != null and is_numeric($page)) {
             $p = $page;
         }
         $start_from = ($p - 1) * $limit;
@@ -56,7 +56,13 @@ class costumerController
 
             $customers = $customers->find();
         }
-        require 'view/costumers/index.php';
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/costumers/index.php';
+        }
+        else
+            header("Location:login.php?error=e");
 
 
     }

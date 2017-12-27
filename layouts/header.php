@@ -12,10 +12,12 @@
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css">
+
 <!--    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/bootstrap.css">-->
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/font-awesome.css">
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/chosen.min.css">
     <link rel="stylesheet" href="<?php echo $url;?>/dist/css/style.css">
+    <link rel="stylesheet" href="<?php echo $url;?>/dist/css/AdminLTE.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini" >
 <br>
@@ -61,7 +63,7 @@
     <div class="sidebar">
         <ul>
             <li>
-                <a href="<?php echo $url;?>">
+                <a href="<?php echo $url;?>/dashboard">
                     <i class="glyphicon glyphicon-home"></i>
                     <span>Dashboard</span>
                 </a>
@@ -112,13 +114,14 @@
                 </a>
             </li>
             <li>
+
                 <a href="<?php echo $url;?>/personal">
                     <i class="glyphicon glyphicon-user"></i>
                     <span>INSTALLATEUR</span>
                 </a>
             </li>
             <li>
-                <a href="<?php echo $url;?>">
+                <a href="<?php echo $url;?>/home">
                     <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>

@@ -116,6 +116,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Model</label>
                             <div class="col-md-6">
+
                                 <input type="text" name="vehicle_model" id="vehicle_model" class="form-control">
                             </div>
                         </div>

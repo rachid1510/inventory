@@ -1574,74 +1574,80 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="241" name="remember_token">
+    <column id="353" parent="241" name="fonction">
       <Position>5</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="354" parent="241" name="remember_token">
+      <Position>6</Position>
       <DataType>varchar(100)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="241" name="created_at">
-      <Position>6</Position>
-      <DataType>timestamp|0</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="355" parent="241" name="updated_at">
+    <column id="355" parent="241" name="created_at">
       <Position>7</Position>
       <DataType>timestamp|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="356" parent="241" name="PRIMARY">
+    <column id="356" parent="241" name="updated_at">
+      <Position>8</Position>
+      <DataType>timestamp|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="357" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="357" parent="242" name="id">
+    <column id="358" parent="242" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="358" parent="242" name="imei">
+    <column id="359" parent="242" name="imei">
       <Position>2</Position>
       <DataType>varchar(191)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="242" name="model">
+    <column id="360" parent="242" name="model">
       <Position>3</Position>
       <DataType>varchar(191)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="242" name="marque">
+    <column id="361" parent="242" name="marque">
       <Position>4</Position>
       <DataType>varchar(100)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="361" parent="242" name="costumer_id">
+    <column id="362" parent="242" name="costumer_id">
       <Position>5</Position>
       <DataType>int(10) unsigned|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="362" parent="242" name="created_at">
+    <column id="363" parent="242" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="242" name="updated_at">
+    <column id="364" parent="242" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="364" parent="242" name="vehicles_costumer_id_foreign">
+    <index id="365" parent="242" name="vehicles_costumer_id_foreign">
       <ColNames>costumer_id</ColNames>
     </index>
-    <key id="365" parent="242" name="PRIMARY">
+    <key id="366" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="366" parent="242" name="vehicles_costumer_id_foreign">
+    <foreign-key id="367" parent="242" name="vehicles_costumer_id_foreign">
       <ColNames>costumer_id</ColNames>
       <RefSchemaName>stock</RefSchemaName>
       <RefTableName>costumers</RefTableName>

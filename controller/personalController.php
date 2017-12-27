@@ -12,7 +12,14 @@ class personalController
         $installateur = Model::create('Personal');
         $installateurs = $installateur->find();
 
-        require 'view/personals/index.php';
+        session_start();
+        if (isset($_SESSION["login"])) {
+
+            require 'view/personals/index.php';
+        }
+        else
+            header("Location:login.php?error=e");
+
 
     }
     public function actionDetails($id=null)

@@ -94,7 +94,14 @@ class productController
         $total_records = count($all_products);
         $total_pages = ceil($total_records / $limit);
 
-        require 'view/products/boitier.php';
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/products/boitier.php';
+        }
+        else
+            header("Location:login.php?error=e");
+
 
     }
   /*
@@ -195,7 +202,14 @@ class productController
           }
         $total_records = count($all_products);
         $total_pages = ceil($total_records / $limit);
-        require 'view/products/sim.php';
+
+        session_start();
+
+        if (isset($_SESSION["login"])) {
+            require 'view/products/sim.php';
+        }
+        else
+            header("Location:login.php?error=e");
     }
     /*
      *delevry product to personal
