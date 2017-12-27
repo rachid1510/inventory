@@ -106,11 +106,36 @@ class movementController
      * function edit
      */
     public function actionEdit(){
+        if(isset($_POST["id"])){
+            $movement_id=$_POST["id"];
+            $movements=array();
+            $movement = Model::create('Movement');
+            $movements=$movement->findFromRelation("movements m","m.id=$movement_id",array("fields"=>"m.*"));//  find("movements",array("fields"=>"*"));
+
+            echo json_encode($movements);
+        }
+    }
+
+
+    /*
+    * action add insert into table movements
+    */
+    public function actionUpdate()
+    {
+        $result = array();
         $movement = Model::create('Movement');
-        $movements=$movement->findFromRelation("movements m , categories c","c.id=m.category_id and m.id=129",array("fields"=>"m.*,c.id as cat_id , c.label"));//  find("movements",array("fields"=>"*"));
-        $moves=array("order_ref"=>$movements[0]["order_ref"],"plan"=>$movements[0]["plan"]);
-        header('content-type:application/json');
-        echo json_encode($moves);
-        die();
+        $movement_id=$_POST['id_movement'];
+        $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived']);
+         if($movement->save($data)){
+             $result = array('msg' => 'OK');
+         }
+         else
+         {
+             $result = array('msg' => 'error');
+         }
+        $movement_id = $movement->save($data);
+
+        echo json_encode($result);
+
     }
 }

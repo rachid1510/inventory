@@ -54,9 +54,10 @@ include ("layouts/header.php");?>
            </div>
         
 
-           <div class="col-md-2 pull-right"><br/>
+           <div class="col-md-4 pull-right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
+               <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
                <a href=""  class="btn btn-primary">Lister</a>
 
         </div>
@@ -110,7 +111,7 @@ include ("layouts/header.php");?>
                     }?></td>
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
-                <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
+                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
 
@@ -193,7 +194,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products" id="products" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>
@@ -204,72 +205,49 @@ include ("layouts/header.php");?>
         </div>
     </div>
  
- <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+    <!-- Modal trnsfer enter persoan -->
+    <div class="modal fade" id="modaltransfer_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Ajouter Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Le transfer du <span id="transferdulabel"></span> </h4>
                 </div>
                 <div class="modal-body">
-  
-                    <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-  
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> le transfer avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreure a été se produit.
+                    </div>
+                    <form id="transferfrm" class="form-horizontal" role="form" method="POST">
+
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Ref commande</label>
+                            <input type="hidden" name="enstockde" id="enstockde" value="">
+                            <label class="col-md-4 control-label">Transferer à </label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Fournisseur</label>
-                            <div class="col-md-6">
-                                <select name="provider" class="form-control">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
+
+                                <select name="personal_id_stock" class="form-control chosen-select" id="personal_id_stock">
+                                    <option value="0">Veuillez selectionner un installateur</option>
+                                    <?php foreach($personals as $persoanl):?>
+                                        <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-
-
-                         <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
-                            <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Date arrivée</label>
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                       <div class="form-group">
-                            <label class="col-md-4 control-label">Importer fichier</label>
-                            <div class="col-md-6">
-                               <input type="file" class="form-control" name="order_id">
-                                
-                            </div>
-                        </div>
-  
-  
+                        <input type="hidden" name="products_transfer" id="products_transfer" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    Valider
-                                </button>
+                                <a title="product/transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
                             </div>
                         </div>
-                    </form>                       
-  
+                    </form>
+
                 </div>
             </div>
         </div>

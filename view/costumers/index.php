@@ -68,7 +68,7 @@ include ("layouts/header.php");?>
 
                 <td class="text-center">
                   <div class="btn-group">
-                    <a href="#" onclick="javascript:update_function(<?php echo $customer['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                    <a href="#" onclick="javascript:update_costumer(<?php echo $customer['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
                     <!--<a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
@@ -104,13 +104,13 @@ include ("layouts/header.php");?>
                          <div class="form-group has-error">
                             <label class="col-md-4 control-label">Nom</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_name" class="form-control required" required>
+                                <input type="text" name="costumer_name" id="costumer_name" class="form-control required" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Télèphone</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_phone" class="form-control">
+                                <input type="text" name="costumer_phone" id="costumer_phone" class="form-control">
                             </div>
                         </div>
 
@@ -126,25 +126,26 @@ include ("layouts/header.php");?>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Ville</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_city" class="form-control">
+                                <input type="text" name="costumer_city" id="costumer_city" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Département</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_departement" class="form-control">
+                                <input type="text" name="costumer_departement" id="costumer_departement" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Adresse</label>
                             <div class="col-md-6">
-                                <input type="text" name="costumer_adress" class="form-control">
+                                <input type="text" id="costumer_adress" name="costumer_adress" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="costumer/add" alt="addcostumer" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <input type="hidden" name="id_costumer" value="" id="id_costumer">
+                                <a title="costumer/add" alt="addcostumer" class="btn btn-primary btn-lg submitfrm" id="costumer_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
 
                                 <!--<button type="submit" class="btn btn-primary">

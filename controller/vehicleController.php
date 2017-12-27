@@ -103,4 +103,44 @@ class vehicleController
         $vehicles=$vehicle->findFromRelation("vehicles","costumer_id=$costumer",array("fields"=>"*"));
         echo json_encode($vehicles);
     }
+
+    /*/*
+     * function edit
+     */
+    public function actionEdit(){
+
+        $vehicles=array();
+        $vehicle_id=$_POST['id'];
+        $vehicle = Model::create('Vehicle');
+        $vehicles=$vehicle->findFromRelation("vehicles","id=$vehicle_id" ,array("fields"=>"*"));
+        echo json_encode($vehicles);
+
+    }
+
+    public function actionUpdate()
+    {
+        $result = array();
+
+        $vehicle = Model::create('Vehicle');
+        $matricule=(isset($_POST["vehicle_imei"])) ? $_POST["vehicle_imei"] :'';
+        $model=(isset($_POST["vehicle_model"])) ? $_POST["vehicle_model"]:'';
+        $client=(isset($_POST["costumer_id"])) ? $_POST["costumer_id"] :'';
+        $marque=(isset($_POST["vehicle_marque"])) ? $_POST["vehicle_marque"] :'';
+        if(isset($_POST["id_vehicle"])) {
+            $id = $_POST["id_vehicle"];
+            $data = array("id"=>$id,"imei" => $matricule, "model" => $model, "marque" => $marque, "costumer_id" => $client);
+           if($vehicle->save($data))
+             {
+                $result = array("msg" => "OK");
+            } else {
+                $result = array("msg" => "ERROR");
+            }
+        }
+        else{
+            $result = array("msg" => "ERROR");
+        }
+        echo json_encode($result);
+        die();
+
+    }
 }

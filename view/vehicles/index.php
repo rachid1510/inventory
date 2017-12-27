@@ -67,7 +67,7 @@
                 <td class="text-center"> <?php echo $vehicle['name']; ?></td>
                 <td class="text-center">
                   <div class="btn-group">
-                    <a href="#" onclick="javascript:update_function(<?php echo $customer['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                    <a href="#" onclick="javascript:update_vehicle(<?php echo $vehicle['id'];?>)" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                       <span class="glyphicon glyphicon-edit"></span>
                     </a>
                   <!--  <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
@@ -110,16 +110,18 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Marque</label>
                             <div class="col-md-6">
-                                <input type="text" name="vehicle_marque" class="form-control">
+                                <input type="text" name="vehicle_marque" id="vehicle_marque" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Model</label>
                             <div class="col-md-6">
-                                <input type="text" name="vehicle_model" class="form-control">
+
+                                <input type="text" name="vehicle_model" id="vehicle_model" class="form-control">
                             </div>
                         </div>
-                        
+                         
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Client</label>
@@ -136,7 +138,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="vehicle/add" alt="addvehicle" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="vehicle/add" alt="addvehicle" class="btn btn-primary btn-lg submitfrm" id="update_vehicle_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <input type="hidden" name="id_vehicle" value="" id="id_vehicle">
 
                             </div>
                         </div>

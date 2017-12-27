@@ -106,12 +106,7 @@
                     <span>VEHICULES</span>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo $url;?>/personal">
-                    <i class="glyphicon glyphicon-user"></i>
-                    <span>INSTALLATEUR</span>
-                </a>
-            </li>
+
             <li>
                 <a href="<?php echo $url;?>/installation">
                     <i class="glyphicon glyphicon-wrench"></i>
@@ -119,8 +114,14 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo $url;?>/dashboard">
 
+                <a href="<?php echo $url;?>/personal">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>INSTALLATEUR</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $url;?>/home">
                     <i class="glyphicon glyphicon-stats"></i>
                     <span>STATISTIQUE</span>
                 </a>
