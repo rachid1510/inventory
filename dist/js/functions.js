@@ -62,9 +62,18 @@ $(document).ready(function() {
                 return false;
             }
             else{
+                var enstockde=$(this).attr("name");
                 list_sim_checked.push($(this).val());
                 $('#transferdulabel').text($(this).attr("title"));
-                $('#enstockde').val($(this).attr("name"));
+                $('#enstockde').val(enstockde);
+                $("select#personal_id_stock option").each(function()
+                {
+                    if($(this).val()==enstockde)
+                    {
+                        $(this).remove();
+                    }
+                });
+                $('select#personal_id_stock').trigger('chosen:updated');
             }
 
         });
@@ -87,7 +96,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-        console.log(url+'/'+frmaction);
+
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
@@ -103,7 +112,7 @@ $(document).ready(function() {
                 $this.button('reset');
             },
             success: function(resultat ) {
-                console.log(resultat);
+
                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(6000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');

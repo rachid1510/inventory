@@ -133,6 +133,8 @@ class productController
         }
         if(!empty($_POST["ref_order"]))
         {
+            //$ref_search=$_POST["ref_order"];
+
             if($condition=='')
             {
                 $condition= "m.order_ref like '%".$_POST["ref_order"]. "%'";
@@ -168,7 +170,7 @@ class productController
             }
         }
 
-        if(!empty($_POST["stock"]) || $_POST["stock"]!='' )
+        if(!empty($_POST["stock"]) || $_POST["stock"]!='')
         {
 
             if($condition=='')

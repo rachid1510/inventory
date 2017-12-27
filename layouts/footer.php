@@ -1,6 +1,6 @@
     </div>
     </div>
-
+<div style="clear: both"></div>
     <footer class="footer">
 
             <span class="text-muted">© 2017 Opentech inventory systéme. Tous droits réservés</span>
@@ -16,7 +16,7 @@
     <script src="<?php echo $url;?>/dist/js/functions.js"></script>
     <script src="<?php echo $url;?>/dist/js/costumer.js"></script>
     <script src="<?php echo $url;?>/dist/js/vehicle.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
 
     <script src="<?php echo $url;?>/dist/js/utils.js"></script>
     <script src="<?php echo $url;?>/dist/js/graphs.js"></script>

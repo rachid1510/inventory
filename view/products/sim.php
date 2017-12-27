@@ -21,7 +21,7 @@ include ("layouts/header.php");?>
            </div>
              <div class="form-group col-md-2">
               <label class="control-label">Réf Commande</label>
-             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
+             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE" value="<?php  if(isset($_POST["ref_order"])){ echo $_POST["ref_order"];} ?>"/>
            </div>
 
             <div class="form-group col-md-2">

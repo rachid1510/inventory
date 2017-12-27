@@ -18,10 +18,10 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
-            <div class="form-group col-md-3">
+           <!-- <div class="form-group col-md-3">
                 <label class="control-label">Pagination</label>
                 <input type="text" class="form-control" name="pagination" placeholder="pagination">
-            </div>
+            </div>-->
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
