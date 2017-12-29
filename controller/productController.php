@@ -75,6 +75,16 @@ class productController
                 $condition .= " AND p.status = '".$_POST["stock"]. "'";
             }
         }
+        if(!empty($_POST['personal_search']) and $_POST['personal_search'] !='')
+        {
+            if($condition=='')
+            {
+                $condition= "ip.personal_id =".$_POST['personal_search'];
+            }else{
+                $condition .= " AND ip.personal_id =".$_POST['personal_search'];
+            }
+
+        }
 
 
         if($condition !='')
@@ -92,6 +102,7 @@ class productController
         }
 
         $total_records = count($all_products);
+
         $total_pages = ceil($total_records / $limit);
 
         session_start();
@@ -186,6 +197,17 @@ class productController
             }else{
                 $condition .= " AND p.status = '".$_POST["stock"]. "'";
             }
+        }
+
+        if(!empty($_POST['personal_search']) and $_POST['personal_search'] !='')
+        {
+            if($condition=='')
+            {
+                $condition= "ip.personal_id =".$_POST['personal_search'];
+            }else{
+                $condition .= " AND ip.personal_id =".$_POST['personal_search'];
+            }
+
         }
 
         if($condition !='')

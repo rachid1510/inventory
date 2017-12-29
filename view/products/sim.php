@@ -42,6 +42,18 @@ include ("layouts/header.php");?>
                         <option value="2">en stock personel</option>
                     </select>
             </div>
+                <div class="form-group col-md-2">
+
+                    <label class="col-md-4 control-label">Installateur</label>
+                    <select name="personal_search" class="form-control" id="personal_search">
+                        <option value="0">Veuillez selectionner un installateur</option>
+                        <?php foreach($personals as $persoanl):?>
+                            <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                        <?php endforeach; ?>
+                    </select>
+
+                </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control" name="date_arrived" placeholder="DATE ARRIVEE">
@@ -108,16 +120,32 @@ include ("layouts/header.php");?>
                 <td class="text-center"><?php echo $product['provider']; ?> </td>
                 <td class="text-center"><?php echo $product['model']; ?> </td>
 
-                <td class="text-center"> <?php echo $product['state']; ?></td>
+                <td class="text-center"> <?php
+                    if($product['state'] =='disabled') {
+                        echo '<span style="padding: 0px !important;" class="alert alert-danger">Désactivée</span>';
+                    }
+                elseif ($product['state'] =='enabled') {
+                    echo '<span style="padding: 0px !important;" class="alert alert-success">Activée</span>';
+
+                }
+                   ?></td>
                 <td class="text-center"><?php echo $product['enabled_date']; ?> </td>
                 <td class="text-center"> <?php echo $product['order_ref']; ?></td>
                 <td class="text-center">
-                    <?php  if($product['status']=="1"){
-                                          echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
-                     }elseif($product['status']=="2"){
-                     echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
-                    }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
-                    }?>
+                    <?php
+
+                        if ($product['status'] == "1") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                        } elseif ($product['status'] == "2") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                        } elseif($product['status'] == "0") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-info">Installé</span>';
+                        }else{
+                            echo '<span style="padding: 0px !important;" class="alert alert-danger">Bloquée</span>';
+                        }
+
+
+                    ?>
                      </td>
 
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
@@ -132,39 +160,34 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $next=  $start_from+$limit;
-            $pagLink ="<div class='pagination pull-left'>".$start_from."-".$next."/".$total_records.  "</div><div class='pagination pull-right'><ul class='pagination'>";
-            if($p>1)
-            {
-                $prec= $p - 1;
-                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$prec."'>Précédent</a></li>";
-            }
-            for ($i=$p; $i<=$p+5; $i++) {
-
-                if($i==$p)
-                {
-                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
-
+            if($p*$limit<$total_records) {
+                $next = $start_from + $limit;
+                $pagLink = "<div class='pagination pull-left'>" . $start_from . "-" . $next . "/" . $total_records . "</div><div class='pagination pull-right'><ul class='pagination'>";
+                if ($p > 1) {
+                    $prec = $p - 1;
+                    $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/sim/" . $prec . "'>Précédent</a></li>";
                 }
-                else
-                {
-                    $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
+                for ($i = $p; $i <= $p + 5; $i++) {
+
+                    if ($i == $p) {
+                        $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/product/sim/" . $i . "'>" . $i . "</a></li>";
+
+                    } else {
+                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/sim/" . $i . "'>" . $i . "</a></li>";
+                    }
+
+                    if ($i >= $total_pages) {
+                        break;
+                    }
+                };
+                if ($p * $limit < $total_records) {
+                    $next = $p + 1;
+                    //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                    $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/product/sim/" . $next . "'>Suivant</a></li>";
                 }
 
-                if($i>=$total_pages)
-                {
-                    break;
-                }
-            };
-            if($p<$total_records)
-            {
-                $next= $p + 1;
-                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/sim/".$next."'>Suivant</a></li>";
-            }
-
-            echo $pagLink . "</ul></div>";
-            ?>
+                echo $pagLink . "</ul></div>";
+            }?>
         </div>
       </div>
     </div>

@@ -61,9 +61,9 @@ class costumerController
 
             $customers = $customer->find();
         }
-        if(isset($_POST['export'])) {
+      if(isset($_POST['export'])) {
             $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
-            $customer->export_excel($customers, $header, 'listecostumer');
+            $customer->export_excel($customers, $header, 'La liste des clients');
         }
          require 'view/costumers/index.php';
 

@@ -14,7 +14,9 @@ include ("layouts/header.php");?>
          </div>
 
          <div class="pull-right">
+             <?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
            <a   id="showmodal" class="btn btn-primary">Créer une Commande</a>
+             <?php endif;?>
          </div>
         </div>
         <div class="panel-body">

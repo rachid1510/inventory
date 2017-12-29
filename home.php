@@ -7,7 +7,9 @@
  */
 session_start();
 
-if (isset($_SESSION["login"])) {
+if (!isset($_SESSION["login"])) {
+    header("Location:login.php?error=e");
+    }
     include "layouts/header.php";
     ?>
     <div class="wrapper">
@@ -17,7 +19,7 @@ if (isset($_SESSION["login"])) {
 
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+
 
 
             <section class="content">
@@ -91,7 +93,7 @@ if (isset($_SESSION["login"])) {
 
             </section>
             <!-- /.content -->
-        </div>
+
 
 
 
@@ -100,7 +102,5 @@ if (isset($_SESSION["login"])) {
 
 <?php
     include "layouts/footer.php";
-}
-else
-    header("Location:login.php?error=e");
+
 ?>

@@ -31,7 +31,7 @@
       <div class="pull-right clearfix">
         <ul class="info-menu list-inline list-unstyled">
             <li class="last">
-                <a href="logout.php">
+                <a href="<?php echo $url;?>/logout.php">
                     <i class="glyphicon glyphicon-off"></i>
                     Logout
                 </a>
