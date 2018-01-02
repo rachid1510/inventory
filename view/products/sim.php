@@ -30,7 +30,7 @@ include ("layouts/header.php");?>
                    <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
-                   <option value="blocked">Bloqué</option>
+
                 </select>
            </div>
             <div class="form-group col-md-2">
@@ -40,6 +40,7 @@ include ("layouts/header.php");?>
                         <option value="0">Installé</option>
                         <option value="1">En stock</option>
                         <option value="2">en stock personel</option>
+                        <option value="3">Bloqué</option>
                     </select>
             </div>
                 <div class="form-group col-md-2">
@@ -70,11 +71,12 @@ include ("layouts/header.php");?>
            </div>
 
 
-          <div class="col-md-4 pull-right">
+          <div class="col-md-6 pull-right">
 
            <a href="#" id="modalactivation_btn" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
            <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
+           <a href="#" id="returntoopentech" class="btn btn-primary">Retour au stock</a>
            <a href=""  class="btn btn-primary">Lister</a>
 
          </div>
@@ -152,7 +154,7 @@ include ("layouts/header.php");?>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
-                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
+                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2 || $product['status']==3){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
               </tr>

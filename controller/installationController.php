@@ -156,7 +156,7 @@ class installationController
 
    }
 
-    public function validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product)
+    public function validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product,$action)
     {
 
         $errors=array();
@@ -188,8 +188,10 @@ class installationController
                 $errors[]="Veuillez selctionnez un boitier<br>";
             }
             else {
-                if ($this->checkProductByInstallation($box,$product)) {
-                    $errors[]="Le boitier est dèjà installé<br>";
+                if($action=='add') {
+                    if ($this->checkProductByInstallation($box, $product)) {
+                        $errors[] = "Le boitier est dèjà installé<br>";
+                    }
                 }
             }
         }
@@ -206,8 +208,10 @@ class installationController
                 $errors[]="Veuillez selctionnez une carte<br>";
             }
             else {
-                if ($this->checkProductByInstallation($card,$product)) {
-                    $errors[]="la carte est dèjà installée<br>";
+                if($action=='add') {
+                    if ($this->checkProductByInstallation($card, $product)) {
+                        $errors[] = "la carte est dèjà installée<br>";
+                    }
                 }
             }
         }
@@ -222,7 +226,7 @@ class installationController
   return $errors;
     }
 
-    public function insertInstallation($personal_id,$selected_vehicle,$date_installation,$new_vehicle,$costumer_id,$installation)
+    public function insertInstallation($personal_id,$selected_vehicle,$date_installation,$new_vehicle,$costumer_id,$observation,$installation)
     {
 
         $status="Completed";
@@ -239,7 +243,7 @@ class installationController
         /*
         * prepare data to insert in installation table
          */
-        $data = array("status" => $status, "personal_id" => $personal_id, "vehicle_id" => $selected_vehicle, "user_id" => $_SESSION['user_id'], "installed_at" => $date_installation);
+        $data = array("status" => $status, "personal_id" => $personal_id, "vehicle_id" => $selected_vehicle, "user_id" => $_SESSION['user_id'], "installed_at" => $date_installation,"observation"=>$observation);
         /*
          * call function to save installation and get lastinsert id in var $installation_id
          */
@@ -271,6 +275,7 @@ class installationController
         $new_vehicle=(isset($_POST["newvehicle"]))? $_POST["newvehicle"]:'';
         $costumer_id=(isset($_POST["selected_costmer"]))? $_POST["selected_costmer"]:'' ;
         $displaynewvehicle=(isset($_POST['displaynewvehicle']))? true:false;
+        $observation=(isset($_POST["observation"]))? $_POST["observation"]:'';
         /*
          * arrays
          */
@@ -278,10 +283,10 @@ class installationController
         $errors=array();
         $inventory_personal_data=array();
         $installation_id=0;
-        $errors=$this->validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product);
+        $errors=$this->validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product,'add');
 
          if(count($errors)==0) {
-            $installation_id = $this->insertInstallation($personal_id,$selected_vehicle,$date_installation,$new_vehicle,$costumer_id,$installation);
+            $installation_id = $this->insertInstallation($personal_id,$selected_vehicle,$date_installation,$new_vehicle,$costumer_id,$observation,$installation);
 
            if ($installation_id > 0) {
                 if (!isset($_POST["gps_client_check"]) && !isset($_POST["sim_client_check"]) && $card != '' && $box != '') {
@@ -479,55 +484,93 @@ class installationController
         $id_installation_old= $_POST['id_installation'];
         $id_sim_old=$_POST['id_sim_old'];
         $id_box_old=$_POST['id_box_old'];
-
-        if(($id_sim_old!=$card and $card>0 and $card!='') or ($id_box_old!=$box and $box>0 and $box!='')) {
-            $installation_id = $this->insertInstallation($personal_id,$selected_vehicle,$date_installation,$new_vehicle,$costumer_id,$installation);
-
-            if (!isset($_POST["gps_client_check"]) && !isset($_POST["sim_client_check"]) && $card != '' && $box != '') {
-                if($id_sim_old!=$card) {
-                    if ($this->insertCard($card, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
-                        $result = 'OK';
-                        if($id_sim_old>0){
-                          if(!$this->blockedProduct($id_sim_old,$product))
-                          {
-                              $result = 'Erreur';
-                          }
+        $status="Completed";
+        $observation="Reconfiguration";
+        $errors=array();
+        $errors=$this->validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product,'update');
+        if(count($errors)==0) {
+            if (($id_sim_old != $card) or ($id_box_old != $box)) {
+                $installation_id = $this->insertInstallation($personal_id, $selected_vehicle, $date_installation, $new_vehicle, $costumer_id, $observation, $installation);
+                if ($installation_id > 0) {
+                    if (!isset($_POST["gps_client_check"]) && !isset($_POST["sim_client_check"]) && $card != '' && $box != '') {
+                        if ($id_sim_old != $card and $card != '') {
+                            if ($this->insertCard($card, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                                $result = 'OK';
+                                if ($id_sim_old > 0) {
+                                    if (!$this->blockedProduct($id_sim_old, $product)) {
+                                        $result = 'Erreur';
+                                    }
+                                }
+                            } else {
+                                $result = 'Erreur au niveau d\'insertion de la carte sim';
+                            }
                         }
-                    } else {
-                        $result = 'Erreur au niveau d\'insertion de la carte sim';
-                    }
-
-                }
-
-                if($id_box_old!=$box) {
-                    if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
-                        $result = 'OK';
-                        if($id_box_old>0){
-                            if(!$this->blockedProduct($id_box_old,$product))
-                            {
+                        if ($id_box_old != $box and $box != '') {
+                            if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                                $result = 'OK';
+                                if ($id_box_old > 0) {
+                                    if (!$this->blockedProduct($id_box_old, $product)) {
+                                        $result = 'Erreur';
+                                    }
+                                }
+                            } else {
+                                $result = 'Erreur au niveau d\'insertion de la carte sim';
+                            }
+                        }
+                    } elseif (isset($_POST["gps_client_check"])) {
+                        if ($id_sim_old != $card and $card != '') {
+                            if ($this->insertCard($card, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                                $result = 'OK';
+                                if ($id_sim_old > 0) {
+                                    if (!$this->blockedProduct($id_sim_old, $product)) {
+                                        $result = 'Erreur';
+                                    }
+                                }
+                            } else {
+                                $result = 'Erreur au niveau d\'insertion de la carte sim';
+                            }
+                        }
+                        if ($id_box_old > 0) {
+                            if (!$this->blockedProduct($id_box_old, $product)) {
                                 $result = 'Erreur';
                             }
                         }
-                    } else {
-                        $result = 'Erreur au niveau d\'insertion de la carte sim';
+                    } elseif (isset($_POST["sim_client_check"])) {
+
+                        if ($id_box_old != $box and $box != '') {
+                            if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                                $result = 'OK';
+                                if ($id_box_old > 0) {
+                                    if (!$this->blockedProduct($id_box_old, $product)) {
+                                        $result = 'Erreur';
+                                    }
+                                }
+                            } else {
+                                $result = 'Erreur au niveau d\'insertion de la carte sim';
+                            }
+                        }
+                        if ($id_sim_old > 0) {
+                            if (!$this->blockedProduct($id_sim_old, $product)) {
+                                $result = 'Erreur';
+                            }
+                        }
                     }
-
-                }
-
-            }
-            elseif (isset($_POST["gps_client_check"])) {
-
-            } elseif (isset($_POST["sim_client_check"])) {
-
-                if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
-                    $result = 'OK';
                 } else {
-                    $result = 'Erreur au niveau d\'insertion de boitier';
+                    $result = 'Erreur';
                 }
-
-
+            } else {
+                $data = array("id" => $id_installation_old, "status" => $status, "personal_id" => $personal_id, "vehicle_id" => $selected_vehicle, "user_id" => $_SESSION['user_id'], "installed_at" => $date_installation);
+                if ($installation->save($data)) {
+                    $result = 'OK';
+                }
             }
+
         }
+        else{
+            echo json_encode(array("msg"=>$errors));
+        }
+
+        $this->__message($result);
     }
 
     /**

@@ -21,6 +21,8 @@ include ("layouts/header.php");?>
                         <label class="control-label">Télèphone</label>
                         <input type="text" class="form-control" name="costumer_tel" placeholder="Télèphone">
                     </div>
+
+
 <!--                    <a title="costumer/search" class="btn btn-primary">Rechercher</a>-->
 <!--                    <button type="button" class="btn btn-default">Rechercher</button>-->
                     <br/>
@@ -49,6 +51,7 @@ include ("layouts/header.php");?>
                                
                 <th class="text-center" style="width: 10%;"> Nom </th>
                 <th class="text-center" style="width: 10%;"> Type </th>
+                  <th class="text-center" style="width: 10%;"> Mail </th>
                 <th class="text-center" style="width: 10%;"> Telèphone </th>
                 <th class="text-center" style="width: 10%;"> Ville </th>
                 <th class="text-center" style="width: 10%;"> Département </th>
@@ -62,6 +65,7 @@ include ("layouts/header.php");?>
             <tr>
                 <td class="text-center">  <?php echo $customer['name']; ?></td>
                  <td class="text-center"> <?php echo $customer['type']; ?> </td>
+                <td class="text-center"> <?php echo $customer['mail']; ?> </td>
                 <td class="text-center"> <?php echo $customer['phone_number']; ?> </td>
                 <td class="text-center">  <?php echo $customer['city']; ?></td>
                 <td class="text-center"> <?php echo $customer['departement']; ?> </td>
@@ -113,6 +117,14 @@ include ("layouts/header.php");?>
                                 <input type="text" name="costumer_phone" id="costumer_phone" class="form-control">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Mail</label>
+                            <div class="col-md-6">
+                                <input type="text" name="costumer_mail" id="costumer_mail" class="form-control">
+                            </div>
+                        </div>
+
 
                          <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>

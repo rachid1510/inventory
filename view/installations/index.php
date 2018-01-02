@@ -289,10 +289,10 @@ include ("layouts/header.php");?>
                                     <textarea class="form-control" id="observation" rows="3"></textarea>
                                 </div>
                             <div class="form-group">
+                                <input type="hidden" name="id_installation" value="" id="id_installation">
+                                <input type="hidden" name="id_sim_old" value="" id="id_sim_old">
+                                <input type="hidden" name="id_box_old" value="" id="id_box_old">
                                     <a class="col-md-3 col-md-offset-3 pull-right">
-                                        <input type="hidden" name="id_installation" value="" id="id_installation">
-                                        <input type="hidden" name="id_sim_old" value="" id="id_sim_old">
-                                        <input type="hidden" name="id_box_old" value="" id="id_box_old">
 <!--                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>-->
 <!--                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
                                         <a  title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm pull-right" id="installation_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">Valider</a>

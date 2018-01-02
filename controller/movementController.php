@@ -23,6 +23,32 @@ class movementController
         require 'view/movements/index.php';
 
     }
+   /*
+    * function validation data
+    */
+    public function validation_data($category,$order_ref,$file)
+    {
+
+        $errors=array();
+        if (empty($category)) {
+
+            $errors[]="La catégorie ne peut pas etre vide<br>";
+        }
+        if (empty($order_ref)) {
+
+            $errors[]="La reférence de la commande ne peut pas etre vide<br>";
+        }
+        if(empty($file))
+        {
+            $errors[]="Veuillez importer le fichier <br>";
+        }
+//        if (!$_FILES['your_var_name']['tmp_name'])
+//        {
+//            $errors[]="Veuillez importer le fichier <br>";
+//        }
+
+        return $errors;
+    }
     /*
      * action add insert into table movements
      */
@@ -31,27 +57,37 @@ class movementController
         $result = array();
         //$movement=new Move;ment();
         $movement = Model::create('Movement');
-        $data = array("plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
-        $movement_id = $movement->save($data);
-        $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
-        $insert=true;
-        if ($movement_id > 0) {
-            $insert =$this->prepare_query($_POST["category"], $movement_id, $file);
-
-            if($insert)
-            {
-                $result = array('msg' => 'OK');
-            }else{
-                $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement');
-            }
-
-          } else {
-            $result = array('msg' => 'error');
-
+        $file='';
+        if (isset($_FILES['upload']))
+        {
+            $file=$_FILES['upload']['name'];
         }
-        header('content-type:application/json');
-        echo json_encode($result);
+        $result=$this->validation_data($_POST["category"],$_POST["order_id"],$file);
+        if(count($result)==0) {
+            $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
+            $data = array("plan" => $_POST["plan"], "quantity" => $_POST["quantite"], "order_ref" => $_POST["order_id"], "provider" => $_POST["provider"], "category_id" => $_POST["category"], 'date_arrived' => $_POST['date_arrived'], 'user_id' => $_SESSION['user_id']);
+            $movement_id = $movement->save($data);
 
+            $insert = true;
+            if ($movement_id > 0) {
+                $insert = $this->prepare_query($_POST["category"], $movement_id, $file);
+
+                if ($insert) {
+                    $result = array('msg' => 'OK');
+                } else {
+                    $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement');
+                }
+
+            } else {
+                $result = array('msg' => 'error');
+
+            }
+            header('content-type:application/json');
+            echo json_encode($result);
+        }
+        else{
+            echo json_encode(array("msg"=>$result));
+        }
     }
     public function prepare_query($category,$move_id,$file)
     {

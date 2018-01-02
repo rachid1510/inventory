@@ -132,7 +132,7 @@ $(document).ready(function() {
                 $this.button('reset');
             },
             success: function(resultat ) {
-
+                console.log(resultat);
                  if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
@@ -230,8 +230,7 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 function filter_drop(select_to_update,action,v,txt,selected_value,title){
-
-    $.ajax( {
+       $.ajax( {
         type: "POST",
         url:url+'/'+ action,
         dataType:'json',
@@ -254,7 +253,7 @@ function filter_drop(select_to_update,action,v,txt,selected_value,title){
                 $('#'+select_to_update).trigger('chosen:updated');
 
             }
-            $('#myModal').modal();
+           // $('#myModal').modal();
         }
     } );
 }
@@ -271,8 +270,7 @@ function update_function(id_select)
         data:{id:id_select},
         dataType:'json',
         success: function(resultat ) {
-           console.log(resultat);
-            if(resultat.length>0){
+             if(resultat.length>0){
                 $('#date_installation').val(resultat[0].installed_at);
 
                 $("select#personal_id option").each(function()
@@ -283,6 +281,8 @@ function update_function(id_select)
                      }
                 });
                 $('select#personal_id').trigger('chosen:updated');
+
+                  // filter product by personal selected
 
                 $("select#selected_vehicle option").each(function()
                 {

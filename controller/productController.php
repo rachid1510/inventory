@@ -188,7 +188,7 @@ class productController
             }
         }
 
-        if(!empty($_POST["stock"]) || $_POST["stock"]!='')
+        if(isset($_POST["stock"]) and (!empty($_POST["stock"]) || $_POST["stock"]!=''))
         {
 
             if($condition=='')
@@ -215,7 +215,7 @@ class productController
             $p=1;
             $start_from = ($p-1) * $limit;
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 and $condition",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.imei_product from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id and di2.installation_id=di.installation_id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product"));
-              $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 and $condition",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.imei_product from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product","limit"=>$start_from.','.$limit));
+            $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2 and $condition",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.imei_product from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product","limit"=>$start_from.','.$limit));
 
         }
         else{
@@ -364,6 +364,44 @@ class productController
             $result = array('msg' => 'ERROR');
 
         //header('content-type:application/json');
+        echo json_encode($result);
+    }
+
+    /*
+     * function returne to stock
+     */
+    public function actionReturntoopentech()
+    {
+        $result=array();
+        $return=true;
+        $products=array();
+        $products=$_POST["product"];
+
+         /*
+        * instanciation
+        */
+            $prod=Model::create("Product");
+
+        /*
+         * loop list of product checked to returne
+         */
+        foreach ($products as $product)
+        {
+
+            $data_prod=array("id"=>$product,"status"=>'1');
+            if($prod->save($data_prod)==0){
+                $return=false;
+            }
+
+
+        }
+        if($return==true)
+            $result = array('msg' => 'OK');
+
+        else
+            $result = array('msg' => 'ERROR');
+
+
         echo json_encode($result);
     }
 
