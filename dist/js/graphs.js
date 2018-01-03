@@ -19,10 +19,10 @@ $(document).ready(function() {
 
                     //   console.log(key+'  '+value.playerid);
                     // console.log(key);
-                        date.push("le mois " + value.mois);
+                    date.push("le mois " + value.mois);
 
 
-                        count.push(value.nombre);
+                    count.push(value.nombre);
 
 
                 });
@@ -64,6 +64,7 @@ $(document).ready(function() {
                                 spanGaps: false,
                             }
 
+
                         ]
                     },
                     options: {
@@ -73,15 +74,15 @@ $(document).ready(function() {
                                     beginAtZero: true
                                 }
                             }]
+
                         }
                     }
+
+
                 });
-
             }
-
-
         });
-    });
+    })
     $.ajax({
         url: "dashboard/GetSim",
         method: "GET",

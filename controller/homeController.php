@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: post2
- * Date: 28/12/2017
- * Time: 15:20
- */
 session_start();
 
 require ("model/Model.php");
 include ("config/config.php");
+
 
 class homeController
 {
@@ -35,4 +30,7 @@ class homeController
         require 'view/home/index.php';
 
          }
+
+
+
 }

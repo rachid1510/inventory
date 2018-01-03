@@ -34,7 +34,7 @@
                 </form>
           </div>
          <div class="pull-right">
-           <a href="#" id="showmodal" class="btn btn-primary">Nouveau véhicule</a>
+           <a href="#" id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouveau véhicule</a>
          </div>
         </div>
         <div class="panel-body">

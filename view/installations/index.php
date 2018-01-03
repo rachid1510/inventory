@@ -59,7 +59,9 @@ include ("layouts/header.php");?>
                             </div>
                             <br>
                             <div class="col-md-3 pull-right">
-                                <a   id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <?php if($_SESSION['fonction']=='technique' || $_SESSION['fonction']=='admin'):?>
+                                <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle installation</a>
+                               <?php endif;?>
                                 <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
@@ -95,37 +97,33 @@ include ("layouts/header.php");?>
                                 </tbody>
                             </table>
                             <?php
-                            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
-                            if($p>1)
-                            {
-                                $prec= $p - 1;
-                                $pagLink .= "<li class='paginate_button'><a href='".$url."/installation/index/".$prec."'>Précédent</a></li>";
+                            if($p*$limit<$total_records) {
+                                $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+                                if ($p > 1) {
+                                    $prec = $p - 1;
+                                    $pagLink .= "<li class='paginate_button'><a href='" . $url . "/installation/index/" . $prec . "'>Précédent</a></li>";
+                                }
+                                for ($i = $p; $i <= $p + 5; $i++) {
+
+                                    if ($i == $p) {
+                                        $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/installation/index/" . $i . "'>" . $i . "</a></li>";
+
+                                    } else {
+                                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/installation/index/" . $i . "'>" . $i . "</a></li>";
+                                    }
+
+                                    if ($i >= $total_pages) {
+                                        break;
+                                    }
+                                };
+                                if ($p * $limit < $total_records) {
+                                    $next = $p + 1;
+                                    //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                                    $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/installation/index/" . $next . "'>Suivant</a></li>";
+                                }
+
+                                echo $pagLink . "</ul></div>";
                             }
-                            for ($i=$p; $i<=$p+5; $i++) {
-
-                                if($i==$p)
-                                {
-                                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/installation/index/".$i."'>".$i."</a></li>";
-
-                                }
-                                else
-                                {
-                                    $pagLink .= "<li class='paginate_button'><a href='".$url."/installation/index/".$i."'>".$i."</a></li>";
-                                }
-
-                                if($i>=$total_pages)
-                                {
-                                    break;
-                                }
-                            };
-                            if($p<$total_records)
-                            {
-                                $next= $p + 1;
-                                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                                $pagLink .= "<li class='paginate_button'><a  href='".$url."/installation/index/".$next."'>Suivant</a></li>";
-                            }
-
-                            echo $pagLink . "</ul></div>";
                             ?>
                         </div>
                     </div>
@@ -291,11 +289,13 @@ include ("layouts/header.php");?>
                                     <textarea class="form-control" id="observation" rows="3"></textarea>
                                 </div>
                             <div class="form-group">
-                                    <div class="col-md-3 col-md-offset-3 pull-right">
-                                        <input type="hidden" name="id_installation" value="" id="id_installation">
+                                <input type="hidden" name="id_installation" value="" id="id_installation">
+                                <input type="hidden" name="id_sim_old" value="" id="id_sim_old">
+                                <input type="hidden" name="id_box_old" value="" id="id_box_old">
+                                    <a class="col-md-3 col-md-offset-3 pull-right">
 <!--                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>-->
 <!--                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
-                                        <input type="button" title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="installation_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">
+                                        <a  title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm pull-right" id="installation_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">Valider</a>
                                     </div>
                                 </div>
                             </form>

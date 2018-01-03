@@ -10,12 +10,19 @@ $(document).ready(function() {
             $('#search1').prop('readonly', true);
             $('#autoUpdate1').fadeIn('slow');
             $('#sim_client_check').hide();
+            $("#selected_box option:first").attr('selected','selected');
+            $('#selected_box').trigger('chosen:updated');
+            $("#selected_box").val('');
+
         }
 
         else{
             $('#search1').prop('readonly', false);
             $('#autoUpdate1').fadeOut('slow');
             $('#sim_client_check').show();
+            $("#imei_product_costumer").val('');
+
+
         }
 
 
@@ -25,11 +32,15 @@ $(document).ready(function() {
             $('#search2').prop('readonly', true);
             $('#autoUpdate2').fadeIn('slow');
             $('#gps_client_check').hide();
+            $("#selected_card option:first").attr('selected','selected');
+            $('#selected_card').trigger('chosen:updated');
+            $("#selected_card").val('');
         }
         else{
             $('#search2').prop('readonly', false);
             $('#autoUpdate2').fadeOut('slow');
             $('#gps_client_check').show();
+            $("#gsm_product_costumer").val('');
         }
 
     });
@@ -51,7 +62,9 @@ $(document).ready(function() {
         });
         if(list_sim_checked.length==0)
         {
-            alert("Merci de cocher les produits à affecter");
+            $("#nombreaffecter").show();
+            $('#modalaffactation_block').modal();
+          //  alert("Merci de cocher les produits à affecter");
         }
         else{
             $("#products").val(list_sim_checked);
@@ -104,7 +117,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-
+       console.log(frmaction);
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
@@ -113,6 +126,7 @@ $(document).ready(function() {
             processData : false,
             contentType:false,
             dataType:"json",
+
             beforeSend: function() {
                 $this.button('loading');
             },
@@ -121,7 +135,7 @@ $(document).ready(function() {
             },
             success: function(resultat ) {
                 console.log(resultat);
-                if(resultat.msg == 'OK') {
+                 if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
                    //  $("#personal_id option:first").attr('selected','selected');
@@ -132,9 +146,14 @@ $(document).ready(function() {
 
                 }else
                 {
-                    $(".alert.alert-danger").show(0).delay(6000).hide(0);
+                    $(".alert.alert-danger").html(resultat.msg);
+                    $(".alert.alert-danger").show(0).delay(4000).hide(0);
 
                 }
+            },
+            error:function(e)
+            {
+                console.log(e);
             }
         } );
     } );
@@ -217,8 +236,7 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 function filter_drop(select_to_update,action,v,txt,selected_value,title){
-
-    $.ajax( {
+       $.ajax( {
         type: "POST",
         url:url+'/'+ action,
         dataType:'json',
@@ -234,7 +252,14 @@ function filter_drop(select_to_update,action,v,txt,selected_value,title){
                 $('#'+select_to_update).trigger('chosen:updated');
 
             }
-            $('#myModal').modal();
+            else
+            {
+
+                $('#'+select_to_update).append($('<option></option>').attr('value', '').text('aucun produit'));
+                $('#'+select_to_update).trigger('chosen:updated');
+
+            }
+           // $('#myModal').modal();
         }
     } );
 }
@@ -244,15 +269,14 @@ function update_function(id_select)
     $('#installation_form_submit').attr('title','installation/update');
     $('#id_installation').val(id_select);//attr('title','installation/update');
     $('.displaynewvehicle').fadeOut('slow');
-    $('#myModalLabel').html('Modifier installation');
+    $('#myModalLabel').html('ReConfigurer installation');
     $.ajax( {
         type: "POST",
         url: url+'/installation/edit',
         data:{id:id_select},
         dataType:'json',
         success: function(resultat ) {
-           console.log(resultat);
-            if(resultat.length>0){
+             if(resultat.length>0){
                 $('#date_installation').val(resultat[0].installed_at);
 
                 $("select#personal_id option").each(function()
@@ -263,6 +287,8 @@ function update_function(id_select)
                      }
                 });
                 $('select#personal_id').trigger('chosen:updated');
+
+                  // filter product by personal selected
 
                 $("select#selected_vehicle option").each(function()
                 {
@@ -295,6 +321,16 @@ function update_function(id_select)
                        }
                    });
                    $('select#selected_card').trigger('chosen:updated');
+                  if(resultat[0].category==1)
+                  {
+                      $("#id_box_old").val(resultat[0].id_product);
+                      $("#id_sim_old").val(resultat[1].id_product);
+                  }
+                  else{
+                      $("#id_box_old").val(resultat[1].id_product);
+                      $("#id_sim_old").val(resultat[0].id_product);
+                  }
+
                }
                else{
 
@@ -306,6 +342,7 @@ function update_function(id_select)
                            }
                        });
                        $('select#selected_box').trigger('chosen:updated');
+                       $("#id_box_old").val(resultat[0].id_product);
                    }
                    else
                    {
@@ -315,6 +352,7 @@ function update_function(id_select)
                            }
                        });
                        $('select#selected_card').trigger('chosen:updated');
+                      $("#id_sim_old").val(resultat[0].id_product);
                    }
                        //gps_client_check
                    get_costumer_product(resultat[0].installation_id,resultat[0].category);

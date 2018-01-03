@@ -5,7 +5,7 @@ include ("layouts/header.php");?>
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <h3> Details conçernant l'installateur</h3>
+                <h3> Details conçernant l'installateur:   <?php if(count($details)>0){ echo $details[0]['personal_name'];}?></h3>
             </div>
         </div>
         <div class="col-md-12">
@@ -20,26 +20,21 @@ include ("layouts/header.php");?>
                             <thead>
                             <tr>
 
-                                <th class="text-center" style="width: 10%;"> Installateur </th>
+                                <th class="text-center" style="width: 10%;"> Produit </th>
                                 <th class="text-center" style="width: 10%;"> Status </th>
                                 <th class="text-center" style="width: 10%;"> Date de reception de produit </th>
-                                <th class="text-center" style="width: 10%;"> Details </th>
+
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach($details as $detail):?>
 
                                     <tr>
-                                        <td class="text-center"> <?php  echo $detail['personal_name']; ?></td>
-                                        <td class="text-center"> <?php  echo $detail['status']; ?> </td>
-                                        <td class="text-center"> <?php  echo $detail['created_at']; ?> </td>
+                                        <td class="text-center"> <?php  echo $detail['imei_product']; ?></td>
+                                        <td class="text-center"> <?php  echo $detail['inv_p_status']; ?> </td>
+                                        <td class="text-center"> <?php  echo $detail['date_reception']; ?> </td>
 
-                                        <td class="text-center">
 
-                                            <a href="details" class="btn btn-danger btn-xs"  title="Details" data-toggle="tooltip">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </a>
-                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                             </tbody>

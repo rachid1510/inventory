@@ -13,7 +13,7 @@ include ("layouts/header.php");?>
         <div class="panel-heading clearfix">
 
             <div class="col-md-12">
-            <form id="filtre" name="filtre" role="form" method="post" action="sim" >
+            <form id="filtre" name="filtre" role="form" method="post" action="" >
 
             <div class="form-group col-md-2">
               <label class="control-label">SSID</label>
@@ -30,7 +30,7 @@ include ("layouts/header.php");?>
                    <option value="">Sélectionnez</option>
                         <option value="enabled">Active</option>
                         <option value="disabled">Inactive</option>
-                   <option value="blocked">Bloqué</option>
+
                 </select>
            </div>
             <div class="form-group col-md-2">
@@ -40,8 +40,21 @@ include ("layouts/header.php");?>
                         <option value="0">Installé</option>
                         <option value="1">En stock</option>
                         <option value="2">en stock personel</option>
+                        <option value="3">Bloqué</option>
                     </select>
             </div>
+                <div class="form-group col-md-2">
+
+                    <label class="col-md-4 control-label">Installateur</label>
+                    <select name="personal_search" class="form-control" id="personal_search">
+                        <option value="0">Veuillez selectionner un installateur</option>
+                        <?php foreach($personals as $persoanl):?>
+                            <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                        <?php endforeach; ?>
+                    </select>
+
+                </div>
              <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control" name="date_arrived" placeholder="DATE ARRIVEE">
@@ -58,12 +71,14 @@ include ("layouts/header.php");?>
            </div>
 
 
-          <div class="col-md-4 pull-right">
+          <div class="col-md-6 pull-right" style="text-align: right;">
 
            <a href="#" id="modalactivation_btn" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
            <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
-           <a href=""  class="btn btn-primary">Lister</a>
+              <a href="#" id="returntoopentech" class="btn btn-primary">Débloquer</a>
+              <a href="#" id="bloquer" class="btn btn-primary">Bloquer</a>
+           <a href="<?php echo $url;?>/product/sim"  class="btn btn-primary">Lister</a>
 
          </div>
         </div>
@@ -76,7 +91,17 @@ include ("layouts/header.php");?>
                 <div class="form-group col-md-2"><br/>
                     <button type="submit" class="invisible">Appliquer</button>
                 </div>
+
             </form>
+            <div class="col-md-2 pull-right" style="text-align: right;"><br/><br/>
+                <h4> <?php
+                    if($total_records>0){
+                        echo ' Affiché  '.$limit*$p.' sur '. $total_records;
+                    }else {
+                        echo ' Affiché  0  sur '. $total_records;
+                    }
+                    ?></h4>
+            </div>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -92,14 +117,15 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
-                  <th class="text-center" style="width: 10%;">Installée avec</th>
+                  <th class="text-center" style="width: 10%;">Boitier Opentech</th>
                   <th class="text-center" style="width: 10%;">Boitier Client</th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
 
               </tr>
             </thead>
             <tbody>
-            <?php foreach($products as $product):?>
+            <?php
+            foreach($products as $product):?>
 
             <tr>
                 <td class="text-center"><?php echo $product['id']; ?> </td>
@@ -108,23 +134,39 @@ include ("layouts/header.php");?>
                 <td class="text-center"><?php echo $product['provider']; ?> </td>
                 <td class="text-center"><?php echo $product['model']; ?> </td>
 
-                <td class="text-center"> <?php echo $product['state']; ?></td>
+                <td class="text-center"> <?php
+                    if($product['state'] =='disabled') {
+                        echo '<span style="padding: 0px !important;" class="alert alert-danger">Désactivée</span>';
+                    }
+                elseif ($product['state'] =='enabled') {
+                    echo '<span style="padding: 0px !important;" class="alert alert-success">Activée</span>';
+
+                }
+                   ?></td>
                 <td class="text-center"><?php echo $product['enabled_date']; ?> </td>
                 <td class="text-center"> <?php echo $product['order_ref']; ?></td>
                 <td class="text-center">
-                    <?php  if($product['status']=="1"){
-                                          echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
-                     }elseif($product['status']=="2"){
-                     echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
-                    }else{ echo '<span style="padding: 0px !important;" class="alert alert-danger">Installé</span>';
-                    }?>
+                    <?php
+
+                        if ($product['status'] == "1") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                        } elseif ($product['status'] == "2") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                        } elseif($product['status'] == "0") {
+                            echo '<span style="padding: 0px !important;" class="alert alert-info">Installé</span>';
+                        }else{
+                            echo '<span style="padding: 0px !important;" class="alert alert-danger">Bloquée</span>';
+                        }
+
+
+                    ?>
                      </td>
 
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
-                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
+                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2 || $product['status']==3){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 
               </tr>
@@ -132,39 +174,34 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $next=  $start_from+$limit;
-            $pagLink ="<div class='pagination pull-left'>".$start_from."-".$next."/".$total_records.  "</div><div class='pagination pull-right'><ul class='pagination'>";
-            if($p>1)
-            {
-                $prec= $p - 1;
-                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$prec."'>Précédent</a></li>";
-            }
-            for ($i=$p; $i<=$p+5; $i++) {
-
-                if($i==$p)
-                {
-                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
-
+            if($p*$limit<$total_records) {
+                $next = $start_from + $limit;
+                $pagLink = "<div class='pagination pull-left'>" . $start_from . "-" . $next . "/" . $total_records . "</div><div class='pagination pull-right'><ul class='pagination'>";
+                if ($p > 1) {
+                    $prec = $p - 1;
+                    $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/sim/" . $prec . "'>Précédent</a></li>";
                 }
-                else
-                {
-                    $pagLink .= "<li class='paginate_button'><a href='".$url."/product/sim/".$i."'>".$i."</a></li>";
+                for ($i = $p; $i <= $p + 5; $i++) {
+
+                    if ($i == $p) {
+                        $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/product/sim/" . $i . "'>" . $i . "</a></li>";
+
+                    } else {
+                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/sim/" . $i . "'>" . $i . "</a></li>";
+                    }
+
+                    if ($i >= $total_pages) {
+                        break;
+                    }
+                };
+                if ($p * $limit < $total_records) {
+                    $next = $p + 1;
+                    //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                    $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/product/sim/" . $next . "'>Suivant</a></li>";
                 }
 
-                if($i>=$total_pages)
-                {
-                    break;
-                }
-            };
-            if($p<$total_records)
-            {
-                $next= $p + 1;
-                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/sim/".$next."'>Suivant</a></li>";
-            }
-
-            echo $pagLink . "</ul></div>";
-            ?>
+                echo $pagLink . "</ul></div>";
+            }?>
         </div>
       </div>
     </div>
@@ -184,7 +221,7 @@ include ("layouts/header.php");?>
                      <div class="alert alert-danger" style="display: none">
                          <strong>Danger!</strong>Erreure a été se produit.
                      </div>
-                     <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="activation">
+                     <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="#">
 
 
                         <!-- <div class="form-group">
@@ -242,7 +279,12 @@ include ("layouts/header.php");?>
                      </div>
                      <form id="affectationfrm" class="form-horizontal" role="form" method="POST">
 
-
+                         <div class="form-group" id="nombreaffecter" style="display: none">
+                             <label class="col-md-4 control-label">Nombre à affecter</label>
+                             <div class="col-md-6">
+                                 <input type="text" name="nombreaafecter" id="nombreaafecter"/>
+                             </div>
+                         </div>
                          <div class="form-group">
 
                              <label class="col-md-4 control-label">Installateur</label>
@@ -260,7 +302,7 @@ include ("layouts/header.php");?>
                          <input type="hidden" name="products" id="products" value="">
                           <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                 <a title="product/affectationsim" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                              </div>
                          </div>

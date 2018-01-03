@@ -61,9 +61,10 @@ class costumerController
 
             $customers = $customer->find();
         }
-        if(isset($_POST['export'])) {
-            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'created_at', 'updated_at'];
-            $customer->export_excel($customers, $header, 'Liste Des Clients');
+
+      if(isset($_POST['export'])) {
+            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
+            $customer->export_excel($customers, $header, 'La liste des clients');
         }
          require 'view/costumers/index.php';
 
@@ -81,11 +82,12 @@ class costumerController
         $departement=(isset($_POST["costumer_departement"])) ? $_POST["costumer_departement"] :'';
         $adress=(isset($_POST["costumer_adress"])) ? $_POST["costumer_adress"] :'';
         $type=(isset($_POST["costumer_type"])) ? $_POST["costumer_type"] :'' ;
+        $mail=(isset($_POST["costumer_mail"])) ? $_POST["costumer_mail"] :'' ;
         /*
          * instance costumer
          */
         $costumer=Model::create('Costumer');
-        $data=array("name"=>$name,"phone_number"=>$phone,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress,'user_id'=>$_SESSION['user_id']);
+        $data=array("name"=>$name,"phone_number"=>$phone,"mail"=>$mail,"type"=>$type,"city"=>$city,"departement"=>$departement,"adress"=>$adress,'user_id'=>$_SESSION['user_id']);
 
         if($costumer->save($data)>0)
         {
@@ -138,14 +140,14 @@ class costumerController
         $departement=(isset($_POST["costumer_departement"])) ? $_POST["costumer_departement"] :'';
         $adress=(isset($_POST["costumer_adress"])) ? $_POST["costumer_adress"] :'';
         $type=(isset($_POST["costumer_type"])) ? $_POST["costumer_type"] :'' ;
-
+        $mail=(isset($_POST["costumer_mail"])) ? $_POST["costumer_mail"] :'' ;
         /*
          * instance costumer
          */
         $costumer=Model::create('Costumer');
         if(isset($_POST["id_costumer"])) {
             $id = $_POST["id_costumer"];
-            $data = array("id"=> $id, "name" => $name, "phone_number" => $phone, "type" => $type, "city" => $city, "departement" => $departement, "adress" => $adress);
+            $data = array("id"=> $id, "name" => $name, "phone_number" => $phone,"mail"=>$mail,"type" => $type, "city" => $city, "departement" => $departement, "adress" => $adress);
 
             if ($costumer->save($data)) {
                 $result = array("msg" => "OK");

@@ -18,7 +18,7 @@
     <script src="<?php echo $url;?>/dist/js/functions.js"></script>
     <script src="<?php echo $url;?>/dist/js/costumer.js"></script>
     <script src="<?php echo $url;?>/dist/js/vehicle.js"></script>
-
+    <script src="<?php echo $url;?>/dist/js/product.js"></script>
 
 
     </body>

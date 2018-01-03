@@ -26,12 +26,12 @@
       <div class="logo pull-left" style="height: 100%;"><a href="<?php echo $url;?>" style="display:block;height: 100%;"> <img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/></a></div>
       <div class="header-content">
       <div class="header-date pull-left">
-        <strong><?php echo date("F j, Y, g:i a");?></strong>
+        <strong><?php echo date("Y-m-d H:i:s");?></strong>
       </div>
       <div class="pull-right clearfix">
         <ul class="info-menu list-inline list-unstyled">
             <li class="last">
-                <a href="logout.php">
+                <a href="<?php echo $url;?>/logout.php">
                     <i class="glyphicon glyphicon-off"></i>
                     Logout
                 </a>
@@ -65,14 +65,14 @@
             <li>
                 <a href="<?php echo $url;?>/movement">
                     <i class="glyphicon glyphicon-move"></i>
-                    <span>MOUVEMENTS</span>
+                    <span>COMMANDES</span>
                 </a>
             </li>
 
             <li>
                 <a   class="submenu-toggle">
                     <i class="glyphicon glyphicon-barcode"></i>
-                    <span>PRODUITS</span>
+                    <span>STOCK</span>
                 </a>
                 <ul class="nav submenu">
                     <li><a href="<?php echo $url;?>/product/boitier">Boîtier</a> </li>
