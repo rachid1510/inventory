@@ -34,7 +34,7 @@ if(isset($_POST['submit'])){
             $_SESSION['login'] = $results['name'];
             $_SESSION['user_id']= $results['id'];
             $_SESSION['fonction'] = $results['fonction'];
-            header('location:'.$url."/home.php");
+            header('location:'.$url."/home");
             exit;
         }else{
             $errMsg .= 'veuillez entrez les bonnes informations<br>';
@@ -42,6 +42,8 @@ if(isset($_POST['submit'])){
     }
 
 }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -247,13 +249,7 @@ if(isset($_POST['submit'])){
     </form>
 </div>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-
-
 <script  src="dist/index.js"></script>
-
-
-
 
 
 </body>

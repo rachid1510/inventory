@@ -1,6 +1,7 @@
 <?php
 session_start();
 require ("model/Model.php");
+include ("config/config.php");
 class movementController
 {
     /*
@@ -11,6 +12,8 @@ class movementController
         /*
         * check session
         */
+        session_start();
+
         if (!isset($_SESSION["login"])) {
             header("Location:login.php?error=e");
         }
@@ -20,6 +23,10 @@ class movementController
 
         $movement = Model::create('Movement');
         $movements=$movement->find("movements",array("fields"=>"*"));
+        if(isset($_POST['export'])) {
+            $header = ['id', 'provider', 'order_ref','date_arrived','plan','observtion','category_id','user_id','created_at','updated_at','quantity'];
+            $movement->export_excel($movements, $header, 'liste des Movements');
+        }
         require 'view/movements/index.php';
 
     }

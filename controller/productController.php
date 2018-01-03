@@ -1,6 +1,8 @@
 <?php
+session_start();
 
 require ("model/Model.php");
+include ("config/config.php");
 class productController
 {
    /*
@@ -8,7 +10,6 @@ class productController
     */
     public function actionBoitier($page=null)
     {
-        session_start();
 
         if (!isset($_SESSION["login"]))
             header("Location:login.php?error=e");
@@ -109,6 +110,9 @@ class productController
    */
      public function actionSim($page=null)
     {
+        if (!isset($_SESSION["login"]))
+            header("Location:login.php?error=e");
+
         $products=array();
         /*
 
@@ -203,13 +207,10 @@ class productController
         $total_records = count($all_products);
         $total_pages = ceil($total_records / $limit);
 
-        session_start();
 
-        if (isset($_SESSION["login"])) {
+
             require 'view/products/sim.php';
-        }
-        else
-            header("Location:login.php?error=e");
+
     }
     /*
      *delevry product to personal

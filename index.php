@@ -12,7 +12,7 @@
 //       header("Location:login.php?error=e");
 //
 
-$controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home'];
+$controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention'];
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 

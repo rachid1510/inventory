@@ -1,6 +1,7 @@
 <?php
 session_start();
 require ("model/Model.php");
+include ("config/config.php");
 class costumerController
 {
     //
@@ -11,6 +12,7 @@ class costumerController
         /*
          *
          */
+
         if (!isset($_SESSION["login"])) {
             header("Location:login.php?error=e");
         }
@@ -60,8 +62,8 @@ class costumerController
             $customers = $customer->find();
         }
         if(isset($_POST['export'])) {
-            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
-            $customer->export_excel($customers, $header, 'listecostumer');
+            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'created_at', 'updated_at'];
+            $customer->export_excel($customers, $header, 'Liste Des Clients');
         }
          require 'view/costumers/index.php';
 

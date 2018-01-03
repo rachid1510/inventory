@@ -1,24 +1,26 @@
 <?php
-
+session_start();
 require ("model/Model.php");
-
+include ("config/config.php");
 class personalController
 {
     //
 
     public function actionIndex()
     {
+
+
+
+        if (!isset($_SESSION["login"])) {
+            header("Location:login.php?error=e");
+        }
+
         $installateurs = array();
         $installateur = Model::create('Personal');
         $installateurs = $installateur->find();
 
-        session_start();
-        if (isset($_SESSION["login"])) {
 
-            require 'view/personals/index.php';
-        }
-        else
-            header("Location:login.php?error=e");
+        require 'view/personals/index.php';
 
 
     }

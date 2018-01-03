@@ -11,10 +11,14 @@ include ("layouts/header.php");?>
         <div class="panel-heading clearfix">
           <div class="pull-left">
            <h3>La liste des Commandes</h3>
+
          </div>
 
          <div class="pull-right">
-           <a   id="showmodal" class="btn btn-primary">Créer une Commande</a>
+             <form id="filtre" name="filtre" role="form" method="post" action="" >
+             <button type="submit" name="export" class="btn btn-primary">exporter</button>
+             </form>
+             <a   id="showmodal" class="btn btn-primary">Créer une Commande</a>
          </div>
         </div>
         <div class="panel-body">

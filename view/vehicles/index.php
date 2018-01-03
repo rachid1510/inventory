@@ -30,6 +30,7 @@
 
                     <br/>
                     <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <button type="submit" name="export" class="btn btn-primary">exporter</button>
                 </form>
           </div>
          <div class="pull-right">

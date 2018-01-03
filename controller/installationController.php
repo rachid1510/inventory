@@ -1,6 +1,7 @@
 <?php
 session_start();
 require ("model/Model.php");
+include ("config/config.php");
 class installationController
 {
     //
@@ -9,6 +10,8 @@ class installationController
         /*
         * check session
         */
+
+
         if (!isset($_SESSION["login"])) {
             header("Location:login.php?error=e");
         }

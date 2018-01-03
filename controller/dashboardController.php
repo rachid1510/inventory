@@ -1,17 +1,26 @@
 <?php
-require ("model/Model.php");
+session_start();
 
+require ("model/Model.php");
+include ("config/config.php");
 class dashboardController
 {
     public function  actionIndex(){
 
-        session_start();
 
-        if (isset($_SESSION["login"]) and $_SESSION["fonction"]=='admin' ) {
-            require 'view/dashboard/index.php';
+        if (!isset($_SESSION["login"]) and $_SESSION["fonction"]!='admin') {
+            header("Location:login.php?error=e");
         }
-        else
-            header('location:home.php');
+            $installateurs = array();
+            $installateur = Model::create('Personal');
+            $installateurs = $installateur->find();
+            $instalations=array();
+            $instalation= model::create('Installation');
+            $instalations=$instalation->find(array("fields"=>"DISTINCT YEAR(`installed_at`) annee","groupBy"=>"YEAR(`installed_at`)"));
+
+            require 'view/dashboard/index.php';
+
+
 
 
 
@@ -20,9 +29,10 @@ class dashboardController
     {
 
         // echo json_encode(array("test"=>"gggg"));
+        $date=$_POST['instalation'];
         $instalations=array();
         $instalation= model::create('Installation');
-        $instalations=$instalation->find(array("fields"=>"COUNT(*) nombre,MONTH(`installed_at`) mois,YEAR(`installed_at`) annee","groupBy"=>"YEAR(`installed_at`),MONTH(`installed_at`)"));
+        $instalations=$instalation->find(array("conditions"=>"YEAR(`installed_at`)=$date","fields"=>"COUNT(*) nombre,MONTH(`installed_at`) mois,YEAR(`installed_at`) annee","groupBy"=>"YEAR(`installed_at`),MONTH(`installed_at`)"));
         //$sql="SELECT COUNT(*) nombre,MONTH(`installed_at`) mois FROM `installations` GROUP BY YEAR(`installed_at`), MONTH(`installed_at`)";
         // header('content-type:application/json');
         echo json_encode($instalations);
@@ -45,6 +55,15 @@ class dashboardController
         echo json_encode($sims);
 
 
+
+    }
+    public function actionPerformance()
+    {
+        $id=$_POST['id'];
+        $installations=array();
+        $installation = Model::create('Installation');
+        $installations=$installation->findFromRelation( "installations i,personals p"," i.personal_id=p.id and p.id=$id",array("fields"=>"COUNT(*) nombre,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,MONTH(`installed_at`) mois, WEEK(i.installed_at) semaine","groupBy"=>"YEAR(i.installed_at),MONTH(i.installed_at),WEEK(i.installed_at)"));
+        echo json_encode($installations);
 
     }
 
