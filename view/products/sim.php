@@ -13,7 +13,7 @@ include ("layouts/header.php");?>
         <div class="panel-heading clearfix">
 
             <div class="col-md-12">
-            <form id="filtre" name="filtre" role="form" method="post" action="sim" >
+            <form id="filtre" name="filtre" role="form" method="post" action="" >
 
             <div class="form-group col-md-2">
               <label class="control-label">SSID</label>
@@ -71,13 +71,14 @@ include ("layouts/header.php");?>
            </div>
 
 
-          <div class="col-md-6 pull-right">
+          <div class="col-md-6 pull-right" style="text-align: right;">
 
            <a href="#" id="modalactivation_btn" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
            <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
-           <a href="#" id="returntoopentech" class="btn btn-primary">Retour au stock</a>
-           <a href=""  class="btn btn-primary">Lister</a>
+              <a href="#" id="returntoopentech" class="btn btn-primary">Débloquer</a>
+              <a href="#" id="bloquer" class="btn btn-primary">Bloquer</a>
+           <a href="<?php echo $url;?>/product/sim"  class="btn btn-primary">Lister</a>
 
          </div>
         </div>
@@ -90,7 +91,17 @@ include ("layouts/header.php");?>
                 <div class="form-group col-md-2"><br/>
                     <button type="submit" class="invisible">Appliquer</button>
                 </div>
+
             </form>
+            <div class="col-md-2 pull-right" style="text-align: right;"><br/><br/>
+                <h4> <?php
+                    if($total_records>0){
+                        echo ' Affiché  '.$limit*$p.' sur '. $total_records;
+                    }else {
+                        echo ' Affiché  0  sur '. $total_records;
+                    }
+                    ?></h4>
+            </div>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
@@ -106,14 +117,15 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
-                  <th class="text-center" style="width: 10%;">Installée avec</th>
+                  <th class="text-center" style="width: 10%;">Boitier Opentech</th>
                   <th class="text-center" style="width: 10%;">Boitier Client</th>
                   <th class="text-center" style="width: 10%;"> Cocher </th>
 
               </tr>
             </thead>
             <tbody>
-            <?php foreach($products as $product):?>
+            <?php
+            foreach($products as $product):?>
 
             <tr>
                 <td class="text-center"><?php echo $product['id']; ?> </td>
@@ -209,7 +221,7 @@ include ("layouts/header.php");?>
                      <div class="alert alert-danger" style="display: none">
                          <strong>Danger!</strong>Erreure a été se produit.
                      </div>
-                     <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="activation">
+                     <form id="actevationfrm" class="form-horizontal" role="form" method="POST" action="#">
 
 
                         <!-- <div class="form-group">
@@ -267,7 +279,12 @@ include ("layouts/header.php");?>
                      </div>
                      <form id="affectationfrm" class="form-horizontal" role="form" method="POST">
 
-
+                         <div class="form-group" id="nombreaffecter" style="display: none">
+                             <label class="col-md-4 control-label">Nombre à affecter</label>
+                             <div class="col-md-6">
+                                 <input type="text" name="nombreaafecter" id="nombreaafecter"/>
+                             </div>
+                         </div>
                          <div class="form-group">
 
                              <label class="col-md-4 control-label">Installateur</label>
@@ -285,7 +302,7 @@ include ("layouts/header.php");?>
                          <input type="hidden" name="products" id="products" value="">
                           <div class="form-group">
                              <div class="col-md-6 col-md-offset-4 pull-right">
-                                 <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                 <a title="product/affectationsim" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                              </div>
                          </div>

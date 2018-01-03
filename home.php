@@ -31,12 +31,12 @@ if (!isset($_SESSION["login"])) {
                             <div class="inner">
                                 <h3>150</h3>
 
-                                <p>Boitier Installés</p>
+                                <p></p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer"> Boitiers Installés</a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -46,12 +46,12 @@ if (!isset($_SESSION["login"])) {
                             <div class="inner">
                                 <h3>53</h3>
 
-                                <p>Sim installés</p>
+                                <p></p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Cartes installées </a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -61,12 +61,12 @@ if (!isset($_SESSION["login"])) {
                             <div class="inner">
                                 <h3>44</h3>
 
-                                <p>boitier bloqués</p>
+                                <p></p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer"> Cartes Activées</a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -76,12 +76,12 @@ if (!isset($_SESSION["login"])) {
                             <div class="inner">
                                 <h3>65</h3>
 
-                                <p>sim non bloqués</p>
+                                <p></p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Cartes Non Activées </a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -95,7 +95,76 @@ if (!isset($_SESSION["login"])) {
             <!-- /.content -->
 
 
+        <section class="content">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-orange">
+                        <div class="inner">
+                            <h3>98</h3>
 
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Total Carte en stock Opentech </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-olive">
+                        <div class="inner">
+                            <h3>53</h3>
+
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Total Boitier en Stock Opentech </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-navy">
+                        <div class="inner">
+                            <h3>44</h3>
+
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Total boitier en Stock personnel </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-gray">
+                        <div class="inner">
+                            <h3>65</h3>
+
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer"> Total carte en Stock personnel</a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+            <!-- Main row -->
+
+            <!-- /.row (main row) -->
+
+        </section>
 
         <!-- /.content-wrapper -->
     </div>

@@ -15,7 +15,7 @@ include ("layouts/header.php");?>
 
          <div class="pull-right">
              <?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
-           <a   id="showmodal" class="btn btn-primary">Créer une Commande</a>
+           <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle Commande</a>
              <?php endif;?>
          </div>
         </div>
@@ -73,7 +73,7 @@ include ("layouts/header.php");?>
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Créer Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Nouvelle Commande</h4>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-success" style="display: none">
@@ -106,15 +106,14 @@ include ("layouts/header.php");?>
                             <label class="col-md-4 control-label">Fournisseur</label>
                             <div class="col-md-6">
                                 <select name="provider" class="form-control" id="provider">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
+                                    <option selected="selected" value="" >Veuillez sélectionner le fournisseur</option>
                                 </select>
                             </div>
                         </div>
 
 
                          <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN/model</label>
+                            <label class="col-md-4 control-label" id="labelplanmodel">PLAN/model</label>
                             <div class="col-md-6">
                                <input type="text" class="form-control" name="plan" id="plan">
                                 <small class="help-block"></small>

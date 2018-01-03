@@ -60,7 +60,7 @@ include ("layouts/header.php");?>
                             <br>
                             <div class="col-md-3 pull-right">
                                 <?php if($_SESSION['fonction']=='technique' || $_SESSION['fonction']=='admin'):?>
-                                <a   id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle installation</a>
                                <?php endif;?>
                                 <a href=""  class="btn btn-primary">Lister</a>
 

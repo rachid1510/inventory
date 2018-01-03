@@ -62,7 +62,9 @@ $(document).ready(function() {
         });
         if(list_sim_checked.length==0)
         {
-            alert("Merci de cocher les produits à affecter");
+            $("#nombreaffecter").show();
+            $('#modalaffactation_block').modal();
+          //  alert("Merci de cocher les produits à affecter");
         }
         else{
             $("#products").val(list_sim_checked);
@@ -115,7 +117,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-
+       console.log(frmaction);
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
@@ -148,6 +150,10 @@ $(document).ready(function() {
                     $(".alert.alert-danger").show(0).delay(4000).hide(0);
 
                 }
+            },
+            error:function(e)
+            {
+                console.log(e);
             }
         } );
     } );

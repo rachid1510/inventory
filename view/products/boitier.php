@@ -11,9 +11,9 @@ include ("layouts/header.php");?>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-
+            <form id="filtre" name="filtre" role="form" method="post" action="" >
           <div class="col-md-10">
-           <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
+
 
                 <div class="form-group col-md-2">
                   <label class="control-label">IMEI</label>
@@ -60,19 +60,21 @@ include ("layouts/header.php");?>
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
-               <div class="form-group col-md-2"><br>
+          </div>
+               <div class="form-group col-md-2 pull-right"><br>
                <button type="submit" class="btn btn-primary">Rechercher</button>
                </div>
            </form>
-           </div>
+
         
 
-           <div class="col-md-4 pull-right"><br/>
+           <div class="col-md-6 pull-right" style="text-align: right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
                <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
-               <a href="#" id="returntoopentech" class="btn btn-primary">Retour au stock</a>
-               <a href=""  class="btn btn-primary">Lister</a>
+               <a href="#" id="returntoopentech" class="btn btn-primary">Débloquer</a>
+               <a href="#" id="bloquer" class="btn btn-primary">Bloquer</a>
+               <a href="<?php echo $url;?>/product/boitier"  class="btn btn-primary">Lister</a>
 
         </div>
         </div>
@@ -86,12 +88,21 @@ include ("layouts/header.php");?>
                     <button type="submit" class="invisible">Appliquer</button>
                 </div>
             </form>
+            <div class="col-md-2 pull-right" style="text-align: right;"><br/><br/>
+                <h4> <?php
+                    if($total_records>0){
+                        echo ' Affiché  '.$limit*$p.' sur '. $total_records;
+                    }else {
+                        echo ' Affiché  0  sur '. $total_records;
+                    }
+                    ?></h4>
+            </div>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                              
                 <th class="text-center" style="width: 10%;"> IMEI </th>
-                <th class="text-center" style="width: 10%;"> TYPE de Boitier </th>
+
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 15%;"> Modèle </th>
 
@@ -100,7 +111,7 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 15%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
-                  <th class="text-center" style="width: 10%;">Installé avec</th>
+                  <th class="text-center" style="width: 10%;">SIM opentech</th>
                   <th class="text-center" style="width: 10%;">SIM Client</th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
@@ -114,7 +125,7 @@ include ("layouts/header.php");?>
             <tr>
                 
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
-                <td class="text-center"> <?php echo $product['label']; ?></td>
+
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
                 <td class="text-center"> <?php echo $product['model']; ?></td>
                 <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
@@ -194,6 +205,12 @@ include ("layouts/header.php");?>
                         <strong>Danger!</strong>Erreure a été se produit.
                     </div>
                     <form id="affectationfrm" class="form-horizontal" role="form" method="POST">
+                        <div class="form-group" id="nombreaffecter" style="display: none">
+                            <label class="col-md-4 control-label">Nombre à affecter</label>
+                            <div class="col-md-6">
+                                <input type="text" name="nombreaafecter" id="nombreaafecter"/>
+                            </div>
+                        </div>
                         <div class="form-group">
 
                             <label class="col-md-4 control-label">Installateur</label>
@@ -211,7 +228,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products" id="products" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="product/affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/affectationboitier" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>

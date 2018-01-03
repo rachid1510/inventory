@@ -32,7 +32,7 @@ include ("layouts/header.php");?>
 
          <div class="pull-right col-md-3"><br>
 
-           <a href="#" id="showmodal" class="btn btn-primary">Nouveau client</a>
+           <a href="#" id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouveau client</a>
          </div>
         </div>
         <div class="panel-body">
