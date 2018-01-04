@@ -236,6 +236,7 @@ abstract class Model
         if (isset($req['limit'])) {
             $sql .= ' LIMIT ' . $req['limit'];
         }
+        //echo $sql;
         //debug($sql);
           //echo $sql;
         $pre = $this->db->prepare($sql);
@@ -262,7 +263,7 @@ abstract class Model
         /*
          * set header label
          */
-        for ($i=0;$i<count($header);$i++)
+        for($i=0;$i<count($header);$i++)
         {
             $excelFile->getActiveSheet()->SetCellValue($c.$r, "$header[$i]");
 
@@ -271,8 +272,10 @@ abstract class Model
         /*
          * set body data
          */
+//        echo count($header);
+         //var_dump($data);
         $r=2;
-        for($i=0; $i <count($data); $i++) {
+        for($i=0; $i<count($data); $i++) {
             $c='A';
             for($j=0;$j<count($header);$j++){
                 $excelFile->getActiveSheet()->SetCellValue($c.$r, $data[$i][$j]);
@@ -281,12 +284,15 @@ abstract class Model
             $r++;
         }
         // We'll be outputting an excel file
+        $excelFile->getActiveSheet()->getStyle("A1:L1")->getFont()->setBold(true);
+        $excelFile->getActiveSheet()->getStyle("A1:L1") ->getFill()->getStartColor()->setRGB('F28A8C');
+        $excelFile->setActiveSheetIndex(0);
         header('Content-type: application/vnd.ms-excel');
         // It will be called file.xls
         header('Content-Disposition: attachment; filename="'.$name.'.xls"');
         $objWriter = PHPExcel_IOFactory::createWriter($excelFile, 'Excel5');
         $objWriter->save('php://output');
-        die();
+       die();
     }
 
 }

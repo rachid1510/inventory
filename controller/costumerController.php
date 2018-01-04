@@ -1,15 +1,18 @@
 <?php
 session_start();
 require ("model/Model.php");
+include ("config/config.php");
 class costumerController
 {
     //
 
     public function actionIndex($page=null)
     {
+
         /*
          *
          */
+
         if (!isset($_SESSION["login"])) {
             header("Location:login.php?error=e");
         }
@@ -23,7 +26,7 @@ class costumerController
          */
         $limit = 20;
 
-        if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
+        if (isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
             $limit = $_POST["pagination"];
         }
 
@@ -34,22 +37,19 @@ class costumerController
         }
         $start_from = ($p - 1) * $limit;
 
-        $condition="";
+        $condition = "";
 
-        if(!empty($_POST["costumer_name"]))
-        {
-            $condition= "c.name like '%".$_POST["costumer_name"]. "%'";
+        if (!empty($_POST["costumer_name"])) {
+            $condition = "c.name like '%" . $_POST["costumer_name"] . "%'";
         }
-        if(!empty($_POST["costumer_tel"]))
-        {
-            if($condition=='')
-            {
-                $condition= "c.phone_number like '%".$_POST["costumer_tel"]. "%'";
-            }
-            else{
-                $condition .= " AND c.phone_number like '%".$_POST["costumer_tel"]. "%'";
+        if (!empty($_POST["costumer_tel"])) {
+            if ($condition == '') {
+                $condition = "c.phone_number like '%" . $_POST["costumer_tel"] . "%'";
+            } else {
+                $condition .= " AND c.phone_number like '%" . $_POST["costumer_tel"] . "%'";
             }
         }
+
 
 
         if($condition !='')
@@ -61,6 +61,7 @@ class costumerController
 
             $customers = $customer->find();
         }
+
       if(isset($_POST['export'])) {
             $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
             $customer->export_excel($customers, $header, 'La liste des clients');

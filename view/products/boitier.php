@@ -109,6 +109,7 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 15%;"> Etat </th>
+                  <th class="text-center" style="width: 15%;"> Autre produit installés </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
                   <th class="text-center" style="width: 10%;">SIM opentech</th>
@@ -123,7 +124,7 @@ include ("layouts/header.php");?>
             <?php foreach($products as $product):?>
 
             <tr>
-                
+<!--                --><?php //if($product['status']=="0") ?>
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
 
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
@@ -139,7 +140,15 @@ include ("layouts/header.php");?>
                     }else{
                         echo '<span style="padding: 0px !important;" class="alert alert-danger">Bloqué</span>';
                     }?></td>
-                <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <?php  if($product['status']=="0"):?>
+              <td class="text-center"><?php  echo $product['status']; ?> </td>
+                <?php  else: ?>
+                    <td class="text-center">makayn walo </td>
+                       <?php endif; ?>
+
+
+
+        <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>

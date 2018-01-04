@@ -11,12 +11,19 @@ include ("layouts/header.php");?>
         <div class="panel-heading clearfix">
           <div class="pull-left">
            <h3>La liste des Commandes</h3>
+
          </div>
 
          <div class="pull-right">
+
+             <form id="filtre" name="filtre" role="form" method="post" action="" >
+             <button type="submit" name="export" class="btn btn-primary">exporter</button>
+             </form>
+
              <?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
            <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle Commande</a>
              <?php endif;?>
+
          </div>
         </div>
         <div class="panel-body">

@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 require ("model/Model.php");
+include ("config/config.php");
 class productController
 {
    /*
@@ -8,6 +10,7 @@ class productController
     */
     public function actionBoitier($page=null)
     {
+
         /*
                * check session
                */
@@ -101,8 +104,10 @@ class productController
 
         }
         else{
+
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id and ip.status<>'3' left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=1",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.label from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id and di2.installation_id=di.installation_id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product"));
             $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id and ip.status<>'3' left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=1",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.label from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id and di2.installation_id=di.installation_id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product","limit"=>$start_from.','.$limit));
+
 
         }
 
@@ -113,18 +118,21 @@ class productController
 
 
 
+
     }
   /*
    * acction display list of product with type 2 cards
    */
      public function actionSim($page=null)
     {
+
         /*
        * check session
        */
         if (!isset($_SESSION["login"])) {
             header("Location:login.php?error=e");
         }
+
         $products=array();
         /*
 
@@ -229,6 +237,7 @@ class productController
           }
         $total_records = count($all_products);
         $total_pages = ceil($total_records / $limit);
+
 
          require 'view/products/sim.php';
 

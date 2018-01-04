@@ -14,14 +14,21 @@ include ("layouts/header.php");?>
             </div>
             <div class="box-body">
                 <div class="chart">
-                    <canvas id="mycanvas"></canvas>
+                    <canvas id="mycanvas" style="height:250px"></canvas>
+                    <select name="instalation" id="instalation">
+                        <option value="">selectionner l'année</option>
+                        <?php foreach($instalations as $instalation):?>
+                            <option value="<?php echo $instalation["annee"] ?>" ><?php echo $instalation["annee"]; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">les boitiers les plus installés</h3>
+                <h3 class="box-title">les Sim les plus installés</h3>
 
             </div>
             <div class="box-body">
@@ -33,7 +40,7 @@ include ("layouts/header.php");?>
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">les Sim les plus installés</h3>
+                <h3 class="box-title">es boitiers les plus installés</h3>
             </div>
             <div class="box-body">
                 <div class="chart">
@@ -49,6 +56,13 @@ include ("layouts/header.php");?>
             <div class="box-body">
                 <div class="chart">
                     <canvas id="canvas4" style="height:250px"></canvas>
+                    <select name="installateur" id="installateur">
+                        <option value="">selectionner l'installateur</option>
+                        <?php foreach($installateurs as $installateur):?>
+                            <option value="<?php echo $installateur["id"] ?>" ><?php echo $installateur['first_name'].' '.$installateur['last_name']; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
                 </div>
             </div>
             <!-- /.box-body -->
