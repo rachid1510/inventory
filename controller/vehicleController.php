@@ -37,7 +37,7 @@ class vehicleController
         /*
          * instance
          */
-        $vehicles = Model::create('Vehicle');
+        $vehicle = Model::create('Vehicle');
         $costumer = Model::create('Costumer');
         /*
          * search form
@@ -58,13 +58,18 @@ class vehicleController
         }
         $costumers = $costumer->find("Costumers",array("fields"=>"*"));
         if($condition!=''){
-            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id AND $condition" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
+            $allvehicles=$vehicle->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id AND $condition" ,array("fields"=>"v.*,c.name"));
+
+            $vehicles=$vehicle->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id AND $condition" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
 
         }else{
-            $vehicles=$vehicles->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
+            $allvehicles=$vehicle->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name"));
+
+            $vehicles=$vehicle->findFromRelation( "costumers c,vehicles v","v.costumer_id=c.id" ,array("fields"=>"v.*,c.name","limit"=>$start_from.','.$limit));
 
         }
-
+        $total_records = count($allvehicles);
+        $total_pages = ceil($total_records / $limit);
         require 'view/vehicles/index.php';
 
 

@@ -9,10 +9,13 @@ $(document).ready(function() {
             //  $("#textrecherche).prop( "disabled", true );
             $('#search1').prop('readonly', true);
             $('#autoUpdate1').fadeIn('slow');
+            $('#autoUpdate2').fadeOut('slow');
             $('#sim_client_check').hide();
             $("#selected_box option:first").attr('selected','selected');
             $('#selected_box').trigger('chosen:updated');
             $("#selected_box").val('');
+            $("#gsm_product_costumer").val('');
+
 
         }
 
@@ -31,6 +34,8 @@ $(document).ready(function() {
         if(this.checked) {
             $('#search2').prop('readonly', true);
             $('#autoUpdate2').fadeIn('slow');
+            $('#autoUpdate1').fadeOut('slow');
+            $("#imei_product_costumer").val('');
             $('#gps_client_check').hide();
             $("#selected_card option:first").attr('selected','selected');
             $('#selected_card').trigger('chosen:updated');
@@ -38,6 +43,7 @@ $(document).ready(function() {
         }
         else{
             $('#search2').prop('readonly', false);
+            $('#autoUpdate1').fadeIn('slow');
             $('#autoUpdate2').fadeOut('slow');
             $('#gps_client_check').show();
             $("#gsm_product_costumer").val('');
