@@ -13,17 +13,18 @@ include ("layouts/header.php");?>
 
 
                             <div class="col-md-9 pull-left">
-                                <form role="form" method="post" action="installation">
+                                <form role="form" method="post" action="">
 
 
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">date</label>
-                                        <input type="date" class="form-control" name="installed_at" placeholder="IMEI">
+                                        <input type="date" class="form-control" name="installed_at">
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">client</label>
 
                                         <select name="client" class="form-control chosen-select">
+                                            <option value="">Veuillez selectionner un client</option>
                                             <?php foreach($costumers as $customer):?>
                                             <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
                                             <?php endforeach; ?>
@@ -31,29 +32,50 @@ include ("layouts/header.php");?>
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label class="control-label">Matricule</label>
 
                                         <select name="matricule" class="form-control chosen-select">
+                                            <option value="">Veuillez selectionner un matricule</option>
                                             <?php foreach($vehicles as $vehicle):?>
 
                                                  <option value="<?php echo $vehicle["id"] ?>"><?php echo $vehicle["imei"] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-3"><br/>
+                                    <div class="form-group col-md-2">
+                                        <label class="control-label">Type Boitier</label>
+                                        <select name="state" class="form-control chosen-select">
+                                            <option value="">Sélectionnez</option>
+                                            <option value="advanced">Avancer</option>
+                                            <option value="light">Light</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2"><br/>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>
                                     </div>
                                 </form>
                             </div>
                             <br>
                             <div class="col-md-3 pull-right">
-                                <a href="#" id="showmodal" class="btn btn-primary">Créer installation</a>
+                                <?php if($_SESSION['fonction']=='technique' || $_SESSION['fonction']=='admin'):?>
+                                <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle installation</a>
+                               <?php endif;?>
+                                <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
                         </div>
                         <div class="panel-body">
-
+                            <form role="form" method="post" action="">
+                            <div class="form-group col-md-3">
+                                <label class="control-label">Pagination</label>
+                                <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                            </div>
+                            <div class="form-group col-md-2"><br/>
+                                <button type="submit" class="invisible">Appliquer</button>
+                            </div>
+                            </form>
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
@@ -75,37 +97,33 @@ include ("layouts/header.php");?>
                                 </tbody>
                             </table>
                             <?php
-                            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
-                            if($p>1)
-                            {
-                                $prec= $p - 1;
-                                $pagLink .= "<li class='paginate_button'><a href='".$url."/installation/index/".$prec."'>Précédent</a></li>";
+                            if($p*$limit<$total_records) {
+                                $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+                                if ($p > 1) {
+                                    $prec = $p - 1;
+                                    $pagLink .= "<li class='paginate_button'><a href='" . $url . "/installation/index/" . $prec . "'>Précédent</a></li>";
+                                }
+                                for ($i = $p; $i <= $p + 5; $i++) {
+
+                                    if ($i == $p) {
+                                        $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/installation/index/" . $i . "'>" . $i . "</a></li>";
+
+                                    } else {
+                                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/installation/index/" . $i . "'>" . $i . "</a></li>";
+                                    }
+
+                                    if ($i >= $total_pages) {
+                                        break;
+                                    }
+                                };
+                                if ($p * $limit < $total_records) {
+                                    $next = $p + 1;
+                                    //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                                    $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/installation/index/" . $next . "'>Suivant</a></li>";
+                                }
+
+                                echo $pagLink . "</ul></div>";
                             }
-                            for ($i=$p; $i<=$p+5; $i++) {
-
-                                if($i==$p)
-                                {
-                                    $pagLink .= "<li class='paginate_button active'><a href='".$url."/installation/index/".$i."'>".$i."</a></li>";
-
-                                }
-                                else
-                                {
-                                    $pagLink .= "<li class='paginate_button'><a href='".$url."/installation/index/".$i."'>".$i."</a></li>";
-                                }
-
-                                if($i>=$total_pages)
-                                {
-                                    break;
-                                }
-                            };
-                            if($p<$total_records)
-                            {
-                                $next= $p + 1;
-                                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                                $pagLink .= "<li class='paginate_button'><a  href='".$url."/installation/index/".$next."'>Suivant</a></li>";
-                            }
-
-                            echo $pagLink . "</ul></div>";
                             ?>
                         </div>
                     </div>
@@ -135,18 +153,18 @@ include ("layouts/header.php");?>
                                     <label class="col-md-4 control-label">Date D'installation</label>
                                     <div class="col-md-6">
 
-                                        <input type="date"  class="form-control datePicker" name="date_installation">
+                                        <input type="date"  class="form-control datePicker" id="date_installation" name="date_installation">
 
                                     </div>
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group has-error">
 
                                     <label class="col-md-4 control-label">Installateur</label>
                                     <div class="col-md-6">
 
-                                        <select name="personal_id" class="form-control chosen-select" id="personal_id" required aria-required="true">
+                                        <select name="personal_id"   class="form-control chosen-select" id="personal_id" required aria-required="true">
                                             <option value="">Veuillez selectionner un installateur</option>
                                             <?php foreach($personals as $persoanl):?>
                                                 <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
@@ -155,15 +173,15 @@ include ("layouts/header.php");?>
                                         </select>
                                     </div>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-4 control-label">Status</label>
                                 <div class="col-md-6">
                                 <label class="form-check-label">
-                                    <input  class="form-check-input" name="status" id="status" type="checkbox" value="">
+                                    <input checked class="form-check-input" name="status" id="status" type="checkbox" value="">
                                     Installation terminée
                                 </label>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                     <label class="col-md-4 control-label">Client</label>
                                     <div class="col-md-6">
@@ -179,8 +197,8 @@ include ("layouts/header.php");?>
                                 </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Véhicule</label>
-                                <div class="col-md-6">
+                                <label class="col-md-4 control-label ">Véhicule</label>
+                                <div class="col-md-6 ">
 
                                         <select name="selected_vehicle" class="form-control chosen-select" id="selected_vehicle" required aria-required="true">
                                             <option value="">Veuillez selectionner un matricule</option>
@@ -191,7 +209,20 @@ include ("layouts/header.php");?>
                                         </select>
 
                                 </div>
+                                <input type="checkbox" value="Nouveau véhicule" name="displaynewvehicle" class="displaynewvehicle" id="displaynewvehicle"><label  class="displaynewvehicle" for="displaynewvehicle">Nouveau véhicule</label>
+
+
                             </div>
+
+                            <div class="form-group newvehicle" style="display: none">
+                                    <label class="col-md-4 control-label">Un nouveau véhicule</label>
+                                    <div class="col-md-6">
+                                    <input type="text" name="newvehicle" id="newvehicle" placeholder="Matricule">
+
+
+                                    </div>
+                            </div>
+<!--                                <input type="checkbox" value="afficher tous" id="displayallbox" checked><label for="displayallbox">Afficher tous</label>-->
                             <div class="row">
 
 
@@ -217,9 +248,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate1" style="display: none;">
                                             <label>Imei</label>
-                                            <input type="text" class="form-control" name="imei">
+                                            <input type="text" class="form-control" id="imei_product_costumer" name="imei_product_costumer">
                                             <label>Marque</label>
-                                            <input type="text" class="form-control" name="Marque">
+                                            <input type="text" class="form-control" id="provider_product_costumer" name="provider_product_costumer">
 
                                         </div>
                                     </div>
@@ -244,9 +275,9 @@ include ("layouts/header.php");?>
                                         </div>
                                         <div id="autoUpdate2" style="display: none;">
                                             <label>gsm</label>
-                                            <input type="text" class="form-control" name="gsm">
+                                            <input type="text" class="form-control" id="gsm_product_costumer" name="gsm_product_costumer">
                                             <label>Opérateur</label>
-                                            <input type="text" class="form-control" name="operateur">
+                                            <input type="text" class="form-control" name="operateur_product_costumer" id="operateur_product_costumer">
                                         </div>
                                     </div>
 
@@ -258,11 +289,13 @@ include ("layouts/header.php");?>
                                     <textarea class="form-control" id="observation" rows="3"></textarea>
                                 </div>
                             <div class="form-group">
-                                    <div class="col-md-3 col-md-offset-3 pull-right">
-
-                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                                <input type="hidden" name="id_installation" value="" id="id_installation">
+                                <input type="hidden" name="id_sim_old" value="" id="id_sim_old">
+                                <input type="hidden" name="id_box_old" value="" id="id_box_old">
+                                    <a class="col-md-3 col-md-offset-3 pull-right">
+<!--                                        <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>-->
 <!--                                        <a title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
-                                        <input type="button" title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">
+                                        <a  title="installation/add" alt="addinstallation" class="btn btn-primary btn-lg submitfrm pull-right" id="installation_form_submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter..." value="Valider">Valider</a>
                                     </div>
                                 </div>
                             </form>

@@ -11,49 +11,112 @@ include ("layouts/header.php");?>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-
+            <form id="filtre" name="filtre" role="form" method="post" action="" >
           <div class="col-md-10">
-           <form id="filtre" name="filtre" role="form" method="post" action="boitier" >
 
-            <div class="form-group col-md-3">
-              <label class="control-label">IMEI</label>
-             <input type="text" class="form-control" name="imei" placeholder="IMEI">
-           </div>
-             <div class="form-group col-md-3">
-              <label class="control-label">Réf Commande</label>
-             <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
-           </div>
-             <div class="form-group col-md-3">
+
+                <div class="form-group col-md-2">
+                  <label class="control-label">IMEI</label>
+                 <input type="text" class="form-control" id="imei_searsh" name="imei" placeholder="IMEI">
+               </div>
+
+               <div class="form-group col-md-2">
+                   <label class="control-label">Réf Commande</label>
+                   <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
+               </div>
+
+               <div class="form-group col-md-2">
+                   <label class="control-label">Etat</label>
+                   <select name="state" class="form-control">
+                       <option value="">Sélectionnez</option>
+                       <option value="enabled">Active</option>
+                       <option value="disabled">Inactive</option>
+
+                   </select>
+               </div>
+               <div class="form-group col-md-2">
+                   <label class="control-label">Etat de stock</label>
+                   <select name="stock" class="form-control">
+                       <option value="">Sélectionnez</option>
+                       <option value="0">Installé</option>
+                       <option value="1">En stock</option>
+                       <option value="2">en stock personel</option>
+                       <option value="3">Bloqué</option>
+                   </select>
+               </div>
+               <div class="form-group col-md-2">
+
+                   <label class="col-md-4 control-label">Installateur</label>
+                      <select name="personal_search" class="form-control" id="personal_search">
+                           <option value="0">Veuillez selectionner un installateur</option>
+                           <?php foreach($personals as $persoanl):?>
+                               <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                           <?php endforeach; ?>
+                       </select>
+
+               </div>
+             <div class="form-group col-md-2">
               <label class="control-label">Date arrivée</label>
              <input type="date" class="form-control " name="date_debut" placeholder="DATE ARRIVEE">
            </div>
-               <div class="form-group col-md-3"><br>
+          </div>
+               <div class="form-group col-md-2 pull-right"><br>
                <button type="submit" class="btn btn-primary">Rechercher</button>
                </div>
            </form>
-           </div>
+
         
 
-           <div class="col-md-2 pull-right"><br/>
+           <div class="col-md-6 pull-right" style="text-align: right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
-
+               <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
+               <a href="#" id="returntoopentech" class="btn btn-primary">Débloquer</a>
+               <a href="#" id="bloquer" class="btn btn-primary">Bloquer</a>
+               <a href="<?php echo $url;?>/product/boitier"  class="btn btn-primary">Lister</a>
 
         </div>
+        </div>
         <div class="panel-body">
+            <form role="form" method="post" action="">
+                <div class="form-group col-md-3">
+                    <label class="control-label">Pagination</label>
+                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                </div>
+                <div class="form-group col-md-2"><br/>
+                    <button type="submit" class="invisible">Appliquer</button>
+                </div>
+            </form>
+            <div class="col-md-2 pull-right" style="text-align: right;"><br/><br/>
+                <h4> <?php
+                    if($total_records>0){
+                        echo ' Affiché  '.$limit*$p.' sur '. $total_records;
+                    }else {
+                        echo ' Affiché  0  sur '. $total_records;
+                    }
+                    ?></h4>
+            </div>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                              
                 <th class="text-center" style="width: 10%;"> IMEI </th>
-                <th class="text-center" style="width: 10%;"> TYPE de Boitier </th>
+
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
                 <th class="text-center" style="width: 15%;"> Modèle </th>
-                <th class="text-center" style="width: 15%;"> Etat </th>
+
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
+                  <th class="text-center" style="width: 10%;"> Ref commande </th>
+                  <th class="text-center" style="width: 15%;"> Etat </th>
+                  <th class="text-center" style="width: 15%;"> Autre produit installés </th>
+                  <th class="text-center" style="width: 10%;"> Installateur </th>
+                  <th class="text-center" style="width: 10%;"> Matricule </th>
+                  <th class="text-center" style="width: 10%;">SIM opentech</th>
+                  <th class="text-center" style="width: 10%;">SIM Client</th>
                 <th class="text-center" style="width: 10%;"> Cocher </th>
 
-                <th class="text-center" style="width: 10%;"> Actions </th>
+
 
               </tr>
             </thead>
@@ -61,28 +124,38 @@ include ("layouts/header.php");?>
             <?php foreach($products as $product):?>
 
             <tr>
-                
+<!--                --><?php //if($product['status']=="0") ?>
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
-                <td class="text-center"> <?php echo $product['label']; ?></td>
+
                 <td class="text-center"> <?php echo $product['provider']; ?></td>
                 <td class="text-center"> <?php echo $product['model']; ?></td>
-                <td class="text-center"> <?php  if($product['status']=="1"){echo "en stock";}
-                                            elseif($product['status']=="2") echo "en stock personel";
-                                            else echo "Installé"; ?></td>
                 <td class="text-center"> <?php echo $product['date_arrived']; ?></td>
-                <td class="text-center"> <input type="checkbox" name="checked_box[]" value="<?php echo $product['id']; ?>"></td>
+                <td class="text-center"> <?php echo $product['order_ref']; ?></td>
+                <td class="text-center">   <?php  if($product['status']=="1"){
+                        echo '<span style="padding: 0px !important;" class="alert alert-success">en stock</span>';
+                    }elseif($product['status']=="2"){
+                        echo '<span style="padding: 0px !important;" class="alert alert-warning">en stock personel</span>';
+                    }  elseif($product['status'] == "0") {
+                    echo '<span style="padding: 0px !important;" class="alert alert-info">Installé</span>';
+                    }else{
+                        echo '<span style="padding: 0px !important;" class="alert alert-danger">Bloqué</span>';
+                    }?></td>
+                <?php  if($product['status']=="0"):?>
+              <td class="text-center"><?php  echo $product['status']; ?> </td>
+                <?php  else: ?>
+                    <td class="text-center">makayn walo </td>
+                       <?php endif; ?>
 
-                <td class="text-center">
-                  <div class="btn-group">
-                    <a href="#" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </a>
 
-                  </div>
-                </td>
+
+        <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
+                <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
+
+                <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2 || $product['status']==3){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
+
+
 
               </tr>
             <?php endforeach; ?>
@@ -90,42 +163,41 @@ include ("layouts/header.php");?>
             </tbody>
           </table>
             <?php
-            $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
-            if($p>1)
-            {
-                $prec= $p - 1;
-                $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$prec."'>Précédent</a></li>";
-            }
-            for ($i=$p; $i<=$p+5; $i++) {
+                if($p*$limit<$total_records) {
+                    $next = $start_from + $limit;
+                    $pagLink = "<div class='pagination pull-left'>" . $start_from . "-" . $next . "/" . $total_records . "</div><div class='pagination pull-right'><ul class='pagination'>";
 
-                    if($i==$p)
-                    {
-                        $pagLink .= "<li class='paginate_button active'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
-
+                    // $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+                    if ($p > 1) {
+                        $prec = $p - 1;
+                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/boitier/" . $prec . "'>Précédent</a></li>";
                     }
-                    else
-                    {
-                        $pagLink .= "<li class='paginate_button'><a href='".$url."/product/boitier/".$i."'>".$i."</a></li>";
+                    for ($i = $p; $i <= $p + 5; $i++) {
+
+                        if ($i == $p) {
+                            $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/product/boitier/" . $i . "'>" . $i . "</a></li>";
+
+                        } else {
+                            $pagLink .= "<li class='paginate_button'><a href='" . $url . "/product/boitier/" . $i . "'>" . $i . "</a></li>";
+                        }
+
+                        if ($i >= $total_pages) {
+                            break;
+                        }
+                    };
+                    if ($p * $limit < $total_records) {
+                        $next = $p + 1;
+                        //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                        $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/product/boitier/" . $next . "'>Suivant</a></li>";
                     }
 
-                if($i>=$total_pages)
-                {
-                    break;
-                }
-            };
-            if($p<$total_records)
-            {
-                $next= $p + 1;
-                //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
-                $pagLink .= "<li class='paginate_button'><a  href='".$url."/product/boitier/".$next."'>Suivant</a></li>";
-            }
-
-            echo $pagLink . "</ul></div>";
-            ?>
+                    echo $pagLink . "</ul></div>";
+                }?>
         </div>
       </div>
     </div>
   </div>
+
 
     <div class="modal fade" id="modalaffactation_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -142,6 +214,12 @@ include ("layouts/header.php");?>
                         <strong>Danger!</strong>Erreure a été se produit.
                     </div>
                     <form id="affectationfrm" class="form-horizontal" role="form" method="POST">
+                        <div class="form-group" id="nombreaffecter" style="display: none">
+                            <label class="col-md-4 control-label">Nombre à affecter</label>
+                            <div class="col-md-6">
+                                <input type="text" name="nombreaafecter" id="nombreaafecter"/>
+                            </div>
+                        </div>
                         <div class="form-group">
 
                             <label class="col-md-4 control-label">Installateur</label>
@@ -159,7 +237,7 @@ include ("layouts/header.php");?>
                         <input type="hidden" name="products" id="products" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <a title="affectation" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+                                <a title="product/affectationboitier" alt="affectationfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
 
                             </div>
                         </div>
@@ -170,72 +248,49 @@ include ("layouts/header.php");?>
         </div>
     </div>
  
- <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+    <!-- Modal trnsfer enter persoan -->
+    <div class="modal fade" id="modaltransfer_block" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Ajouter Mouvement</h4>
+                    <h4 class="modal-title" id="myModalLabel">Le transfer du <span id="transferdulabel"></span> </h4>
                 </div>
                 <div class="modal-body">
-  
-                    <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('register') }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-  
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> le transfer avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreure a été se produit.
+                    </div>
+                    <form id="transferfrm" class="form-horizontal" role="form" method="POST">
+
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Ref commande</label>
+                            <input type="hidden" name="enstockde" id="enstockde" value="">
+                            <label class="col-md-4 control-label">Transferer à </label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Fournisseur</label>
-                            <div class="col-md-6">
-                                <select name="provider" class="form-control">
-                                  <option>Four1</option>
-                                  <option>Four2</option>
+
+                                <select name="personal_id_stock" class="form-control chosen-select" id="personal_id_stock">
+                                    <option value="0">Veuillez selectionner un installateur</option>
+                                    <?php foreach($personals as $persoanl):?>
+                                        <option value="<?php echo $persoanl['id'];?>"><?php echo $persoanl['first_name']. ' '.$persoanl['last_name'];?></option>
+
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-
-
-                         <div class="form-group">
-                            <label class="col-md-4 control-label">PLAN</label>
-                            <div class="col-md-6">
-                               <input type="text" class="form-control" name="order_id">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Date arrivée</label>
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" name="date_arrived">
-                                <small class="help-block"></small>
-                            </div>
-                        </div>
-  
-                       <div class="form-group">
-                            <label class="col-md-4 control-label">Importer fichier</label>
-                            <div class="col-md-6">
-                               <input type="file" class="form-control" name="order_id">
-                                
-                            </div>
-                        </div>
-  
-  
+                        <input type="hidden" name="products_transfer" id="products_transfer" value="">
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 pull-right">
-                                <button type="submit" class="btn btn-primary">
-                                    Valider
-                                </button>
+                                <a title="product/transfer" alt="transferfrm" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>
+
                             </div>
                         </div>
-                    </form>                       
-  
+                    </form>
+
                 </div>
             </div>
         </div>
