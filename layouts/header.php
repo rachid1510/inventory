@@ -55,13 +55,7 @@
                 <span>Catégories</span>
               </a>
             </li> -->
-            <li>
 
-                <a href="<?php echo $url;?>/intervention">
-                    <i class="glyphicon glyphicon-user"></i>
-                    <span>INTERVENTION</span>
-                </a>
-            </li>
             <li>
                 <a href="<?php echo $url;?>/movement">
                     <i class="glyphicon glyphicon-move"></i>
@@ -93,7 +87,13 @@
                     <span>VEHICULES</span>
                 </a>
             </li>
+            <li>
 
+                <a href="<?php echo $url;?>/intervention">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>INTERVENTION</span>
+                </a>
+            </li>
             <li>
                 <a href="<?php echo $url;?>/installation">
                     <i class="glyphicon glyphicon-wrench"></i>
@@ -107,10 +107,16 @@
                     <span>INSTALLATEUR</span>
                 </a>
             </li>
+<!--            <li>-->
+<!--                <a href="--><?php //echo $url;?><!--/home">-->
+<!--                    <i class="glyphicon glyphicon-stats"></i>-->
+<!--                    <span>STATISTIQUE</span>-->
+<!--                </a>-->
+<!--            </li>-->
             <li>
-                <a href="<?php echo $url;?>/home">
-                    <i class="glyphicon glyphicon-stats"></i>
-                    <span>STATISTIQUE</span>
+                <a href="<?php echo $url;?>/docs.php">
+                    <i class="glyphicon glyphicon-download-alt"></i>
+                    <span>Documents</span>
                 </a>
             </li>
 

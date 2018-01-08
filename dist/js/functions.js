@@ -261,7 +261,7 @@ function filter_drop(select_to_update,action,v,txt,selected_value,title){
             else
             {
 
-                $('#'+select_to_update).append($('<option></option>').attr('value', '').text('aucun produit'));
+                $('#'+select_to_update).append($('<option></option>').attr('value', '').text('Aucun Element Trouvé'));
                 $('#'+select_to_update).trigger('chosen:updated');
 
             }
@@ -292,6 +292,7 @@ function update_function(id_select)
                          $(this).prop('selected', true);
                      }
                 });
+                 $('select#personal_id').trigger('change');
                 $('select#personal_id').trigger('chosen:updated');
 
                   // filter product by personal selected

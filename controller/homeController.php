@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require ("model/Model.php");
 include ("config/config.php");
 
@@ -9,10 +7,6 @@ class homeController
 {
     public function  actionIndex(){
 
-
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
         $sims=array();
         $product= model::create('Product');
         $sims= $product->findFromRelation("products p,movements m","p.movement_id=m.id and p.status='0' and m.category_id=2" ,array("fields"=>"COUNT(*) nombre","groupBy"=>"m.category_id"));

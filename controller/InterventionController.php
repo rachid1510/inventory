@@ -5,7 +5,6 @@
  * Date: 02/01/2018
  * Time: 09:54
  */
-session_start();
 use setasign\Fpdi\Fpdi;
 include ("config/config.php");
 require ("model/Model.php");
@@ -15,12 +14,6 @@ class InterventionController
 {
     public function actionIndex($page=null)
     {
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
-
-
-
         /*
          * creation des models
          */
@@ -47,35 +40,35 @@ class InterventionController
                 $inter = $intervention->save($data);
                 $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
 
-//            $interventions=$intervention->find();
-// initiate FPDI
                 $pdf = new Fpdi();
-                // add a page
-                $pdf->AddPage();
-// set the sourcefile
+
+
+                // set the sourcefile
                 $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-// import page 1
+                // import page 1
                 $tplIdx = $pdf->importPage(1);
-// use the imported page and place it at point 10,10 with a width of 100 mm
-                $pdf->useTemplate($tplIdx, 10, 10, 200);
+                for ($i=0;$i<5;$i++){
+                    $pdf->AddPage();
+                    // use the imported page and place it at point 10,10 with a width of 100 mm
+                    $pdf->useTemplate($tplIdx, 10, 10, 200);
 
-// now write some text above the imported page
-                $pdf->SetFont('Helvetica', '', 10);
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(160, 30);
-                $today = date("Ymd");
-                $pdf->Write(0, "FI".$today."_".$instalateur."_".$inter);// la tu écrit ton texte depuis sql
-                $pdf->SetXY(60, 88);
-                $pdf->Write(0, $instalateurname[0]['personnal_name']);
+                    // now write some text above the imported page
+                    $pdf->SetFont('Helvetica', '', 10);
+                    $pdf->SetTextColor(0, 0, 0);
+                    $pdf->SetXY(160, 30);
+                    $today = date("Ymd");
+                    $pdf->Write(0, "FI" . $today . "_" . $instalateur . "_" . $inter);// la tu écrit ton texte depuis sql
+                    $pdf->SetXY(60, 88);
+                    $pdf->Write(0, $instalateurname[0]['personnal_name']);
 
-                $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
+                    $pdf->Output('intervention'.$i. $instalateurname[0]['personnal_name'] . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
 
 //                if ($inter > 0) {
 //                    $result = array("msg" => "OK");
 //                } else {
 //                    $result = array("msg" => "ERROR");
 //                }
-
+                }
             }
         }
 

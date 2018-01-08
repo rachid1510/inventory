@@ -16,9 +16,9 @@ include ("layouts/header.php");?>
 
          <div class="pull-right">
 
-             <form id="filtre" name="filtre" role="form" method="post" action="" >
-             <button type="submit" name="export" class="btn btn-primary">exporter</button>
-             </form>
+<!--             <form id="filtre" name="filtre" role="form" method="post" action="" >-->
+<!--             <button type="submit" name="export" class="btn btn-primary"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>-->
+<!--             </form>-->
 
              <?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
            <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle Commande</a>
@@ -140,7 +140,12 @@ include ("layouts/header.php");?>
                                 <small class="help-block"></small>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="exampleTextarea">Observation</label>
+                            <div class="col-md-6">
+                            <textarea class="form-control" id="observation" name="observation" rows="3"></textarea>
+                            </div>
+                        </div>
                        <div class="form-group import_file">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">

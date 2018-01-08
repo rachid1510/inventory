@@ -1,8 +1,5 @@
 <?php
-
 include "layouts/header.php"; ?>
-
-
 <div class="row">
     <div class="col-md-12">
         <h3>La liste des interventions</h3>
@@ -20,7 +17,7 @@ include "layouts/header.php"; ?>
                     <?php endif; ?>
                     <div class="form-group col-md-2">
                         <label class="control-label">date</label>
-                        <input type="date" class="form-control datePicker" name="instervened_at">
+                        <input type="date" class="form-control" name="instervened_at">
                     </div>
                     <div class="form-group col-md-2">
                         <label class="control-label">Marque</label>

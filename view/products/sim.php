@@ -12,9 +12,9 @@ include ("layouts/header.php");?>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
 
-            <div class="col-md-12">
+           <div class="row">
             <form id="filtre" name="filtre" role="form" method="post" action="" >
-
+                <div class="col-md-12">
             <div class="form-group col-md-2">
               <label class="control-label">SSID</label>
              <input type="text" class="form-control" id="imei_searsh" name="imei" placeholder="SSID">
@@ -66,12 +66,14 @@ include ("layouts/header.php");?>
                 <br/>
                 <div class="form-group col-md-2 pull-right">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <button type="submit" name="export" class="btn btn-primary"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>
+                </div>
                 </div>
            </form>
            </div>
 
 
-          <div class="col-md-6 pull-right" style="text-align: right;">
+          <div class="col-md-8 pull-right" style="text-align: right;">
 
            <a href="#" id="modalactivation_btn" class="btn btn-primary">Activer</a>
            <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>

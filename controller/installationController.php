@@ -1,5 +1,4 @@
 <?php
-session_start();
 require ("model/Model.php");
 include ("config/config.php");
 class installationController
@@ -7,14 +6,6 @@ class installationController
     //
     public function actionIndex($page=null)
     {
-        /*
-        * check session
-        */
-
-
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
         $installations=array();
         $installation = Model::create('Installation');
         $product = Model::create('Product');
@@ -58,7 +49,12 @@ class installationController
         $condition="";
         if(!empty($_POST["installed_at"]))
         {
-            $condition= "i.installed_at like '%".$_POST["installed_at"]. "%'";
+            if(!empty($_POST["date_fin"])) {
+                $condition = "i.installed_at > '" . $_POST["installed_at"] . "' and i.installed_at < '".$_POST["date_fin"]."'";
+            }
+            else{
+                $condition = "i.installed_at like '%" . $_POST["installed_at"] . "%'";
+            }
 
         }
         if(!empty($_POST["client"]))
@@ -490,6 +486,7 @@ class installationController
         $status="Completed";
         $observation="Reconfiguration";
         $errors=array();
+        $result='';
         $errors=$this->validation_data($personal_id,$selected_vehicle,$date_installation,$box,$card,$box_costumer,$card_costumer,$new_vehicle,$displaynewvehicle,$product,'update');
         if(count($errors)==0) {
             if (($id_sim_old != $card) or ($id_box_old != $box)) {

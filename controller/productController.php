@@ -1,22 +1,16 @@
 <?php
-session_start();
-
 require ("model/Model.php");
 include ("config/config.php");
 class productController
 {
+
    /*
     * display list of box
     */
     public function actionBoitier($page=null)
     {
 
-        /*
-               * check session
-               */
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
+
         $products=array();
         /*
          * instance
@@ -110,7 +104,11 @@ class productController
 
 
         }
-
+        if(isset($_POST['export'])) {
+            $labels=['IMEI', 'Modèle','Date d\'arrivée','Fournisseur','Ref commande', 'Etat de stock', 'Installateur','Matricule', 'SIM opentech', 'SIM Client'];
+            $header = ['imei_product', 'model', 'date_arrived', 'provider','order_ref','status', 'first_name', 'imei_vehicle', 'imei_product_inverse', 'costumer_product'];
+            $product->export_excel($all_products, $header,$labels, 'La liste des boitiers');
+        }
         $total_records = count($all_products);
 
         $total_pages = ceil($total_records / $limit);
@@ -130,7 +128,7 @@ class productController
        * check session
        */
         if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
+            header("Location:http://".$_SERVER['HTTP_HOST']."/inventory/login.php");
         }
 
         $products=array();
@@ -235,6 +233,12 @@ class productController
             $all_products=$product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id and ip.status<>'3' left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2",array("fields"=>"p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id ,(SELECT p2.imei_product from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id and di2.installation_id=di.installation_id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product"));
             $products = $product->findFromRelation( "products p left join movements m on p.movement_id=m.id left join inventory_personals ip on ip.product_id=p.id and ip.status<>'3' left join details_installations di on di.product_id=p.id left join installations i on i.id=di.installation_id left join vehicles v on v.id=i.vehicle_id left join personals per on per.id=ip.personal_id","m.category_id=2",array("fields"=>"DISTINCT p.*,m.provider,m.date_arrived,m.order_ref,v.imei as imei_vehicle,per.first_name,per.id as personal_id,(SELECT p2.imei_product from products p2 join details_installations di2 on di2.product_id=p2.id where di2.product_id<>di.product_id and p2.id<>p.id and di2.installation_id=di.installation_id) as imei_product_inverse ,(SELECT cp.imei_product from costumer_products cp join installations i2 on i2.id=cp.installation_id where i2.id=i.id) as costumer_product","limit"=>$start_from.','.$limit));
           }
+
+        if(isset($_POST['export'])) {
+            $labels=['SSID','Numèro', 'Plan','Date d\'arrivée','Fournisseur','Activer','Date d\'activation','Ref commande','Etat de stock', 'Installateur', 'Matricule', 'SIM opentech', 'SIM Client'];
+            $header = ['imei_product','label', 'model', 'date_arrived', 'provider','state','enabled_date','order_ref', 'status','first_name', 'imei_vehicle', 'imei_product_inverse', 'costumer_product'];
+            $product->export_excel($all_products, $header,$labels, 'La liste des boitiers');
+        }
         $total_records = count($all_products);
         $total_pages = ceil($total_records / $limit);
 

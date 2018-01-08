@@ -1,5 +1,4 @@
 <?php
-session_start();
 require ("model/Model.php");
 include ("config/config.php");
 class movementController
@@ -9,14 +8,7 @@ class movementController
     */
     public function actionIndex()
     {
-        /*
-        * check session
-        */
-        session_start();
 
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
         $categories=array();
         $category = Model::create('Category');
         $categories=$category->find("categories",array("fields"=>"*"));
@@ -45,10 +37,10 @@ class movementController
 
             $errors[]="La reférence de la commande ne peut pas etre vide<br>";
         }
-        if(empty($file))
-        {
-            $errors[]="Veuillez importer le fichier <br>";
-        }
+//        if(empty($file))
+//        {
+//            $errors[]="Veuillez importer le fichier <br>";
+//        }
 //        if (!$_FILES['your_var_name']['tmp_name'])
 //        {
 //            $errors[]="Veuillez importer le fichier <br>";
@@ -72,19 +64,26 @@ class movementController
         $result=$this->validation_data($_POST["category"],$_POST["order_id"],$file);
         if(count($result)==0) {
             $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
-            $data = array("plan" => $_POST["plan"], "quantity" => $_POST["quantite"], "order_ref" => $_POST["order_id"], "provider" => $_POST["provider"], "category_id" => $_POST["category"], 'date_arrived' => $_POST['date_arrived'], 'user_id' => $_SESSION['user_id']);
+            $data = array("plan" => $_POST["plan"], "quantity" => $_POST["quantite"], "order_ref" => $_POST["order_id"], "provider" => $_POST["provider"], "category_id" => $_POST["category"], "observtion"=>$_POST['observation'], 'date_arrived' => $_POST['date_arrived'], 'user_id' => $_SESSION['user_id']);
             $movement_id = $movement->save($data);
 
             $insert = true;
-            if ($movement_id > 0) {
-                $insert = $this->prepare_query($_POST["category"], $movement_id, $file);
+            if ($movement_id > 0){
+                if(!empty($file)) {
+                    $insert = $this->prepare_query($_POST["category"], $movement_id, $file);
 
-                if ($insert) {
-                    $result = array('msg' => 'OK');
-                } else {
-                    $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement');
+                    if ($insert) {
+                        $result = array('msg' => 'OK');
+                    } else {
+                        $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement, les imei sans dèjàd ans la base, merci de verifier votre fichier excel importé ');
+                    }
                 }
-
+                else{
+                    $data = array("id" => $movement_id, "observtion" => 'En attend de stock', 'user_id' => $_SESSION['user_id']);
+                   if($movement->save($data)){
+                       $result = array('msg' => 'OK');
+                       }
+                }
             } else {
                 $result = array('msg' => 'error');
 
@@ -99,8 +98,8 @@ class movementController
     public function prepare_query($category,$move_id,$file)
     {
         $product_array = array();
-        //$phpexcel=Model::create("PHPExcel");
-        include 'model/phpexcel/IOFactory.php';
+        //$objPHPExcel=Model::create("PHPExcel");
+        require 'model/phpexcel/IOFactory.php';
         $objPHPExcel = PHPExcel_IOFactory::load($file);
         $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
         $product_object = Model::create('Product');
@@ -117,10 +116,12 @@ class movementController
                     "movement_id" => $move_id,
                     "user_id" => $_SESSION['user_id'],
                 );
+               if(!$this->check_exist_product($allDataInSheet[$i]["A"],$product_object)) {
+                   if ($product_object->save($product_array) == 0) {
+                       $insert = false;
+                   }
+               }
 
-                if ($product_object->save($product_array) == 0) {
-                    $insert = false;
-                }
             }
 
         }
@@ -135,8 +136,10 @@ class movementController
                     "movement_id" => $move_id,
                     "user_id" => $_SESSION['user_id'],
                 );
-                if ($product_object->save($product_array) == 0) {
-                    $insert = false;
+                if(!$this->check_exist_product($allDataInSheet[$i]["A"],$product_object)) {
+                    if ($product_object->save($product_array) == 0) {
+                        $insert = false;
+                    }
                 }
             }
 
@@ -169,20 +172,77 @@ class movementController
     */
     public function actionUpdate()
     {
+//        $result = array();
+//        $movement = Model::create('Movement');
+//        $movement_id=$_POST['id_movement'];
+//        $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
+//         if($movement->save($data)){
+//             $result = array('msg' => 'OK');
+//         }
+//         else
+//         {
+//             $result = array('msg' => 'error');
+//         }
+//        $movement_id = $movement->save($data);
+//
+//        echo json_encode($result);
+
+
         $result = array();
+        //$movement=new Move;ment();
         $movement = Model::create('Movement');
         $movement_id=$_POST['id_movement'];
-        $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
-         if($movement->save($data)){
-             $result = array('msg' => 'OK');
-         }
-         else
-         {
-             $result = array('msg' => 'error');
-         }
-        $movement_id = $movement->save($data);
+        $file='';
+        if (isset($_FILES['upload']))
+        {
+            $file=$_FILES['upload']['name'];
+        }
+        $result=$this->validation_data($_POST["category"],$_POST["order_id"],$file);
+        if(count($result)==0) {
+            $file = $_FILES['upload']['tmp_name'];//$_POST["upload"];
+            $data = array("id"=>$movement_id,"plan" => $_POST["plan"],"quantity" => $_POST["quantite"],"observtion"=>$_POST['observation'],"order_ref" => $_POST["order_id"],"provider" => $_POST["provider"], "category_id" => $_POST["category"],'date_arrived'=>$_POST['date_arrived'],'user_id'=>$_SESSION['user_id']);
+            $insert = true;
+            if($movement->save($data)){
+                if(!empty($file)) {
+                    $insert = $this->prepare_query($_POST["category"], $movement_id, $file);
 
-        echo json_encode($result);
+                    if ($insert) {
+                        $result = array('msg' => 'OK');
+                    } else {
+                        $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement');
+                    }
+                }
+                else{
+                    $data = array("id" => $movement_id, "observtion" => 'En attend de stock', 'user_id' => $_SESSION['user_id']);
+                    if($movement->save($data)){
+                        $result = array('msg' => 'OK');
+                    }
+                }
+            } else {
+                $result = array('msg' => 'error');
+
+            }
+            header('content-type:application/json');
+            echo json_encode($result);
+        }
+        else{
+            echo json_encode(array("msg"=>$result));
+        }
 
     }
+
+    /*
+     * check if product imei exist in product table
+     */
+   public function check_exist_product($product_imei,$product){
+
+       $products=array();
+
+       $products=$product->findFromRelation('products p',"p.imei_product like '$product_imei'",array("fields"=>"p.id"));
+       if(count($products)>0)
+       {
+           return true;
+       }
+       return false;
+   }
 }

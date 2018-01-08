@@ -1,19 +1,11 @@
 <?php
-session_start();
+
 require ("model/Model.php");
-include ("config/config.php");
 class vehicleController
 {
     //
     public function actionIndex($page=null)
     {
-        /*
-         * check session
-         */
-
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
         /*
          * var $condition string concat searsh's conditions
          */
@@ -71,12 +63,13 @@ class vehicleController
             $vehicles = $vehicle->findFromRelation("costumers c,vehicles v", "v.costumer_id=c.id", array("fields" => "v.*,c.name", "limit" => $start_from . ',' . $limit));
         }
         if(isset($_POST['export'])) {
-            $header = ['id', 'imei', 'model','marque','costumer_id','created_at','updated_at','user_id','name'];
-            $vehicle->export_excel($vehicles, $header, 'liste des Véhicules');
+            $labels = ['id', 'IMEI', 'Modèle','Marque','Client'];
+            $header = ['id', 'imei', 'model','marque','name'];
+            $vehicle->export_excel($vehicles, $header, $labels,'liste des Vehicules');
         }
 
 
-        
+
         $total_records = count($allvehicles);
         $total_pages = ceil($total_records / $limit);
         require 'view/vehicles/index.php';

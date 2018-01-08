@@ -1,16 +1,10 @@
 <?php
-session_start();
-
 require ("model/Model.php");
 include ("config/config.php");
 class dashboardController
 {
     public function  actionIndex(){
 
-
-        if (!isset($_SESSION["login"]) and $_SESSION["fonction"]!='admin') {
-            header("Location:login.php?error=e");
-        }
             $installateurs = array();
             $installateur = Model::create('Personal');
             $installateurs = $installateur->find();

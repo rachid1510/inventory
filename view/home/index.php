@@ -14,7 +14,7 @@
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3><?php echo $boitiers[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($boitiers[0]['nombre'])){ echo $boitiers[0]['nombre'];}else echo '0'; ?></h3>
 
                                 <p>Boitier Installés</p>
                             </div>
@@ -29,7 +29,7 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3><?php echo $sims[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($sims[0]['nombre'])){ echo $sims[0]['nombre'];} else echo '0'; ?></h3>
 
                                 <p>Carte installés</p>
                             </div>
@@ -44,7 +44,7 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                                <h3><?php echo $boitiersbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($boitiersbloqs[0]['nombre'])){ echo $boitiersbloqs[0]['nombre'];} else { echo '0';} ?></h3>
 
                                 <p>boitier bloqués</p>
                             </div>
@@ -59,7 +59,7 @@
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
-                                <h3><?php echo $simsbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($simsbloqs[0]['nombre'])){ echo $simsbloqs[0]['nombre'];} else echo '0'; ?></h3>
 
                                 <p>Carte  bloqués</p>
                             </div>
@@ -76,14 +76,14 @@
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3><?php echo $boitiers[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($boitiers[0]['nombre'])){ echo $boitiers[0]['nombre'];} else echo '0'; ?></h3>
 
                                 <p>Total carte en stock Opentech</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">  <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -91,7 +91,7 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3><?php echo $sims[0]['nombre']; ?></h3>
+                                <h3><?php if(isset($sims[0]['nombre'])){ echo $sims[0]['nombre']; } else echo '0';?></h3>
 
                                 <p>Total Boitier en stock Opentech</p>
                             </div>
@@ -101,38 +101,38 @@
                             <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3><?php echo $boitiersbloqs[0]['nombre']; ?></h3>
-
-                                <p>Total Boitier en stock Personnel</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-red">
-                            <div class="inner">
-                                <h3><?php echo $simsbloqs[0]['nombre']; ?></h3>
-
-                                <p>Total Carte en stock Personnel</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                </div>
+<!--                    <!-- ./col -->
+<!--                    <div class="col-lg-3 col-xs-6">-->
+<!--                        <!-- small box -->
+<!--                        <div class="small-box bg-yellow">-->
+<!--                            <div class="inner">-->
+<!--                                <h3>--><?php //echo $boitiersbloqs[0]['nombre']; ?><!--</h3>-->
+<!---->
+<!--                                <p>Total Boitier en stock Personnel</p>-->
+<!--                            </div>-->
+<!--                            <div class="icon">-->
+<!--                                <i class="ion ion-person-add"></i>-->
+<!--                            </div>-->
+<!--                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <!-- ./col -->
+<!--                    <div class="col-lg-3 col-xs-6">-->
+<!--                        <!-- small box -->
+<!--                        <div class="small-box bg-red">-->
+<!--                            <div class="inner">-->
+<!--                                <h3>--><?php //echo $simsbloqs[0]['nombre']; ?><!--</h3>-->
+<!---->
+<!--                                <p>Total Carte en stock Personnel</p>-->
+<!--                            </div>-->
+<!--                            <div class="icon">-->
+<!--                                <i class="ion ion-pie-graph"></i>-->
+<!--                            </div>-->
+<!--                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <!-- ./col -->
+<!--                </div>-->
                 <!-- /.row -->
                 <!-- Main row -->
 
