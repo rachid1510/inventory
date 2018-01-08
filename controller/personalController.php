@@ -1,5 +1,4 @@
 <?php
-session_start();
 require ("model/Model.php");
 include ("config/config.php");
 class personalController
@@ -9,17 +8,9 @@ class personalController
     public function actionIndex()
     {
 
-
-
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
-
         $installateurs = array();
         $installateur = Model::create('Personal');
-        $installateurs = $installateur->find();
-
-
+        $installateurs = $installateur->find(array("fields"=>"*","orderBy"=>"id"));
         require 'view/personals/index.php';
 
 

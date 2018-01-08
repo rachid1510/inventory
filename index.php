@@ -2,6 +2,10 @@
     /**
     * check session
     **/
+session_start();
+if (!isset($_SESSION["login"])) {
+    header("Location:login.php");
+}
 
 //          session_start();
 //
@@ -68,5 +72,6 @@ $controllers=['product','movement','installation','costumer','vehicle','personal
     }
     else
     {
-       include 'login.php';
+        header("location:home");
+
     }

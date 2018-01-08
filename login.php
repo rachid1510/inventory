@@ -1,9 +1,10 @@
 <?php
 include ("config/config.php");
+include ("model/Model.php");
 session_start();
 
 try {
-    $databaseConnection = new PDO('mysql:host=localhost;dbname=stock', 'root', '');
+    $databaseConnection = Model::getDb() ;
     $databaseConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     echo 'ERROR: ' . $e->getMessage();

@@ -27,7 +27,7 @@ include ("layouts/header.php");?>
 <!--                    <button type="button" class="btn btn-default">Rechercher</button>-->
                     <br/>
                     <button type="submit" class="btn btn-primary">Rechercher</button>
-                    <button type="submit" name="export" class="btn btn-primary">exporter</button>
+                    <button type="submit" name="export" class="btn btn-primary"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>
 
                 </form>
             </div>

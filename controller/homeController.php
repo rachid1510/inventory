@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require ("model/Model.php");
 include ("config/config.php");
 
@@ -10,9 +8,8 @@ class homeController
     public function  actionIndex(){
 
 
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
+
+        $sims=array();
         $product= model::create('Product');
 
         $sims=array();

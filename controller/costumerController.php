@@ -1,5 +1,4 @@
 <?php
-session_start();
 require ("model/Model.php");
 include ("config/config.php");
 class costumerController
@@ -9,13 +8,6 @@ class costumerController
     public function actionIndex($page=null)
     {
 
-        /*
-         *
-         */
-
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
         $customers = array();
         $customer = Model::create('Costumer');
         /*
@@ -63,8 +55,9 @@ class costumerController
         }
 
       if(isset($_POST['export'])) {
-            $header = ['id', 'name', 'type', 'phone_number', 'city', 'departement', 'adress', 'user_id', 'created_at', 'updated_at'];
-            $customer->export_excel($customers, $header, 'La liste des clients');
+          $labels = ['id', 'Nom', 'Type', 'Mail','Ville', 'dèpartement', 'adresse'];
+            $header = ['id', 'name', 'type', 'mail','city', 'departement', 'adress'];
+            $customer->export_excel($customers, $header, $labels,'La liste des clients');
         }
          require 'view/costumers/index.php';
 

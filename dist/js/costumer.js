@@ -13,10 +13,11 @@ function update_costumer(id_select)
         data:{id:id_select},
         dataType:'json',
         success: function(resultat ) {
-            console.log(resultat);
+
             if (resultat.length > 0) {
                 $('#costumer_name').val(resultat[0].name);
-                $('#costumer_phone').val(resultat[0].phone);
+                $('#costumer_phone').val(resultat[0].phone_number);
+                $('#costumer_mail').val(resultat[0].mail);
                 $('#costumer_city').val(resultat[0].city);
                 $('#costumer_departement').val(resultat[0].departement);
                 $('#costumer_adress').val(resultat[0].adress);

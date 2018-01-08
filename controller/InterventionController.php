@@ -5,7 +5,6 @@
  * Date: 02/01/2018
  * Time: 09:54
  */
-session_start();
 use setasign\Fpdi\Fpdi;
 include ("config/config.php");
 require ("model/Model.php");
@@ -15,12 +14,6 @@ class InterventionController
 {
     public function actionIndex($page=null)
     {
-        if (!isset($_SESSION["login"])) {
-            header("Location:login.php?error=e");
-        }
-
-
-
         /*
          * creation des models
          */
@@ -56,19 +49,9 @@ class InterventionController
                 $clientname = $client->find(array("fields" => "name", "conditions" => "id=$costumer"));
 
 
-//            $interventions=$intervention->find();
-// initiate FPDI
                 $pdf = new Fpdi();
-                // add a page
-                $pdf->AddPage();
-// set the sourcefile
-                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-// import page 1
-                $tplIdx = $pdf->importPage(1);
-// use the imported page and place it at point 10,10 with a width of 100 mm
-                $pdf->useTemplate($tplIdx, 10, 10, 200);
 
-// now write some text above the imported page
+
                 $pdf->SetFont('Helvetica', 'B', 10);
                 $pdf->SetTextColor(7, 20, 80);
                 $pdf->SetXY(165, 25);
@@ -87,9 +70,9 @@ class InterventionController
 //                } else {
 //                    $result = array("msg" => "ERROR");
 //                }
-
+                }
             }
-        }
+
 
         $limit=20;
         if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {

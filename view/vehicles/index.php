@@ -30,7 +30,7 @@
 
                     <br/>
                     <button type="submit" class="btn btn-primary">Rechercher</button>
-                    <button type="submit" name="export" class="btn btn-primary">exporter</button>
+                    <button type="submit" name="export" class="btn btn-primary"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>
                 </form>
           </div>
          <div class="pull-right">
@@ -81,6 +81,37 @@
 
             </tbody>
           </table>
+            <?php
+            if($p*$limit<$total_records) {
+                $next = $start_from + $limit;
+                $pagLink = "<div class='pagination pull-left'>" . $start_from . "-" . $next . "/" . $total_records . "</div><div class='pagination pull-right'><ul class='pagination'>";
+
+                // $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";
+                if ($p > 1) {
+                    $prec = $p - 1;
+                    $pagLink .= "<li class='paginate_button'><a href='" . $url . "/vehicle/index/" . $prec . "'>Précédent</a></li>";
+                }
+                for ($i = $p; $i <= $p + 5; $i++) {
+
+                    if ($i == $p) {
+                        $pagLink .= "<li class='paginate_button active'><a href='" . $url . "/vehicle/index/" . $i . "'>" . $i . "</a></li>";
+
+                    } else {
+                        $pagLink .= "<li class='paginate_button'><a href='" . $url . "/vehicle/index/" . $i . "'>" . $i . "</a></li>";
+                    }
+
+                    if ($i >= $total_pages) {
+                        break;
+                    }
+                };
+                if ($p * $limit < $total_records) {
+                    $next = $p + 1;
+                    //$url = "index.php?c=Patient&a=Afficher&page=" . $p + 1;
+                    $pagLink .= "<li class='paginate_button'><a  href='" . $url . "/vehicle/index/" . $next . "'>Suivant</a></li>";
+                }
+
+                echo $pagLink . "</ul></div>";
+            }?>
         </div>
       </div>
     </div>

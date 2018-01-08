@@ -11,8 +11,9 @@ include ("layouts/header.php");?>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
+            <div class="row">
             <form id="filtre" name="filtre" role="form" method="post" action="" >
-          <div class="col-md-10">
+          <div class="col-md-12">
 
 
                 <div class="form-group col-md-2">
@@ -25,15 +26,15 @@ include ("layouts/header.php");?>
                    <input type="text" class="form-control" name="ref_order" placeholder="REF COMMANDE">
                </div>
 
-               <div class="form-group col-md-2">
-                   <label class="control-label">Etat</label>
-                   <select name="state" class="form-control">
-                       <option value="">Sélectionnez</option>
-                       <option value="enabled">Active</option>
-                       <option value="disabled">Inactive</option>
-
-                   </select>
-               </div>
+<!--               <div class="form-group col-md-2">-->
+<!--                   <label class="control-label">Etat</label>-->
+<!--                   <select name="state" class="form-control">-->
+<!--                       <option value="">Sélectionnez</option>-->
+<!--                       <option value="enabled">Active</option>-->
+<!--                       <option value="disabled">Inactive</option>-->
+<!---->
+<!--                   </select>-->
+<!--               </div>-->
                <div class="form-group col-md-2">
                    <label class="control-label">Etat de stock</label>
                    <select name="stock" class="form-control">
@@ -63,12 +64,13 @@ include ("layouts/header.php");?>
           </div>
                <div class="form-group col-md-2 pull-right"><br>
                <button type="submit" class="btn btn-primary">Rechercher</button>
+                   <button type="submit" name="export" class="btn btn-primary"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>
                </div>
            </form>
-
+            </div>
         
 
-           <div class="col-md-6 pull-right" style="text-align: right"><br/>
+           <div class="col-md-8 col-xs-12 pull-right" style="text-align: right"><br/>
 
                <a href="#" id="modalaffactation" class="btn btn-primary">Affecter</a>
                <a href="#" id="modaltransfer" class="btn btn-primary">Transfer</a>
@@ -109,7 +111,7 @@ include ("layouts/header.php");?>
                 <th class="text-center" style="width: 10%;"> Date d'arrivée </th>
                   <th class="text-center" style="width: 10%;"> Ref commande </th>
                   <th class="text-center" style="width: 15%;"> Etat </th>
-                  <th class="text-center" style="width: 15%;"> Autre produit installés </th>
+
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
                   <th class="text-center" style="width: 10%;">SIM opentech</th>
@@ -140,11 +142,7 @@ include ("layouts/header.php");?>
                     }else{
                         echo '<span style="padding: 0px !important;" class="alert alert-danger">Bloqué</span>';
                     }?></td>
-                <?php  if($product['status']=="0"):?>
-              <td class="text-center"><?php  echo $product['status']; ?> </td>
-                <?php  else: ?>
-                    <td class="text-center">makayn walo </td>
-                       <?php endif; ?>
+
 
 
 

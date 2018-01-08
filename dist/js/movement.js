@@ -44,10 +44,13 @@ function update_movement(id_select)
                     }
                 });
                 $('#order_id').val(resultat[0].order_ref);
-                $('#provider').val(resultat[0].provider);
+                   $('#provider').find('option').remove().end()
+                       .append('<option selected value="'+resultat[0].provider+'">'+resultat[0].provider+'</option>');
+
                 $('#plan').val(resultat[0].plan);
                 $('#quantite').val(resultat[0].quantity);
                 $('#date_arrived').val(resultat[0].date_arrived);
+                $('#observation').val(resultat[0].observtion);
                // $('select#category').trigger('chosen:updated');
                 $('#myModal').modal();
             }

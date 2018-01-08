@@ -25,7 +25,7 @@ include ("layouts/header.php");?>
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-
+                        <th class="text-center" style="width: 10%;"> Code </th>
                         <th class="text-center" style="width: 10%;"> Prénom </th>
                         <th class="text-center" style="width: 10%;"> Nom </th>
                         <th class="text-center" style="width: 10%;"> Telèphone </th>
@@ -36,6 +36,7 @@ include ("layouts/header.php");?>
                     <?php foreach($installateurs as $installateur):?>
 
                         <tr>
+                            <td class="text-center"> <?php echo $installateur['id']; ?></td>
                             <td class="text-center"> <?php echo $installateur['first_name']; ?></td>
                             <td class="text-center"> <?php echo $installateur['last_name']; ?> </td>
                             <td class="text-center"> <?php echo $installateur['phone_number']; ?> </td>

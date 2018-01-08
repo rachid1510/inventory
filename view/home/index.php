@@ -14,6 +14,7 @@
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
+
                                 <h3><?php if (!empty($boitiers))
                                     echo $boitiers[0]['nombre'];
                                     else echo "0"; ?></h3>
@@ -31,9 +32,11 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
+
                                 <h3><?php if (!empty($sims))
                                     echo $sims[0]['nombre'];
                                     else echo  "0"?></h3>
+
 
 <!--                                <p>Carte installés</p>-->
                             </div>
@@ -48,9 +51,11 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
+
                                 <h3><?php if(!empty($boitiersbloqs))
                                      echo $boitiersbloqs[0]['nombre'];
                                      else echo "0";?></h3>
+
 
 <!--                                <p>boitier bloqués</p>-->
                             </div>
@@ -65,9 +70,11 @@
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
+
                                 <h3><?php if (!empty($simsbloqs))
                                     echo $simsbloqs[0]['nombre'];
                                     else echo "0"; ?></h3>
+
 
                             </div>
                             <div class="icon">
@@ -83,16 +90,20 @@
                         <!-- small box -->
                         <div class="small-box bg-orange">
                             <div class="inner">
+
                                 <h3><?php if (!empty($simsopentech))
                                     echo $simsopentech[0]['nombre'];
                                     else echo "0"; ?></h3>
+
 
 
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
+
                             <a href="#" class="small-box-footer">Total carte en stock Opentech</a>
+
                         </div>
                     </div>
                     <!-- ./col -->
@@ -100,9 +111,11 @@
                         <!-- small box -->
                         <div class="small-box bg-darken-2">
                             <div class="inner">
+
                                 <h3><?php if (!empty($boitiersopentech))
                                     echo $boitiersopentech[0]['nombre'];
                                     else echo "0"; ?></h3>
+
 
                             </div>
                             <div class="icon">
@@ -111,6 +124,7 @@
                             <a href="#" class="small-box-footer">Total Boitier en stock Opentech</a>
                         </div>
                     </div>
+
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
@@ -145,7 +159,7 @@
                     </div>
                     <!-- ./col -->
                 </div>
-                <!-- /.row -->
+
                 <!-- Main row -->
 
                 <!-- /.row (main row) -->

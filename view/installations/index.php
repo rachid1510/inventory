@@ -12,13 +12,18 @@ include ("layouts/header.php");?>
                         <div class="panel-heading clearfix">
 
 
-                            <div class="col-md-9 pull-left">
-                                <form role="form" method="post" action="">
 
+                                <form role="form" method="post" action="">
+                                    <div class="col-md-12 pull-left">
 
                                     <div class="form-group col-md-2">
-                                        <label class="control-label">date</label>
+                                        <label class="control-label">Date</label>
                                         <input type="date" class="form-control" name="installed_at">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label class="control-label">Date Fin</label>
+                                        <input type="date" class="form-control" name="date_fin">
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label class="control-label">client</label>
@@ -55,13 +60,16 @@ include ("layouts/header.php");?>
                                     <div class="form-group col-md-2"><br/>
                                     <button type="submit" class="btn btn-primary">Rechercher</button>
                                     </div>
+                                    </div>
                                 </form>
-                            </div>
+
                             <br>
-                            <div class="col-md-3 pull-right">
+                            <div class="col-md-2 pull-right">
                                 <?php if($_SESSION['fonction']=='technique' || $_SESSION['fonction']=='admin'):?>
                                 <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle installation</a>
                                <?php endif;?>
+                            </div>
+                            <div class="col-md-2">
                                 <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
@@ -284,9 +292,9 @@ include ("layouts/header.php");?>
                                 </div>
 
                             <div class="form-group">
-                                    <label for="exampleTextarea">Observation</label>
+                                    <label  for="exampleTextarea">Observation</label>
 
-                                    <textarea class="form-control" id="observation" rows="3"></textarea>
+                                    <textarea class="form-control" name="observation" id="observation" rows="3"></textarea>
                                 </div>
                             <div class="form-group">
                                 <input type="hidden" name="id_installation" value="" id="id_installation">

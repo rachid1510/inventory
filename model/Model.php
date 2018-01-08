@@ -19,29 +19,29 @@ abstract class Model
         $class_name = $class;
         return new $class_name();
     }
-  static function getDb(){
-     
+   static function getDb(){
+
 	   // $dsn = 'mysql:dbname=guidedup_groupeHome;host=127.0.0.1';
        // $user = 'guidedup_userdb';
       // $password = 'y@}#knq#9GM{';
-	  
+
 	  $dsn = 'mysql:dbname=stock;host=127.0.0.1';
 	  $user = 'root';
       $password = '';
-     
+
 		try {
 			$pdo = new PDO($dsn, $user, $password,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8") );
 		} catch (PDOException $e) {
 			echo 'Connexion échouée : ' . $e->getMessage();
 		}
-       
+
         return $pdo;
     }
-  public function find($req = null) {
-		
-		
+   public function find($req = null) {
+
+
        $sql="";
-		
+
         $sql = 'SELECT ';
         if (isset($req['fields'])) {
             if (!is_array($req['fields'])) {
@@ -57,7 +57,7 @@ abstract class Model
 
 
         if (isset($req['conditions'])) {
-			
+
             if (!is_array($req['conditions'])) {
                 $sql .= ' WHERE ' . $req['conditions'];
             } else {
@@ -118,11 +118,7 @@ abstract class Model
             return array();
         }
     }
-	
-	
-	
-		 
-	 public function save(&$data) {
+   public function save(&$data) {
         $key = $this->primaryKey;
         $fields = array();
         //var_dump($data);
@@ -132,21 +128,21 @@ abstract class Model
                 $d[":$k"] = "$v";
             }
         }
-	 
-		 
+
+
         if (!empty($data[$key])) {
             $sql = 'UPDATE ' . $this->table . ' SET ' . implode(', ', $fields) . ' WHERE ' . $key . '=:' . $key;
             $d[$key] = $data[$key];
             $action = 'update';
         } else {
             $sql = 'INSERT INTO ' . $this->table . ' SET ' . implode(', ', $fields);
-			
+
             $action = 'insert';
         }
 
         $pre = $this->db->prepare($sql);
         try {
-           
+
         $r = $pre->execute($d);
             if ($action == 'insert') {
                 $this->$key = $this->db->lastInsertId();
@@ -166,9 +162,8 @@ abstract class Model
             return false;
         }
     }
-	
-    public function findFromRelation($tables, $keys, $req = null) {
-		
+   public function findFromRelation($tables, $keys, $req = null) {
+
         $sql = 'SELECT ';
 
         if (isset($req['fields'])) {
@@ -217,7 +212,7 @@ abstract class Model
                        // $cond[] = $k . ' like "' . mysql_real_escape_string($v) . '"';
 						$cond[] = $k . ' like '. $this->db->quote($v) ;
 						//echo mysql_real_escape_string($v);  </br>";
-						
+
                     } else {
                         $cond[] = "$k=$v";
                     }
@@ -225,14 +220,14 @@ abstract class Model
                 $sql.= ( count($cond) >= 1) ? ' AND ' . implode(' AND ', $cond) : '';
             }
         }
-		
+
 		if (isset($req['groupBy'])) {
             $sql .= ' GROUP BY ' . $req['groupBy'];
         }
         if ((isset($req['orderBy'])))  {
             $sql .= ' ORDER BY ' . $req['orderBy'];
         }
-	
+
         if (isset($req['limit'])) {
             $sql .= ' LIMIT ' . $req['limit'];
         }
@@ -243,19 +238,18 @@ abstract class Model
         $pre->execute();
       return $pre->fetchAll();
     }
-	
-	 public function delete($id) {
+   public function delete($id) {
         $pre = $this->db->prepare("delete from {$this->table} WHERE $this->primaryKey = $id");
 		//print_r($pre);
         return $pre->execute();
     }
-		 public function deleteByTable($id,$table) {
+   public function deleteByTable($id,$table) {
         $pre = $this->db->prepare("delete from ".$table." WHERE id = ".$id);
 		//print_r($pre);
         return $pre->execute();
     }
 
-   public  function export_excel($data,$header,$name)
+   public  function export_excel($data,$header,$labels,$name)
     {
         $excelFile=Model::create('PHPExcel');
         $c='A';
@@ -263,9 +257,9 @@ abstract class Model
         /*
          * set header label
          */
-        for($i=0;$i<count($header);$i++)
+        for($i=0;$i<count($labels);$i++)
         {
-            $excelFile->getActiveSheet()->SetCellValue($c.$r, "$header[$i]");
+            $excelFile->getActiveSheet()->SetCellValue($c.$r, "$labels[$i]");
 
             $c++;
         }
@@ -273,12 +267,12 @@ abstract class Model
          * set body data
          */
 //        echo count($header);
-         //var_dump($data);
+        // var_dump($data);
         $r=2;
         for($i=0; $i<count($data); $i++) {
             $c='A';
             for($j=0;$j<count($header);$j++){
-                $excelFile->getActiveSheet()->SetCellValue($c.$r, $data[$i][$j]);
+                $excelFile->getActiveSheet()->SetCellValue($c.$r, $data[$i]["$header[$j]"]);
                 $c++;
             }
             $r++;
