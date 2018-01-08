@@ -14,14 +14,16 @@
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3><?php echo $boitiers[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($boitiers))
+                                    echo $boitiers[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Boitier Installés</p>
+<!--                                <p>Boitier Installés</p>-->
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Boitier Installés</a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -29,14 +31,16 @@
                         <!-- small box -->
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3><?php echo $sims[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($sims))
+                                    echo $sims[0]['nombre'];
+                                    else echo  "0"?></h3>
 
-                                <p>Carte installés</p>
+<!--                                <p>Carte installés</p>-->
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Carte installés</a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -44,14 +48,16 @@
                         <!-- small box -->
                         <div class="small-box bg-yellow">
                             <div class="inner">
-                                <h3><?php echo $boitiersbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if(!empty($boitiersbloqs))
+                                     echo $boitiersbloqs[0]['nombre'];
+                                     else echo "0";?></h3>
 
-                                <p>boitier bloqués</p>
+<!--                                <p>boitier bloqués</p>-->
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">boitier bloqués</a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -59,14 +65,15 @@
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
-                                <h3><?php echo $simsbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($simsbloqs))
+                                    echo $simsbloqs[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Carte  bloqués</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Carte  bloqués </a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -74,61 +81,66 @@
                 <div class="row">
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-aqua">
+                        <div class="small-box bg-orange">
                             <div class="inner">
-                                <h3><?php echo $boitiers[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($simsopentech))
+                                    echo $simsopentech[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Total carte en stock Opentech</p>
+
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Total carte en stock Opentech</a>
                         </div>
                     </div>
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-green">
+                        <div class="small-box bg-darken-2">
                             <div class="inner">
-                                <h3><?php echo $sims[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($boitiersopentech))
+                                    echo $boitiersopentech[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Total Boitier en stock Opentech</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Total Boitier en stock Opentech</a>
                         </div>
                     </div>
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-yellow">
+                        <div class="small-box bg-lime">
                             <div class="inner">
-                                <h3><?php echo $boitiersbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($boitierspersonel))
+                                    echo $boitierspersonel[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Total Boitier en stock Personnel</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Total Boitier en stock Personnel</a>
                         </div>
                     </div>
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-red">
+                        <div class="small-box bg-silver">
                             <div class="inner">
-                                <h3><?php echo $simsbloqs[0]['nombre']; ?></h3>
+                                <h3><?php if (!empty($simspersonel))
+                                    echo $simspersonel[0]['nombre'];
+                                    else echo "0"; ?></h3>
 
-                                <p>Total Carte en stock Personnel</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
                             </div>
-                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="#" class="small-box-footer">Total Carte en stock Personnel</a>
                         </div>
                     </div>
                     <!-- ./col -->

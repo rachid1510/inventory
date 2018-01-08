@@ -8,7 +8,7 @@ class dashboardController
     public function  actionIndex(){
 
 
-        if (!isset($_SESSION["login"]) and $_SESSION["fonction"]!='admin') {
+        if (isset($_SESSION["login"]) and $_SESSION["fonction"]!='admin') {
             header("Location:login.php?error=e");
         }
             $installateurs = array();

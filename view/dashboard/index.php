@@ -10,7 +10,7 @@ include ("layouts/header.php");?>
 
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">les installations par mois</h3>
+                <h3 class="box-title">Les installations par mois</h3>
             </div>
             <div class="box-body">
                 <div class="chart">
@@ -28,7 +28,7 @@ include ("layouts/header.php");?>
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">les Sim les plus installés</h3>
+                <h3 class="box-title">Les Sim les plus installés</h3>
 
             </div>
             <div class="box-body">
@@ -40,7 +40,7 @@ include ("layouts/header.php");?>
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">es boitiers les plus installés</h3>
+                <h3 class="box-title">Les boitiers les plus installés</h3>
             </div>
             <div class="box-body">
                 <div class="chart">

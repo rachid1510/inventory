@@ -19,6 +19,9 @@
     <script src="<?php echo $url;?>/dist/js/costumer.js"></script>
     <script src="<?php echo $url;?>/dist/js/vehicle.js"></script>
     <script src="<?php echo $url;?>/dist/js/product.js"></script>
+    <script src="<?php echo $url;?>/dist/js/intervention.js"></script>
+    <script src="<?php echo $url;?>/dist/js/updateinter.js"></script>
+
 
 
     </body>

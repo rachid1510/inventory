@@ -430,7 +430,7 @@ class installationController
     public function actionEdit(){
         //require 'view/installations/update.php';
         $installations=array();
-        $installation_id=$_POST['id'];
+        $installation_id=$_POST ['id'];
         $installation = Model::create('Installation');
         $installations=$installation->findFromRelation( "installations i,details_installations di,products p,movements m,vehicles v","v.id=i.vehicle_id and p.movement_id=m.id and di.product_id=p.id and i.id=di.installation_id and i.id=$installation_id" ,array("fields"=>"i.*,i.id as installation_id,p.*,p.id as id_product,m.category_id as category,v.costumer_id as costumer"));
 
