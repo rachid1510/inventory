@@ -144,6 +144,7 @@ $(document).ready(function() {
                  if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
+
                    //  $("#personal_id option:first").attr('selected','selected');
                    //
                    // $('#personal_id').trigger("chosen:updated");

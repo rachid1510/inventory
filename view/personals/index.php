@@ -29,6 +29,8 @@ include ("layouts/header.php");?>
                         <th class="text-center" style="width: 10%;"> Prénom </th>
                         <th class="text-center" style="width: 10%;"> Nom </th>
                         <th class="text-center" style="width: 10%;"> Telèphone </th>
+                        <th class="text-center" style="width: 10%;"> Nombre de boitier </th>
+                        <th class="text-center" style="width: 10%;"> Nombre de GSM </th>
                         <th class="text-center" style="width: 10%;"> Details </th>
                     </tr>
                     </thead>
@@ -38,8 +40,10 @@ include ("layouts/header.php");?>
                         <tr>
                             <td class="text-center"> <?php echo $installateur['id']; ?></td>
                             <td class="text-center"> <?php echo $installateur['first_name']; ?></td>
-                            <td class="text-center"> <?php echo $installateur['last_name']; ?> </td>
+                            <td class="text-center"> <?php echo strtoupper($installateur['last_name']); ?> </td>
                             <td class="text-center"> <?php echo $installateur['phone_number']; ?> </td>
+                            <td class="text-center"> <?php echo $installateur['nombreboitier']; ?> </td>
+                            <td class="text-center"> <?php echo $installateur['nombregsm']; ?> </td>
 
                             <td class="text-center">
 

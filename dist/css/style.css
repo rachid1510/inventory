@@ -341,3 +341,6 @@ a.submenu-toggle {
 .chosen-select-width,.chosen-container {
     width: 100% !important;
 }
+table#liste {
+    width: 100%;
+}

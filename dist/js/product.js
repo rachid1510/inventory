@@ -3,7 +3,7 @@ $(document).ready(function() {
 $("#returntoopentech").click(function(){
     $('#liste').find('input[type="checkbox"]:checked').each(function () {
 
-        if($(this).attr("alt")!=3){
+        if($(this).attr("alt")==1){
             alert("L'un des produits selectionnés ne peut pas étre retourner");
             return false;
         }

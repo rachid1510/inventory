@@ -38,7 +38,7 @@ class installationController
          /*
          * get list of costumers ,vehicles,boitiers,cartes
          */
-        $personals=$personal->find();
+        $personals=$personal->find("personals p",array("conditions"=>"p.fonction='installateur'"));
         $costumers=$costumer->find("Costumers",array("fields"=>"*"));
         $vehicles=$vehicle->find("Vehicles",array("fields"=>"*"));
         $boitiers=$product->findFromRelation("products p,movements m",'p.movement_id=m.id and m.category_id=1',array("fields"=>"p.*"));

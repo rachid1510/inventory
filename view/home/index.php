@@ -109,7 +109,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-darken-2">
+                        <div class="small-box bg-olive">
                             <div class="inner">
 
                                 <h3><?php if (!empty($boitiersopentech))
@@ -128,7 +128,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-lime">
+                        <div class="small-box bg-aqua">
                             <div class="inner">
                                 <h3><?php if (!empty($boitierspersonel))
                                     echo $boitierspersonel[0]['nombre'];
@@ -144,7 +144,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-silver">
+                        <div class="small-box bg-blue">
                             <div class="inner">
                                 <h3><?php if (!empty($simspersonel))
                                     echo $simspersonel[0]['nombre'];
@@ -160,9 +160,6 @@
                     <!-- ./col -->
                 </div>
 
-                <!-- Main row -->
-
-                <!-- /.row (main row) -->
 
             </section>
             <!-- /.content -->

@@ -528,13 +528,14 @@ class productController
         * instanciation
         */
             $prod=Model::create("Product");
+            $inven_personal=Model::create("InventoryPersonal");
 
         /*
          * loop list of product checked to returne
          */
         foreach ($products as $product)
         {
-
+            $this->actionDesaffectation($product,$inven_personal);
             $data_prod=array("id"=>$product,"status"=>'1');
             if($prod->save($data_prod)==0){
                 $return=false;

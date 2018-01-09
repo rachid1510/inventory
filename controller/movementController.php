@@ -128,9 +128,9 @@ class movementController
         else{
             for ($i = 2; $i <= $arrayCount; $i++) {
                 $product_array= array(
-                    "imei_product" => trim($allDataInSheet[$i]["C"]),
+                    "imei_product" => trim($allDataInSheet[$i]["A"]),
                     "label" => trim($allDataInSheet[$i]["B"]),
-                    "model" => trim($allDataInSheet[$i]["Y"]),
+                    "model" => trim($allDataInSheet[$i]["B"]),
                     "state" => 'disabled',
                     "status" => '1',
                     "movement_id" => $move_id,

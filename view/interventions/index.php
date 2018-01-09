@@ -64,9 +64,10 @@ include "layouts/header.php"; ?>
                         </select>
                     </div>
                     <br/>
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
-                    <button type="submit" name="export" class="btn btn-primary">Exporter </button>
-
+                    <div class="col-md-2 pull-right">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                        <button type="submit" name="export" class="btn btn-primary">Exporter </button>
+                    </div>
 
                 </form>
 
@@ -74,15 +75,22 @@ include "layouts/header.php"; ?>
             <!-- /.box-body -->
         </div>
     <div class="panel-body">
-        <form role="form" method="post" action="">
-            <div class="form-group col-md-3">
-                <label class="control-label">Pagination</label>
-                <input type="text" class="form-control" name="pagination" placeholder="pagination">
-            </div>
-            <div class="form-group col-md-2"><br/>
-                <button type="submit" class="invisible">Appliquer</button>
-            </div>
-        </form>
+        <div class="col-md-4">
+            <form role="form" method="post" action="">
+
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                    <select class="form-control" name="pagination" onchange="this.form.submit()">
+
+                        <option value="20" <?php if($limit==20){ echo 'selected = "selected"';}?>>20</option>
+                        <option value="30" <?php if($limit==30){ echo 'selected = "selected"';}?>>30</option>
+                        <option value="50" <?php if($limit==50){ echo 'selected = "selected"';}?>>50</option>
+                        <option value="100" <?php if($limit==100){ echo 'selected = "selected"';}?>>100</option>
+                    </select>
+                </div>
+                <!--                    <input type="text" class="form-control" name="pagination" placeholder="pagination">-->
+
+            </form>
+        </div>
     <table class="table table-bordered" id="liste">
         <thead>
         <tr>

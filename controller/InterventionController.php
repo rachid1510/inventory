@@ -46,12 +46,16 @@ class InterventionController
                 $data = array("type" => $type, "marque" => $marque, "matricule" => $matricule, "kilometrage" => $kilometrage, "id_costumer"=>$costumer,"id_instalateur" => $instalateur, "intervened_at" => $intervened_at);
                 $inter = $intervention->save($data);
                 $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
-                $clientname = $client->find(array("fields" => "name", "conditions" => "id=$costumer"));
+                $clientname = $client->find(array("fields" => "*", "conditions" => "id=$costumer"));
 
 
                 $pdf = new Fpdi();
 
+                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
+                $tt=$pdf->importPage(1);
 
+                $pdf->AddPage();
+                $pdf->useTemplate($tt,10,10,200);
                 $pdf->SetFont('Helvetica', 'B', 10);
                 $pdf->SetTextColor(7, 20, 80);
                 $pdf->SetXY(165, 25);
@@ -60,9 +64,22 @@ class InterventionController
                 $pdf->SetTextColor(0, 0, 0);
                 $pdf->SetXY(60, 88);
                 $pdf->Write(0, $instalateurname[0]['personnal_name']);
+
                 $pdf->SetTextColor(0, 0, 0);
                 $pdf->SetXY(117, 45);
                 $pdf->Write(0, $clientname[0]['name']);
+
+                $pdf->SetTextColor(0, 0, 0);
+                $pdf->SetXY(117, 58);
+                $pdf->Write(0, $clientname[0]['phone_number']);
+
+                $pdf->SetTextColor(0, 0, 0);
+                $pdf->SetXY(117, 63);
+                $pdf->Write(0, $clientname[0]['mail']);
+
+                $pdf->SetTextColor(0, 0, 0);
+                $pdf->SetXY(117, 53);
+                $pdf->Write(0, $clientname[0]['adress']);
                 $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
 
 //                if ($inter > 0) {
