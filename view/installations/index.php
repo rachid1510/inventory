@@ -69,22 +69,31 @@ include ("layouts/header.php");?>
                                 <a   id="showmodal" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nouvelle installation</a>
                                <?php endif;?>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 pull-right">
                                 <a href=""  class="btn btn-primary">Lister</a>
 
                             </div>
                         </div>
                         <div class="panel-body">
-                            <form role="form" method="post" action="">
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Pagination</label>
-                                <input type="text" class="form-control" name="pagination" placeholder="pagination">
+                            <div class="col-md-4">
+                                <form role="form" method="post" action="">
+
+                                    <div class="col-md-4 col-lg-4 col-sm-12">
+                                        <select class="form-control" name="pagination" onchange="this.form.submit()">
+
+                                            <option value="20" <?php if($limit==20){ echo 'selected = "selected"';}?>>20</option>
+                                            <option value="30" <?php if($limit==30){ echo 'selected = "selected"';}?>>30</option>
+                                            <option value="50" <?php if($limit==50){ echo 'selected = "selected"';}?>>50</option>
+                                            <option value="100" <?php if($limit==100){ echo 'selected = "selected"';}?>>100</option>
+                                        </select>
+                                    </div>
+                                    <!--                    <input type="text" class="form-control" name="pagination" placeholder="pagination">-->
+
+                                </form>
                             </div>
-                            <div class="form-group col-md-2"><br/>
-                                <button type="submit" class="invisible">Appliquer</button>
-                            </div>
-                            </form>
-                            <div class="table-responsive">
+
+                            <br/>
+
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>

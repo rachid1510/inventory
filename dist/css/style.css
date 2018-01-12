@@ -341,6 +341,12 @@ a.submenu-toggle {
 .chosen-select-width,.chosen-container {
     width: 100% !important;
 }
+
+table#liste {
+    width: 100%;
+}
+
+
 table#tblCustomers>tbody>tr>td>input {
     width: 100%;
 }
@@ -348,4 +354,9 @@ table#tblCustomers>tbody>tr>td>input {
 
 table#tblCustomers>tbody>tr>td {
     width: 10%;
+}
+table#tblCustomers>tbody>tr>td {
+    /* margin: 7px; */
+    /* margin-left: 24px; */
+    padding: 5px;
 }

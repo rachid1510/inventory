@@ -13,7 +13,7 @@ body {
   top: 50%;
   left: 50%;
   margin: -10rem 0 0 -10rem;
-  width: 20rem;
+  width: 2rem;
   height: 20rem;
   padding: 20px;
   background: #fff;
@@ -153,4 +153,7 @@ body {
 }
 .login-btn:hover:after, .login-btn:focus:after, .login-btn:active:after {
   border-left-color: orange;
+}
+table#liste {
+  width: 100%;
 }

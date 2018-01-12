@@ -30,6 +30,29 @@
       </div>
       <div class="pull-right clearfix">
         <ul class="info-menu list-inline list-unstyled">
+
+            <?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
+            <li class="profile">
+                <a data-toggle="dropdown" class="toggle" aria-expanded="false">
+                    <i class="glyphicon glyphicon-globe" aria-hidden="true"></i></a>
+                <ul class="dropdown-menu alet alert-danger" style="right: 0px !important;left:auto !important;">
+                    <li id="carte_link" class="" style="display: none">Alert stock carte SIM <span></span></li>
+                    <li id="boitier_link" class="alet alert-danger" style="display: none">Alert stock Boitier <span></span></li>
+                </ul>
+            </li>
+            <?php endif;?>
+
+            <?php if($_SESSION['fonction']=='admin'):?>
+                <li class="profile">
+                    <a data-toggle="dropdown" class="toggle" aria-expanded="false">
+                        <i class="glyphicon glyphicon-bell" aria-hidden="true"></i></a>
+                    <ul class="dropdown-menu alet alert-danger" style="right: 0px !important;left:auto !important;">
+                        <li id="intervention_alert" class="" style="display: none">Alert intervention incomplete <span></span></li>
+
+                    </ul>
+                </li>
+            <?php endif;?>
+
             <li class="last">
                 <a href="<?php echo $url;?>/logout.php">
                     <i class="glyphicon glyphicon-off"></i>
@@ -45,7 +68,7 @@
             <li>
                 <a href="<?php echo $url;?>/dashboard">
                     <i class="glyphicon glyphicon-home"></i>
-                    <span>Dashboard</span>
+                    <span>DASHBOARD</span>
                 </a>
             </li>
 
@@ -69,8 +92,8 @@
                     <span>STOCK</span>
                 </a>
                 <ul class="nav submenu">
-                    <li><a href="<?php echo $url;?>/product/boitier">Boîtier</a> </li>
-                    <li><a href="<?php echo $url;?>/product/sim">Cartes SIM</a> </li>
+                    <li><a href="<?php echo $url;?>/product/boitier">Boîtier </a> </li>
+                    <li><a href="<?php echo $url;?>/product/sim">Cartes SIM <span id="carte_link"></span></a> </li>
                 </ul>
             </li>
 
@@ -90,7 +113,7 @@
             <li>
 
                 <a href="<?php echo $url;?>/intervention">
-                    <i class="glyphicon glyphicon-user"></i>
+                    <i class="glyphicon glyphicon-cog"></i>
                     <span>INTERVENTION</span>
                 </a>
             </li>
@@ -116,15 +139,24 @@
             <li>
                 <a href="<?php echo $url;?>/docs.php">
                     <i class="glyphicon glyphicon-download-alt"></i>
-                    <span>Documents</span>
+                    <span>DOCUMENTS</span>
                 </a>
             </li>
+            <?php if($_SESSION['fonction']=='admin'):?>
             <li>
-                <a href="<?php echo $url;?>/home">
-                    <i class="glyphicon glyphicon-stats"></i>
-                    <span>CHAT</span>
+                <a href="<?php echo $url;?>/user">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>UTILISATEURS</span>
                 </a>
             </li>
+            <?php endif;?>
+
+<!--            <li>-->
+<!--                <a href="--><?php //echo $url;?><!--/home">-->
+<!--                    <i class="glyphicon glyphicon-stats"></i>-->
+<!--                    <span>CHAT</span>-->
+<!--                </a>-->
+<!--            </li>-->
 
         </ul>
 

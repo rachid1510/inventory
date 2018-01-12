@@ -11,12 +11,10 @@ include ("layouts/header.php");?>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
+                </div>
                     <div class="panel-body">
-                        <div class="form-group col-md-3">
-                            <label class="control-label">Pagination</label>
-                            <input type="text" class="form-control" name="pagination" placeholder="pagination">
-                        </div>
-                        <table class="table table-bordered">
+
+                        <table class="table-bordered table-responsive" id="list">
                             <thead>
                             <tr>
 
@@ -40,7 +38,7 @@ include ("layouts/header.php");?>
                             </tbody>
                         </table>
                     </div>
-                </div>
+
             </div>
         </div>
     </div>

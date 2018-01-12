@@ -123,7 +123,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-       console.log(frmaction);
+
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
@@ -144,6 +144,7 @@ $(document).ready(function() {
                  if(resultat.msg == 'OK') {
                     $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
+
                    //  $("#personal_id option:first").attr('selected','selected');
                    //
                    // $('#personal_id').trigger("chosen:updated");
@@ -292,7 +293,7 @@ function update_function(id_select)
                          $(this).prop('selected', true);
                      }
                 });
-                 $('select#personal_id').trigger('change');
+                // $('select#personal_id').trigger('change');
                 $('select#personal_id').trigger('chosen:updated');
 
                   // filter product by personal selected

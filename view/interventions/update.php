@@ -85,57 +85,63 @@ include "layouts/header.php"; ?>
      <table id="tblCustomers" class="table-responsive table-bordered">
         <thead>
         <tr>
-            <th class="text-center" style="width: 10%;"> Date d'intervention </th>
+
             <th class="text-center" style="width: 10%;"> Type </th>
-            <th class="text-center" style="width: 10%;"> Marque </th>
-            <th class="text-center" style="width: 10%;"> Matricule </th>
-            <th class="text-center" style="width: 10%;"> Kilometrage </th>
-            <th class="text-center" style="width: 10%;"> Remarque </th>
+            <th class="text-center" style="width: 10%;"> Véhicule </th>
             <th class="text-center" style="width: 10%;"> Imei_boitier </th>
             <th class="text-center" style="width: 10%;"> Imei_carte </th>
-            <th class="text-center" style="width: 10%;"> Vehicule </th>
-
+            <th class="text-center" style="width: 10%;"> Kilometrage </th>
+            <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modif </th>
 
         </tr>
         </thead>
         <tbody>
-        <?php foreach($interventions as $intervention):?>
+        <?php foreach($interventions_details as $intervention):?>
             <tr>
-                <td><input type="date" id="intervened_at" value="<?php echo $intervention['intervened_at']; ?>" /> </td>
+
                 <td><input type="text" id="type" value="<?php echo $intervention['type']; ?>" /> </td>
-                <td><input type="text" id="marque" value="<?php echo $intervention['marque']; ?>" /></td>
-                <td><input type="text" id="matricule" value="<?php echo $intervention['matricule']; ?>" /> </td>
-                <td><input type="text" id="kilometrage" value="<?php echo $intervention['kilometrage']; ?>" /></td>
-                <td><input type="text" id="remarque" value="<?php echo $intervention['remarque']; ?>" /></td>
+                <td>
+                    <select name="vehicule" id="vehicule" class="form-control">
+                        <option value="">Veuillez selectionner un vehicule</option>
+                        <?php foreach($vehicles as $vehicle):?>
+                            <option value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['imei']; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                </td>
                 <td>
                 <select name="boitier" id="boitier" class="form-control">
                     <option value="">Veuillez selectionner un boitier</option>
-                    <?php foreach($details_boxs as $details_box):?>
+                    <?php foreach($details_boxs as $details_box):
+                        if($intervention["imei_boitier"]==$details_box["id"]):?>
+                        <option selected="selected" value="<?php echo $details_box["id"] ?>" ><?php echo $details_box['imei_product']; ?></option>
+                        <?php else: ?>
                         <option value="<?php echo $details_box["id"] ?>" ><?php echo $details_box['imei_product']; ?></option>
-                    <?php endforeach; ?>
+                    <?php endif;
+                    endforeach; ?>
 
                 </select>
                 </td>
                 <td>
                     <select name="sim" id="sim" class="form-control">
                         <option value="">Veuillez selectionner une carte sim</option>
-                        <?php foreach($details_sims as $details_sim):?>
-                            <option value="<?php echo $details_sim["id"] ?>" ><?php echo $details_sim['label']; ?></option>
+                        <?php foreach($details_sims as $details_sim):
+                            if($intervention["imei_carte"]==$details_sim["id"]):?>
+                                    <option selected="selected" value="<?php echo $details_sim["id"] ?>" ><?php echo $details_sim['label']; ?></option>)
+                          <?php else: ?>
+                                <option value="<?php echo $details_sim["id"] ?>" ><?php echo $details_sim['label']; ?></option>
+                          <?php  endif; ?>
                         <?php endforeach; ?>
 
                     </select>
                 </td>
-                <td>
-                    <select name="vehicule" id="vehicule" class="form-control">
-                        <option value="">Veuillez selectionner un vehicule</option>
-                        <?php foreach($vehicles as $vehicle):?>
-                            <option value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['marque']; ?></option>
-                        <?php endforeach; ?>
 
-                    </select>
-                </td>
                <input type="hidden" id="id_intervention" value="<?php echo $intervention['id']; ?>" />
+
+                <td><input type="text" id="kilometrage" value="<?php echo $intervention['kilometrage']; ?>" /></td>
+                <td><input type="text" id="remarque" value="<?php echo $intervention['remarque']; ?>" /></td>
+
                 <td><input type="button" class="btn btn-primary" onclick="Add()" value="Add" /></td>
 
             </tr>

@@ -42,47 +42,36 @@ include "layouts/header.php"; ?>
 
                     </div>
 
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Client</label>
-                        <select name="costumer" class="form-control">
-                            <option value="">selectionner un client</option>
-                            <?php foreach($costumers as $customer):?>
-                                <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
-                            <?php endforeach; ?>
 
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Installateur</label>
-                        <select name="instalateur" class="form-control">
-                            <option value="">selectionner un Installateur</option>
-                            <?php foreach($installateurs as $instalateur):?>
-                                <option value="<?php echo $instalateur["id"] ?>" ><?php echo $instalateur["first_name"].' '. $instalateur["last_name"] ?></option>
-                            <?php endforeach; ?>
-
-                        </select>
-                    </div>
                     <br/>
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
-                    <button type="submit" name="export" class="btn btn-primary">Exporter </button>
+                    <div class="col-md-2 pull-right">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
 
+                    </div>
 
                 </form>
+                <a href="#" id="export_intervention" class="btn btn-primary">Exporter</a>
 
 
             <!-- /.box-body -->
         </div>
     <div class="panel-body">
-        <form role="form" method="post" action="">
-            <div class="form-group col-md-3">
-                <label class="control-label">Pagination</label>
-                <input type="text" class="form-control" name="pagination" placeholder="pagination">
-            </div>
-            <div class="form-group col-md-2"><br/>
-                <button type="submit" class="invisible">Appliquer</button>
-            </div>
-        </form>
+        <div class="col-md-4">
+            <form role="form" method="post" action="">
+
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                    <select class="form-control" name="pagination" onchange="this.form.submit()">
+
+                        <option value="20" <?php if($limit==20){ echo 'selected = "selected"';}?>>20</option>
+                        <option value="30" <?php if($limit==30){ echo 'selected = "selected"';}?>>30</option>
+                        <option value="50" <?php if($limit==50){ echo 'selected = "selected"';}?>>50</option>
+                        <option value="100" <?php if($limit==100){ echo 'selected = "selected"';}?>>100</option>
+                    </select>
+                </div>
+                <!--                    <input type="text" class="form-control" name="pagination" placeholder="pagination">-->
+
+            </form>
+        </div>
     <table class="table table-bordered" id="liste">
         <thead>
         <tr>
@@ -156,6 +145,76 @@ include "layouts/header.php"; ?>
         echo $pagLink . "</ul></div>"; ?>
     </div>
     </div>
+    </div>
+
+    <div class="modal fade" id="modalinterventionexporter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">L'Affectation des boîtiers aux personnels</h4>
+                </div>
+                <div class="modal-body">
+<!--                    <div class="alert alert-success" style="display: none">-->
+<!--                        <strong>Success!</strong> l'affectation avec succés.-->
+<!--                    </div>-->
+<!--                    <div class="alert alert-danger" style="display: none">-->
+<!--                        <strong>Danger!</strong>Erreure a été se produit.-->
+<!--                    </div>-->
+                    <form id="exportintervention" class="form-horizontal" role="form" method="POST" action="intervention/exporter">
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">date</label>
+                            <div class="col-md-6">
+                              <input type="date" class="form-control datePicker" name="instervened_at">
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="nombreproduct" style="">
+                            <label class="col-md-4 control-label">Nombre à exporter</label>
+                            <div class="col-md-6">
+                                <input type="text" name="personalproduct" id="personalproduct"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Client</label>
+                            <div class="col-md-6">
+                            <select name="costumer" class="form-control chosen-select">
+                                <option value="">selectionner un client</option>
+                                <?php foreach($costumers as $customer):?>
+                                    <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-md-4 control-label">Installateur</label>
+                            <div class="col-md-6">
+
+                                <select name="instalateur" class="form-control chosen-select">
+                                    <option value="">selectionner un Installateur</option>
+                                    <?php foreach($installateurs as $instalateur):?>
+                                        <option value="<?php echo $instalateur["id"] ?>" ><?php echo $instalateur["first_name"].' '. $instalateur["last_name"] ?></option>
+                                    <?php endforeach; ?>
+
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="products" id="products" value="">
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4 pull-right">
+<!--                                <a title="intervention/exporter" alt="exportintervention" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
+                             <input type="submit" value="valider" class="btn btn-primary btn-lg"/>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

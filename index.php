@@ -1,5 +1,7 @@
-<?php  
-    /**
+<?php
+ if($_SERVER["REMOTE_ADDR"]!='192.168.1.72'){
+header("location:http://192.168.1.72/inventory_v1");
+}    /**
     * check session
     **/
 session_start();
@@ -15,8 +17,14 @@ if (!isset($_SESSION["login"])) {
 //       else
 //       header("Location:login.php?error=e");
 //
+   if($_SESSION['fonction']=='admin'){
+       $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention','user'];
 
-$controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention'];
+   }
+   else{
+       $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention'];
+
+   }
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
     $ctl = $currentlink[2];
 

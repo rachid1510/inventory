@@ -21,6 +21,7 @@
     <script src="<?php echo $url;?>/dist/js/product.js"></script>
     <script src="<?php echo $url;?>/dist/js/intervention.js"></script>
     <script src="<?php echo $url;?>/dist/js/updateinter.js"></script>
+    <script src="<?php echo $url;?>/dist/js/user.js"></script>
 
 
 

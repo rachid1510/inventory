@@ -38,21 +38,29 @@ include ("layouts/header.php");?>
          </div>
         </div>
         <div class="panel-body">
-            <form role="form" method="post" action="">
-                <div class="form-group col-md-3">
-                    <label class="control-label">Pagination</label>
-                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
-                </div>
-                <div class="form-group col-md-2"><br/>
-                    <button type="submit" class="invisible">Appliquer</button>
-                </div>
+            <div class="col-md-4">
+                <form role="form" method="post" action="">
 
-            </form>
+                    <div class="col-md-4 col-lg-4 col-sm-12">
+                        <select class="form-control" name="pagination" onchange="this.form.submit()">
+
+                            <option value="20" <?php if($limit==20){ echo 'selected = "selected"';}?>>20</option>
+                            <option value="30" <?php if($limit==30){ echo 'selected = "selected"';}?>>30</option>
+                            <option value="50" <?php if($limit==50){ echo 'selected = "selected"';}?>>50</option>
+                            <option value="100" <?php if($limit==100){ echo 'selected = "selected"';}?>>100</option>
+                        </select>
+                    </div>
+                    <!--                    <input type="text" class="form-control" name="pagination" placeholder="pagination">-->
+
+                </form>
+            </div>
+            <br/>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                                
                 <th class="text-center" style="width: 10%;"> Nom </th>
+                  <th class="text-center" style="width: 10%;"> Contact </th>
                 <th class="text-center" style="width: 10%;"> Type </th>
                   <th class="text-center" style="width: 10%;"> Mail </th>
                 <th class="text-center" style="width: 10%;"> Telèphone </th>
@@ -67,6 +75,7 @@ include ("layouts/header.php");?>
 
             <tr>
                 <td class="text-center">  <?php echo $customer['name']; ?></td>
+                <td class="text-center">  <?php echo $customer['contact']; ?></td>
                  <td class="text-center"> <?php echo $customer['type']; ?> </td>
                 <td class="text-center"> <?php echo $customer['mail']; ?> </td>
                 <td class="text-center"> <?php echo $customer['phone_number']; ?> </td>
@@ -114,6 +123,14 @@ include ("layouts/header.php");?>
                                 <input type="text" name="costumer_name" id="costumer_name" class="form-control required" required>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Contact</label>
+                            <div class="col-md-6">
+                                <input type="text" name="costumer_contact" id="costumer_contact" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Télèphone</label>
                             <div class="col-md-6">

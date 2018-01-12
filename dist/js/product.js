@@ -3,7 +3,7 @@ $(document).ready(function() {
 $("#returntoopentech").click(function(){
     $('#liste').find('input[type="checkbox"]:checked').each(function () {
 
-        if($(this).attr("alt")!=3){
+        if($(this).attr("alt")==1){
             alert("L'un des produits selectionnés ne peut pas étre retourner");
             return false;
         }
@@ -88,4 +88,38 @@ $("#returntoopentech").click(function(){
             return false;
         }
     });
+
+
+    function load_notification(cat,id,alertstock)
+
+    {
+
+        $.ajax({
+
+            url:url+"/product/stockalert",
+            method:"POST",
+            data:{category:cat},
+            dataType:"json",
+            success:function(data)
+
+            {
+               if(data.notification <= alertstock){
+                   $('.profile>a').css("color","red");
+                   $('#'+id).show();
+                   $('#'+id+'>span').html(data.notification);
+               }
+
+
+                // if(data.unseen_notification > 0)
+                // {
+                //     $('.count').html(data.unseen_notification);
+                // }
+
+            }
+
+        });
+
+    }
+    load_notification(1,'boitier_link',30);
+    load_notification(2,'carte_link',30);
 });

@@ -64,14 +64,14 @@ include ("layouts/header.php");?>
                    <input type="date" class="form-control" name="date_activation" placeholder="DATE d'activation">
                </div>
                 <br/>
-                <div class="form-group col-md-2 pull-right">
+                <div class="form-group col-md-4 pull-right">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                     <button type="submit" name="export" class="btn btn-primary"> <i class="fa fa-file-excel-o" aria-hidden="true"></i> Exporter</button>
                 </div>
                 </div>
            </form>
            </div>
-
+<?php if($_SESSION['fonction']=='stock' || $_SESSION['fonction']=='admin'):?>
 
           <div class="col-md-8 pull-right" style="text-align: right;">
 
@@ -83,18 +83,25 @@ include ("layouts/header.php");?>
            <a href="<?php echo $url;?>/product/sim"  class="btn btn-primary">Lister</a>
 
          </div>
+<?php endif;?>
         </div>
         <div class="panel-body">
+            <div class="col-md-4">
             <form role="form" method="post" action="">
-                <div class="form-group col-md-3">
-                    <label class="control-label">Pagination</label>
-                    <input type="text" class="form-control" name="pagination" placeholder="pagination">
+
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                    <select class="form-control" name="pagination" onchange="this.form.submit()">
+
+                        <option value="20" <?php if($limit==20){ echo 'selected = "selected"';}?>>20</option>
+                        <option value="30" <?php if($limit==30){ echo 'selected = "selected"';}?>>30</option>
+                        <option value="50" <?php if($limit==50){ echo 'selected = "selected"';}?>>50</option>
+                        <option value="100" <?php if($limit==100){ echo 'selected = "selected"';}?>>100</option>
+                    </select>
                 </div>
-                <div class="form-group col-md-2"><br/>
-                    <button type="submit" class="invisible">Appliquer</button>
-                </div>
+<!--                    <input type="text" class="form-control" name="pagination" placeholder="pagination">-->
 
             </form>
+            </div>
             <div class="col-md-2 pull-right" style="text-align: right;"><br/><br/>
                 <h4> <?php
                     if($total_records>0){
@@ -104,10 +111,10 @@ include ("layouts/header.php");?>
                     }
                     ?></h4>
             </div>
-          <table class="table table-bordered" id="liste">
+          <table class="table-responsive table-bordered" id="liste">
             <thead>
               <tr>
-                  <th class="text-center" style="width: 10%;"> # </th>
+
                 <th class="text-center" style="width: 10%;"> SSID </th>
                 <th class="text-center" style="width: 10%;"> Numèro </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
@@ -119,8 +126,8 @@ include ("layouts/header.php");?>
                   <th class="text-center" style="width: 10%;"> Etat </th>
                   <th class="text-center" style="width: 10%;"> Installateur </th>
                   <th class="text-center" style="width: 10%;"> Matricule </th>
-                  <th class="text-center" style="width: 10%;">Boitier Opentech</th>
-                  <th class="text-center" style="width: 10%;">Boitier Client</th>
+                  <th class="text-center" style="width: 10%;">Boitier installé</th>
+
                   <th class="text-center" style="width: 10%;"> Cocher </th>
 
               </tr>
@@ -130,7 +137,7 @@ include ("layouts/header.php");?>
             foreach($products as $product):?>
 
             <tr>
-                <td class="text-center"><?php echo $product['id']; ?> </td>
+
                  <td class="text-center"><?php echo $product['imei_product']; ?> </td>
                 <td class="text-center"><?php echo $product['label']; ?></td>
                 <td class="text-center"><?php echo $product['provider']; ?> </td>
@@ -166,8 +173,22 @@ include ("layouts/header.php");?>
 
                 <td class="text-center"><?php echo (!empty($product['first_name']))? $product['first_name']:'--'; ?> </td>
                 <td class="text-center"><?php echo (!empty($product['imei_vehicle']))? $product['imei_vehicle']:'--'; ?> </td>
-                <td class="text-center"><?php echo (!empty($product['imei_product_inverse']))? $product['imei_product_inverse']:'--'; ?> </td>
-                <td class="text-center"><?php echo (!empty($product['costumer_product']))? $product['costumer_product']:'--'; ?> </td>
+
+                <td class="text-center"><?php
+                    if(!empty($product['imei_product_inverse'])){
+
+                        echo  $product['imei_product_inverse'];
+                    }
+                    elseif (!empty($product['costumer_product']))
+                    {
+                        echo '<span class="alert-danger">'.$product['costumer_product'].'</span>';
+                    }
+                    else{
+                        echo '--';
+                    }
+                    ?>
+                </td>
+
                 <td class="text-center coche"><?php if($product['status']==1 || $product['status']==2 || $product['status']==3){?> <input type="checkbox" id="check<?php echo $product['id']; ?>" alt="<?php echo $product['status'];?>" title="<?php echo $product['first_name'] ;?>" name="<?php echo $product['personal_id'] ;?>" value="<?php echo $product['id']; ?>"><?php }?></td>
 
 

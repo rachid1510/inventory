@@ -528,13 +528,14 @@ class productController
         * instanciation
         */
             $prod=Model::create("Product");
+            $inven_personal=Model::create("InventoryPersonal");
 
         /*
          * loop list of product checked to returne
          */
         foreach ($products as $product)
         {
-
+            $this->actionDesaffectation($product,$inven_personal);
             $data_prod=array("id"=>$product,"status"=>'1');
             if($prod->save($data_prod)==0){
                 $return=false;
@@ -599,5 +600,13 @@ class productController
         }
   return false;
 
+    }
+
+    public function actionStockalert(){
+        $category=$_POST['category'];
+        $product = Model::create('Product');
+        $products=array();
+        $products=$product->findFromRelation("products p left join movements m on p.movement_id=m.id","p.status='1' and p.state='enabled' and m.category_id=$category",array("fields"=>"p.*"));
+        echo json_encode(array("notification"=>count($products)));
     }
 }

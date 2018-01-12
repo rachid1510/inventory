@@ -75,6 +75,8 @@ class movementController
                     if ($insert) {
                         $result = array('msg' => 'OK');
                     } else {
+                        $data = array("id" => $movement_id, "observtion" => 'En attend de stock', 'user_id' => $_SESSION['user_id']);
+                        $movement->save($data);
                         $result = array('msg' => 'Error:les produits n\'ont pas été ajoutés correctement, les imei sans dèjàd ans la base, merci de verifier votre fichier excel importé ');
                     }
                 }
@@ -121,6 +123,9 @@ class movementController
                        $insert = false;
                    }
                }
+               else{
+                   $insert = false;
+               }
 
             }
 
@@ -128,10 +133,10 @@ class movementController
         else{
             for ($i = 2; $i <= $arrayCount; $i++) {
                 $product_array= array(
-                    "imei_product" => trim($allDataInSheet[$i]["C"]),
+                    "imei_product" => trim($allDataInSheet[$i]["A"]),
                     "label" => trim($allDataInSheet[$i]["B"]),
-                    "model" => trim($allDataInSheet[$i]["Y"]),
-                    "state" => 'disabled',
+                    "model" => trim($allDataInSheet[$i]["B"]),
+                    "state" => 'enabled',
                     "status" => '1',
                     "movement_id" => $move_id,
                     "user_id" => $_SESSION['user_id'],
@@ -140,6 +145,9 @@ class movementController
                     if ($product_object->save($product_array) == 0) {
                         $insert = false;
                     }
+                }
+                else{
+                    $insert = false;
                 }
             }
 

@@ -10,7 +10,9 @@ class personalController
 
         $installateurs = array();
         $installateur = Model::create('Personal');
-        $installateurs = $installateur->find(array("fields"=>"*","orderBy"=>"id"));
+        //$installateurs = $installateur->findFromRelation("personals p left join inventory_personals i on i.personal_id=p.id left join products c on i.product_id=c.id","p.fonction='installateur'", array("fields"=>"p.*,","orderBy"=>"p.id"));
+        $installateurs = $installateur->findFromRelation("stock_personnel_view sp","sp.fonction like 'installateur'",array("fields"=>"sp.*","orderBy"=>"sp.id"));
+
         require 'view/personals/index.php';
 
 

@@ -1,5 +1,8 @@
-
-
+$(document).ready(function() {
+    $("#export_intervention").click(function () {
+        $('#modalinterventionexporter').modal();
+    });
+});
 function update_intervention(id_select) {
     $('#intervention_from_submit').attr('title','intervention/update');
     $('#id_intervention').val(id_select);//attr('title','installation/update');
@@ -30,3 +33,35 @@ function update_intervention(id_select) {
 
 
 }
+
+function load_notification_intervention(id)
+
+{
+
+    $.ajax({
+
+        url:url+"/product/interventioninprogress",
+        method:"POST",
+        dataType:"json",
+        success:function(data)
+
+        {
+            if(data.notification >0){
+                $('.profile>a').css("color","red");
+                $('#'+id).show();
+                $('#'+id+'>span').html(data.notification);
+            }
+
+
+            // if(data.unseen_notification > 0)
+            // {
+            //     $('.count').html(data.unseen_notification);
+            // }
+
+        }
+
+    });
+
+}
+
+load_notification_intervention('intervention_alert')
