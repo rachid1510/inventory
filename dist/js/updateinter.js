@@ -1,39 +1,78 @@
 
 
 function Add() {
-    AddRow($("#id_intervention").val(),$("#intervened_at").val(),$("#type").val(), $("#marque").val(), $("#matricule").val(), $("#kilometrage").val(), $("#remarque").val());
+    AddRow($("#intervened_at").clone(),$("#type").clone(), $("#marque").clone(), $("#matricule").clone(), $("#kilometrage").clone(),$("#remarque").clone(), $("#boitier").clone(), $("#sim").clone(),$("#vehicule").clone());
+    var id= $("#id_intervention").val()
+    var intervened_at= $("#intervened_at").val();
+    var type= $("#type").val();
+    var marque= $("#marque").val();
+    var kilometrage= $("#kilometrage").val();
+    var remarque= $("#remarque").val();
+    var boitier= $("#boitier").val();
+    var sim= $("#sim").val();
+    var vehicule= $("#vehicule").val();
 
+    $.ajax({
+        type: "POST",
+        url: url+'/intervention/update',
+        data:{id_intervention:id,intervened_at:intervened_at,type:type,marque:marque,kilometrage:kilometrage,remarque:remarque,imei_boitier:boitier,imei_carte:sim,vehicule:vehicule},
+        dataType:'json',
+        success: function(resultat ) {
+            console.log(resultat);
+            if(resultat.msg == 'OK') {
+                $(".alert.alert-success").show(0).delay(4000).hide(0);
+
+
+            }else
+            {
+                $(".alert.alert-danger").html(resultat.msg);
+                $(".alert.alert-danger").show(0).delay(4000).hide(0);
+
+            }
+        },
+        error:function(e)
+        {
+            console.log(e);
+        }
+
+    })
 
 };
 
-function AddRow(id_intervention,intervened_at,type, marque,matricule,kilometrage,remarque) {
+function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitier,sim,vehicule) {
     //Get the reference of the Table's TBODY element.
     var tBody = $("#tblCustomers > TBODY")[0];
 
     //Add Row.
-    row = tBody.insertRow(-1);
+     var row = tBody.insertRow(-1);
+
     var cell = $(row.insertCell(-1));
-    cell.html(id_intervention);
+    cell.append(intervened_at);
 
     cell = $(row.insertCell(-1));
-    cell.html(intervened_at);
-
-    cell = $(row.insertCell(-1));
-    cell.html(type);
+    cell.append(type);
 
 
     cell = $(row.insertCell(-1));
-    cell.html(marque);
+    cell.append(marque);
 
     cell = $(row.insertCell(-1));
-    cell.html(matricule);
+    cell.append(matricule);
 
     cell = $(row.insertCell(-1));
-    cell.html(kilometrage);
+    cell.append(kilometrage);
 
     cell = $(row.insertCell(-1));
-    cell.html(remarque);
+    cell.append(remarque);
 
+    cell = $(row.insertCell(-1));
+    cell.append(boitier);
+
+    cell = $(row.insertCell(-1));
+    cell.append(sim);
+
+    cell = $(row.insertCell(-1));
+    cell.append(vehicule);
     //Add Button cell.
     cell = $(row.insertCell(-1));
     var btnRemove = $("<input class=\"btn btn-primary\"/>");

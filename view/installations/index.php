@@ -84,6 +84,7 @@ include ("layouts/header.php");?>
                                 <button type="submit" class="invisible">Appliquer</button>
                             </div>
                             </form>
+                            <div class="table-responsive">
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
@@ -104,6 +105,7 @@ include ("layouts/header.php");?>
                                             ?>
                                 </tbody>
                             </table>
+                            </div>
                             <?php
                             if($p*$limit<$total_records) {
                                 $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";

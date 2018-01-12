@@ -89,10 +89,8 @@ include "layouts/header.php"; ?>
             <th class="text-center" style="width: 10%;"> Ref d'intervention </th>
             <th class="text-center" style="width: 10%;"> Date d'intervention </th>
             <th class="text-center" style="width: 10%;"> Intervenant </th>
-            <th class="text-center" style="width: 10%;"> Type </th>
-            <th class="text-center" style="width: 10%;"> Marque </th>
-            <th class="text-center" style="width: 10%;"> Matricule </th>
-            <th class="text-center" style="width: 10%;"> Kilometrage </th>
+            <th class="text-center" style="width: 10%;"> client </th>
+<!--            <th class="text-center" style="width: 10%;"> Type </th>-->
             <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modification d'interevention </th>
 
@@ -104,10 +102,8 @@ include "layouts/header.php"; ?>
                 <td class="text-center"> <?php echo 'FI'.$intervention['id']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['intervened_at']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['personnal_name']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['type']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['marque']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['matricule']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['kilometrage']; ?></td>
+                <td class="text-center"> <?php echo $intervention['name']; ?> </td>
+<!--                <td class="text-center"> --><?php //echo $intervention['type']; ?><!-- </td>-->
                 <th class="text-center"> <?php echo $intervention['remarque']; ?></th>
 
                 <td class="text-center">

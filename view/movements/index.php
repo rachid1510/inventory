@@ -149,7 +149,7 @@ include ("layouts/header.php");?>
                        <div class="form-group import_file">
                             <label class="col-md-4 control-label">Importer fichier</label>
                             <div class="col-md-6">
-                               <input type="file" class="form-control" name="upload" id="" required>
+                               <input type="file" class="form-control" name="upload" id="">
 
                             </div>
                         </div>
