@@ -293,7 +293,7 @@ function update_function(id_select)
                          $(this).prop('selected', true);
                      }
                 });
-                 $('select#personal_id').trigger('change');
+                // $('select#personal_id').trigger('change');
                 $('select#personal_id').trigger('chosen:updated');
 
                   // filter product by personal selected

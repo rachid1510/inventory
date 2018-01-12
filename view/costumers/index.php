@@ -54,11 +54,13 @@ include ("layouts/header.php");?>
 
                 </form>
             </div>
+            <br/>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
                                
                 <th class="text-center" style="width: 10%;"> Nom </th>
+                  <th class="text-center" style="width: 10%;"> Contact </th>
                 <th class="text-center" style="width: 10%;"> Type </th>
                   <th class="text-center" style="width: 10%;"> Mail </th>
                 <th class="text-center" style="width: 10%;"> Telèphone </th>
@@ -73,6 +75,7 @@ include ("layouts/header.php");?>
 
             <tr>
                 <td class="text-center">  <?php echo $customer['name']; ?></td>
+                <td class="text-center">  <?php echo $customer['contact']; ?></td>
                  <td class="text-center"> <?php echo $customer['type']; ?> </td>
                 <td class="text-center"> <?php echo $customer['mail']; ?> </td>
                 <td class="text-center"> <?php echo $customer['phone_number']; ?> </td>
@@ -120,6 +123,14 @@ include ("layouts/header.php");?>
                                 <input type="text" name="costumer_name" id="costumer_name" class="form-control required" required>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Contact</label>
+                            <div class="col-md-6">
+                                <input type="text" name="costumer_contact" id="costumer_contact" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Télèphone</label>
                             <div class="col-md-6">

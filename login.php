@@ -32,11 +32,16 @@ if(isset($_POST['submit'])){
         $results = $records->fetch(PDO::FETCH_ASSOC);
         if(count($results) > 0 && $password==$results['password'])
         {
-            $_SESSION['login'] = $results['name'];
-            $_SESSION['user_id']= $results['id'];
-            $_SESSION['fonction'] = $results['fonction'];
-            header('location:'.$url."/home");
-            exit;
+            if($results['disabled']==0) {
+                $_SESSION['login'] = $results['name'];
+                $_SESSION['user_id'] = $results['id'];
+                $_SESSION['fonction'] = $results['fonction'];
+                header('location:' . $url . "/home");
+                exit;
+            }
+            else{
+                $errMsg .= 'Votre compte est désactivé<br>';
+            }
         }else{
             $errMsg .= 'veuillez entrez les bonnes informations<br>';
         }
@@ -80,6 +85,7 @@ if(isset($_POST['submit'])){
             background: #fff;
             border-radius: 5px;
             overflow: hidden;
+
         }
         .login:hover > .login-header, .login.focused > .login-header {
             width: 2rem;
@@ -103,15 +109,15 @@ if(isset($_POST['submit'])){
             left: 0;
             top: 0;
             z-index: 1;
-            width: 20rem;
+            width: 2rem;
             height: 20rem;
             background: #30c9ff;
             transition: width 0.5s ease-in-out;
         }
         .login-header > .text {
             display: block;
-            width: 100%;
-            height: 100%;
+            /*width: 100%;*/
+            /*height: 100%;*/
             font-size: 5rem;
             text-align: center;
             line-height: 20rem;
@@ -228,7 +234,7 @@ if(isset($_POST['submit'])){
 
 </head>
 <body>
-<div class="login">
+<div class="login focused">
     <h1><img src="<?php echo $url;?>/dist/img/logo-website_new.png" alt="logo_opentech"/> </h1>
     <header class="login-header"><span class="text">LOGIN</span><span class="loader"></span></header>
     <form class="login-form" method="post" action="">

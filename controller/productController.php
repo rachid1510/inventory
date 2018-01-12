@@ -601,4 +601,12 @@ class productController
   return false;
 
     }
+
+    public function actionStockalert(){
+        $category=$_POST['category'];
+        $product = Model::create('Product');
+        $products=array();
+        $products=$product->findFromRelation("products p left join movements m on p.movement_id=m.id","p.status='1' and p.state='enabled' and m.category_id=$category",array("fields"=>"p.*"));
+        echo json_encode(array("notification"=>count($products)));
+    }
 }
