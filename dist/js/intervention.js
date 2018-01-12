@@ -15,7 +15,8 @@ function update_intervention(id_select) {
             console.log(resultat);
             if (resultat.length > 0) {
                 $('#instervened_at').val(resultat[0].instervened_at);
-                $('#type').val(resultat[0].type);
+                $('#type' +
+                    '').val(resultat[0].type);
                 $('#marque').val(resultat[0].marque);
                 $('#matricule').val(resultat[0].matricule);
                 $('#kilometrage').val(resultat[0].kilometrage);

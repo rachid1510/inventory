@@ -75,6 +75,13 @@ function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitie
     cell.append(vehicule);
     //Add Button cell.
     cell = $(row.insertCell(-1));
+
+    var btnAdd = $("<input class=\"btn btn-primary\"/>");
+    btnAdd.attr("type", "button");
+    btnAdd.attr("onclick", "Add(this);");
+    btnAdd.val("Add");
+    cell.append(btnAdd);
+
     var btnRemove = $("<input class=\"btn btn-primary\"/>");
     btnRemove.attr("type", "button");
     btnRemove.attr("onclick", "Remove(this);");

@@ -48,14 +48,27 @@ class InterventionController
                 $detail= Model::create('InventoryPersonal');
                 $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1 and i.status='1'",array("fields"=>"c.*"));
                 $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2 and i.status='1'",array("fields"=>"c.*"));
-               
-                $all_products_inventorys=$detail->findFromRelation("inventory_personals i,products c","i.personal_id=".$instalateur." and i.product_id=c.id and i.status='1' ",array("fields"=>"c.*"));
-                $details_intervention= Model::create('DetailsIntervention');
-                foreach($all_products_inventorys as $all_products_inventory):
 
-                $data1 = array("imei_boitier"=> $all_products_inventory["imei_product"],"imei_carte"=>$details_sims);
-                $details_intervention->save($data1);
-                endforeach;
+                $details_intervention= Model::create('DetailsIntervention');
+                if (count($details_sims)>=count($details_boxs)) {
+                    for ($i = 0; $i < count($details_sims); $i++)
+                    {
+
+                        $data1 = array("imei_boitier" =>$details_boxs[$i]["imei_product"], "imei_carte" => $details_sims[$i]["label"] );
+                        $details_intervention->save($data1);
+                    }
+
+                }
+                else{
+                    for ($i = 0; $i < count($details_boxs); $i++)
+                    {
+
+                        $data1 = array("imei_boitier" => $details_boxs[$i]["imei_product"] ,"imei_carte" => $details_sims[$i]["label"]);
+                        $details_intervention->save($data1);
+                    }
+
+                }
+
                 $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
                 $clientname = $client->find(array("fields" => "name", "conditions" => "id=$costumer"));
 
@@ -115,6 +128,7 @@ class InterventionController
             if($condition=='')
             {
                 $condition= "iv.type='".$_POST["type"]."'";
+
             }else{
                 $condition .= " AND iv.type='".$_POST["type"]."'";
             }
