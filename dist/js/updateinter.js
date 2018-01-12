@@ -1,6 +1,6 @@
 
 
-function Add() {
+function Add(row) {
     AddRow($("#intervened_at").clone(),$("#type").clone(), $("#marque").clone(), $("#matricule").clone(), $("#kilometrage").clone(),$("#remarque").clone(), $("#boitier").clone(), $("#sim").clone(),$("#vehicule").clone());
     var id= $("#id_intervention").val()
     var intervened_at= $("#intervened_at").val();
