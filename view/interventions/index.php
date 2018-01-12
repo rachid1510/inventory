@@ -42,34 +42,15 @@ include "layouts/header.php"; ?>
 
                     </div>
 
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Client</label>
-                        <select name="costumer" class="form-control">
-                            <option value="">selectionner un client</option>
-                            <?php foreach($costumers as $customer):?>
-                                <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
-                            <?php endforeach; ?>
 
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Installateur</label>
-                        <select name="instalateur" class="form-control">
-                            <option value="">selectionner un Installateur</option>
-                            <?php foreach($installateurs as $instalateur):?>
-                                <option value="<?php echo $instalateur["id"] ?>" ><?php echo $instalateur["first_name"].' '. $instalateur["last_name"] ?></option>
-                            <?php endforeach; ?>
-
-                        </select>
-                    </div>
                     <br/>
                     <div class="col-md-2 pull-right">
                         <button type="submit" class="btn btn-primary">Rechercher</button>
-                        <button type="submit" name="export" class="btn btn-primary">Exporter </button>
+
                     </div>
 
                 </form>
+                <a href="#" id="export_intervention" class="btn btn-primary">Exporter</a>
 
 
             <!-- /.box-body -->
@@ -97,10 +78,8 @@ include "layouts/header.php"; ?>
             <th class="text-center" style="width: 10%;"> Ref d'intervention </th>
             <th class="text-center" style="width: 10%;"> Date d'intervention </th>
             <th class="text-center" style="width: 10%;"> Intervenant </th>
-            <th class="text-center" style="width: 10%;"> Type </th>
-            <th class="text-center" style="width: 10%;"> Marque </th>
-            <th class="text-center" style="width: 10%;"> Matricule </th>
-            <th class="text-center" style="width: 10%;"> Kilometrage </th>
+            <th class="text-center" style="width: 10%;"> client </th>
+<!--            <th class="text-center" style="width: 10%;"> Type </th>-->
             <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modification d'interevention </th>
 
@@ -112,10 +91,8 @@ include "layouts/header.php"; ?>
                 <td class="text-center"> <?php echo 'FI'.$intervention['id']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['intervened_at']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['personnal_name']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['type']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['marque']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['matricule']; ?> </td>
-                <td class="text-center"> <?php echo $intervention['kilometrage']; ?></td>
+                <td class="text-center"> <?php echo $intervention['name']; ?> </td>
+<!--                <td class="text-center"> --><?php //echo $intervention['type']; ?><!-- </td>-->
                 <th class="text-center"> <?php echo $intervention['remarque']; ?></th>
 
                 <td class="text-center">
@@ -168,6 +145,76 @@ include "layouts/header.php"; ?>
         echo $pagLink . "</ul></div>"; ?>
     </div>
     </div>
+    </div>
+
+    <div class="modal fade" id="modalinterventionexporter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">L'Affectation des boîtiers aux personnels</h4>
+                </div>
+                <div class="modal-body">
+<!--                    <div class="alert alert-success" style="display: none">-->
+<!--                        <strong>Success!</strong> l'affectation avec succés.-->
+<!--                    </div>-->
+<!--                    <div class="alert alert-danger" style="display: none">-->
+<!--                        <strong>Danger!</strong>Erreure a été se produit.-->
+<!--                    </div>-->
+                    <form id="exportintervention" class="form-horizontal" role="form" method="POST" action="intervention/exporter">
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">date</label>
+                            <div class="col-md-6">
+                              <input type="date" class="form-control datePicker" name="instervened_at">
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="nombreproduct" style="">
+                            <label class="col-md-4 control-label">Nombre à exporter</label>
+                            <div class="col-md-6">
+                                <input type="text" name="personalproduct" id="personalproduct"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Client</label>
+                            <div class="col-md-6">
+                            <select name="costumer" class="form-control chosen-select">
+                                <option value="">selectionner un client</option>
+                                <?php foreach($costumers as $customer):?>
+                                    <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-md-4 control-label">Installateur</label>
+                            <div class="col-md-6">
+
+                                <select name="instalateur" class="form-control chosen-select">
+                                    <option value="">selectionner un Installateur</option>
+                                    <?php foreach($installateurs as $instalateur):?>
+                                        <option value="<?php echo $instalateur["id"] ?>" ><?php echo $instalateur["first_name"].' '. $instalateur["last_name"] ?></option>
+                                    <?php endforeach; ?>
+
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="products" id="products" value="">
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4 pull-right">
+<!--                                <a title="intervention/exporter" alt="exportintervention" class="btn btn-primary btn-lg submitfrm" id="" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Patienter...">Valider</a>-->
+                             <input type="submit" value="valider" class="btn btn-primary btn-lg"/>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

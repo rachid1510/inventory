@@ -91,7 +91,9 @@ include ("layouts/header.php");?>
 
                                 </form>
                             </div>
+
                             <br/>
+
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
@@ -112,6 +114,7 @@ include ("layouts/header.php");?>
                                             ?>
                                 </tbody>
                             </table>
+                            </div>
                             <?php
                             if($p*$limit<$total_records) {
                                 $pagLink = "<div class='pagination pull-right'><ul class='pagination'>";

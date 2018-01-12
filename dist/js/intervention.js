@@ -1,5 +1,8 @@
-
-
+$(document).ready(function() {
+    $("#export_intervention").click(function () {
+        $('#modalinterventionexporter').modal();
+    });
+});
 function update_intervention(id_select) {
     $('#intervention_from_submit').attr('title','intervention/update');
     $('#id_intervention').val(id_select);//attr('title','installation/update');

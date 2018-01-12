@@ -75,15 +75,21 @@ include "layouts/header.php"; ?>
                 <!-- /.box-body -->
             </div>
                 <div class="panel-body">
+                    <div class="alert alert-success" style="display: none">
+                        <strong>Success!</strong> Intervention a été crée avec succés.
+                    </div>
+                    <div class="alert alert-danger" style="display: none">
+                        <strong>Danger!</strong>Erreur.
+                    </div>
 
- <table id="tblCustomers" class="table table-bordered" id="liste">
+     <table id="tblCustomers" class="table-responsive table-bordered">
         <thead>
         <tr>
-            <th class="text-center" style="width: 10%;"> Ref d'intervention </th>
-            <th class="text-center" style="width: 10%;"> Date d'intervention </th>
+
             <th class="text-center" style="width: 10%;"> Type </th>
-            <th class="text-center" style="width: 10%;"> Marque </th>
-            <th class="text-center" style="width: 10%;"> Matricule </th>
+            <th class="text-center" style="width: 10%;"> Véhicule </th>
+            <th class="text-center" style="width: 10%;"> Imei_boitier </th>
+            <th class="text-center" style="width: 10%;"> Imei_carte </th>
             <th class="text-center" style="width: 10%;"> Kilometrage </th>
             <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modif </th>
@@ -91,25 +97,59 @@ include "layouts/header.php"; ?>
         </tr>
         </thead>
         <tbody>
+        <?php foreach($interventions_details as $intervention):?>
+            <tr>
+
+                <td><input type="text" id="type" value="<?php echo $intervention['type']; ?>" /> </td>
+                <td>
+                    <select name="vehicule" id="vehicule" class="form-control">
+                        <option value="">Veuillez selectionner un vehicule</option>
+                        <?php foreach($vehicles as $vehicle):?>
+                            <option value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['imei']; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                </td>
+                <td>
+                <select name="boitier" id="boitier" class="form-control">
+                    <option value="">Veuillez selectionner un boitier</option>
+                    <?php foreach($details_boxs as $details_box):
+                        if($intervention["imei_boitier"]==$details_box["id"]):?>
+                        <option selected="selected" value="<?php echo $details_box["id"] ?>" ><?php echo $details_box['imei_product']; ?></option>
+                        <?php else: ?>
+                        <option value="<?php echo $details_box["id"] ?>" ><?php echo $details_box['imei_product']; ?></option>
+                    <?php endif;
+                    endforeach; ?>
+
+                </select>
+                </td>
+                <td>
+                    <select name="sim" id="sim" class="form-control">
+                        <option value="">Veuillez selectionner une carte sim</option>
+                        <?php foreach($details_sims as $details_sim):
+                            if($intervention["imei_carte"]==$details_sim["id"]):?>
+                                    <option selected="selected" value="<?php echo $details_sim["id"] ?>" ><?php echo $details_sim['label']; ?></option>)
+                          <?php else: ?>
+                                <option value="<?php echo $details_sim["id"] ?>" ><?php echo $details_sim['label']; ?></option>
+                          <?php  endif; ?>
+                        <?php endforeach; ?>
+
+                    </select>
+                </td>
+
+               <input type="hidden" id="id_intervention" value="<?php echo $intervention['id']; ?>" />
+
+                <td><input type="text" id="kilometrage" value="<?php echo $intervention['kilometrage']; ?>" /></td>
+                <td><input type="text" id="remarque" value="<?php echo $intervention['remarque']; ?>" /></td>
+
+                <td><input type="button" class="btn btn-primary" onclick="Add()" value="Add" /></td>
+
+            </tr>
+        <?php endforeach; ?>
+
         </tbody>
-    <tfoot>
 
-    <?php foreach($interventions as $intervention):?>
-        <tr>
-        <td><input type="text" id="id_intervention" value="<?php echo 'FI'.$intervention['id']; ?>" /></td>
-        <td><input type="date" id="intervened_at" value="<?php echo $intervention['intervened_at']; ?>" /> </td>
-        <td><input type="text" id="type" value="<?php echo $intervention['type']; ?>" /> </td>
-        <td><input type="text" id="marque" value="<?php echo $intervention['marque']; ?>" /></td>
-        <td><input type="text" id="matricule" value="<?php echo $intervention['matricule']; ?>" /> </td>
-        <td><input type="text" id="kilometrage" value="<?php echo $intervention['kilometrage']; ?>" /></td>
-        <td><input type="text" id="remarque" value="<?php echo $intervention['remarque']; ?>" /></td>
-        <td><input type="button" class="btn btn-primary" onclick="Add()" value="Add" /></td>
-
-        </tr>
-    <?php endforeach; ?>
-
-    </tfoot>
-</table>
+    </table>
                 </div>
         </div>
         </div>

@@ -123,7 +123,7 @@ $(document).ready(function() {
         var form = $("#"+$this.attr("alt"));// $('#'+$this.parent().parent().parent().attr("id"));
         var data=new FormData(form[0]);
         var frm=$('#'+form.attr('id'));
-       console.log(frmaction);
+
         $.ajax( {
             type: "POST",
             url:url+'/'+frmaction,
