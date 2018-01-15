@@ -347,9 +347,9 @@ table#liste {
 }
 
 
-table#tblCustomers>tbody>tr>td>input {
-    width: 100%;
-}
+/*table#tblCustomers>tbody>tr>td>input {*/
+    /*width: 100%;*/
+/*}*/
 
 
 table#tblCustomers>tbody>tr>td {

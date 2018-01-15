@@ -200,8 +200,8 @@ class InterventionController
 
         $interventions_details=$details_intervention->findFromRelation("details_intervention di","di.id_intervention=".$intervenion_id,array("fields"=>"di.*"));
         $detail = Model::create('InventoryPersonal');
-        $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1",array("fields"=>"c.*"));
-        $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2",array("fields"=>"c.*"));
+        $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1 and i.status='1'",array("fields"=>"c.*"));
+        $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2 and i.status='1'",array("fields"=>"c.*"));
         $vehicle = Model::create('Vehicle');
         $vehicles = $vehicle->findFromRelation("vehicles v", "v.costumer_id=".$interventions[0]['id_costumer'], array("fields" => "distinct v.*"));
 

@@ -97,12 +97,20 @@ include "layouts/header.php"; ?>
         </tr>
         </thead>
         <tbody>
-        <?php foreach($interventions_details as $intervention):?>
+        <?php
+        $i=0;
+        foreach($interventions_details as $intervention):?>
             <tr>
 
-                <td><input type="text" id="type" value="<?php echo $intervention['type']; ?>" /> </td>
                 <td>
-                    <select name="vehicule" id="vehicule" class="form-control">
+                    <input type="radio" name="type<?php echo $i;?>" value="I"> I
+                    <input type="radio" name="type<?php echo $i;?>" value="V"> V
+                    <input type="radio" name="type<?php echo $i;?>" value="D"> D
+                    <input type="radio" name="type<?php echo $i;?>" value="R"> R
+
+                     </td>
+                <td>
+                    <select name="vehicule<?php echo $i;?>" id="vehicule<?php echo $i;?>" class="form-control">
                         <option value="">Veuillez selectionner un vehicule</option>
                         <?php foreach($vehicles as $vehicle):?>
                             <option value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['imei']; ?></option>
@@ -111,7 +119,7 @@ include "layouts/header.php"; ?>
                     </select>
                 </td>
                 <td>
-                <select name="boitier" id="boitier" class="form-control">
+                <select name="boitier<?php echo $i;?>" id="boitier<?php echo $i;?>" class="form-control">
                     <option value="">Veuillez selectionner un boitier</option>
                     <?php foreach($details_boxs as $details_box):
                         if($intervention["imei_boitier"]==$details_box["id"]):?>
@@ -124,7 +132,7 @@ include "layouts/header.php"; ?>
                 </select>
                 </td>
                 <td>
-                    <select name="sim" id="sim" class="form-control">
+                    <select name="sim<?php echo $i;?>" id="sim<?php echo $i;?>" class="form-control">
                         <option value="">Veuillez selectionner une carte sim</option>
                         <?php foreach($details_sims as $details_sim):
                             if($intervention["imei_carte"]==$details_sim["id"]):?>
@@ -137,15 +145,17 @@ include "layouts/header.php"; ?>
                     </select>
                 </td>
 
-               <input type="hidden" id="id_intervention" value="<?php echo $intervention['id']; ?>" />
+               <input type="hidden" name="id_intervention<?php echo $i;?>" id="id_intervention<?php echo $i;?>" value="<?php echo $intervention['id']; ?>" />
 
-                <td><input type="text" id="kilometrage" value="<?php echo $intervention['kilometrage']; ?>" /></td>
-                <td><input type="text" id="remarque" value="<?php echo $intervention['remarque']; ?>" /></td>
+                <td><input type="text" name="kilometrage<?php echo $i;?>" id="kilometrage<?php echo $i;?>" value="<?php echo $intervention['kilometrage']; ?>" /></td>
+                <td><input type="text" name="remarque<?php echo $i;?>" id="remarque<?php echo $i;?>" value="<?php echo $intervention['remarque']; ?>" /></td>
 
-                <td><input type="button" class="btn btn-primary" onclick="Add()" value="Add" /></td>
+                <td><input type="button" class="btn btn-primary" onclick="Add(<?php echo $i;?>)" value="Valider" /></td>
 
             </tr>
-        <?php endforeach; ?>
+        <?php
+            $i++;
+        endforeach; ?>
 
         </tbody>
 
