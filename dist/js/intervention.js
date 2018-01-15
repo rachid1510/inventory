@@ -18,8 +18,7 @@ function update_intervention(id_select) {
             console.log(resultat);
             if (resultat.length > 0) {
                 $('#instervened_at').val(resultat[0].instervened_at);
-                $('#type' +
-                    '').val(resultat[0].type);
+                $('#type').val(resultat[0].type);
                 $('#marque').val(resultat[0].marque);
                 $('#matricule').val(resultat[0].matricule);
                 $('#kilometrage').val(resultat[0].kilometrage);
@@ -51,12 +50,6 @@ function load_notification_intervention(id)
                 $('#'+id).show();
                 $('#'+id+'>span').html(data.notification);
             }
-
-
-            // if(data.unseen_notification > 0)
-            // {
-            //     $('.count').html(data.unseen_notification);
-            // }
 
         }
 

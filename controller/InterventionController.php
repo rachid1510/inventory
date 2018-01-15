@@ -345,7 +345,7 @@ class InterventionController
             $pdf->SetXY(160,$yc);
             $pdf->Write(0, $details_sims[$j]['label']);
         }
-        $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
+        $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'I');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
 
     }
 

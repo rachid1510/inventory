@@ -402,7 +402,6 @@ function get_costumer_product(installation,category){
                  $('#autoUpdate1').fadeIn('slow');
              }
 
-
          }
         }
         });

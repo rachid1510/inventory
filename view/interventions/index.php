@@ -93,7 +93,7 @@ include "layouts/header.php"; ?>
                 <td class="text-center"> <?php echo $intervention['personnal_name']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['name']; ?> </td>
 <!--                <td class="text-center"> --><?php //echo $intervention['type']; ?><!-- </td>-->
-                <th class="text-center"> <?php echo $intervention['remarque']; ?></th>
+                <td class="text-center"> <?php echo $intervention['remarque']; ?></td>
 
                 <td class="text-center">
                     <div class="btn-group">

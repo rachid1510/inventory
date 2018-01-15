@@ -1,45 +1,18 @@
 
 
-function Add(row) {
-    AddRow($("#intervened_at").clone(),$("#type").clone(), $("#marque").clone(), $("#matricule").clone(), $("#kilometrage").clone(),$("#remarque").clone(), $("#boitier").clone(), $("#sim").clone(),$("#vehicule").clone());
-    var id= $("#id_intervention").val()
-    var intervened_at= $("#intervened_at").val();
+function Add() {
+    AddRow($("#type").clone(),$("#kilometrage").clone(),$("#remarque").clone(), $("#boitier").clone(), $("#sim").clone(),$("#vehicule").clone());
+    var id= $("#id_intervention").val();
     var type= $("#type").val();
-    var marque= $("#marque").val();
     var kilometrage= $("#kilometrage").val();
     var remarque= $("#remarque").val();
     var boitier= $("#boitier").val();
     var sim= $("#sim").val();
     var vehicule= $("#vehicule").val();
 
-    $.ajax({
-        type: "POST",
-        url: url+'/intervention/update',
-        data:{id_intervention:id,intervened_at:intervened_at,type:type,marque:marque,kilometrage:kilometrage,remarque:remarque,imei_boitier:boitier,imei_carte:sim,vehicule:vehicule},
-        dataType:'json',
-        success: function(resultat ) {
-            console.log(resultat);
-            if(resultat.msg == 'OK') {
-                $(".alert.alert-success").show(0).delay(4000).hide(0);
-
-
-            }else
-            {
-                $(".alert.alert-danger").html(resultat.msg);
-                $(".alert.alert-danger").show(0).delay(4000).hide(0);
-
-            }
-        },
-        error:function(e)
-        {
-            console.log(e);
-        }
-
-    })
-
 };
 
-function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitier,sim,vehicule) {
+function AddRow(type,kilometrage,remarque,boitier,sim,vehicule) {
     //Get the reference of the Table's TBODY element.
     var tBody = $("#tblCustomers > TBODY")[0];
 
@@ -47,17 +20,7 @@ function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitie
      var row = tBody.insertRow(-1);
 
     var cell = $(row.insertCell(-1));
-    cell.append(intervened_at);
-
-    cell = $(row.insertCell(-1));
     cell.append(type);
-
-
-    cell = $(row.insertCell(-1));
-    cell.append(marque);
-
-    cell = $(row.insertCell(-1));
-    cell.append(matricule);
 
     cell = $(row.insertCell(-1));
     cell.append(kilometrage);
