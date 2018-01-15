@@ -2,6 +2,41 @@ $(document).ready(function() {
     $("#export_intervention").click(function () {
         $('#modalinterventionexporter').modal();
     });
+
+    $( "#personalproduct").focusout(function() {
+
+       var id_select =$('#instalateur').find(":selected").val();
+        if(id_select==0)
+        {
+            alert("Veuillez sélectionner un installateur");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: url+'/personal/getbox',
+            data:{id:id_select},
+            dataType:'json',
+            success: function(resultat ) {
+                console.log(resultat);
+             if(resultat.length< $("#personalproduct").val())
+             {
+                 alert("Attention le nombre d'exportation est supèrieur au stock personnel");
+                 $("#personalproduct").val('');
+                 $( "#personalproduct" ).focus();
+             }
+
+            }
+        });
+    });
+
+
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
 });
 function update_intervention(id_select) {
     $('#intervention_from_submit').attr('title','intervention/update');

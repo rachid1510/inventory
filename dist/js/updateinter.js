@@ -1,21 +1,29 @@
 
 
-function Add(row) {
-    AddRow($("#intervened_at").clone(),$("#type").clone(), $("#marque").clone(), $("#matricule").clone(), $("#kilometrage").clone(),$("#remarque").clone(), $("#boitier").clone(), $("#sim").clone(),$("#vehicule").clone());
-    var id= $("#id_intervention").val()
-    var intervened_at= $("#intervened_at").val();
-    var type= $("#type").val();
-    var marque= $("#marque").val();
-    var kilometrage= $("#kilometrage").val();
-    var remarque= $("#remarque").val();
-    var boitier= $("#boitier").val();
-    var sim= $("#sim").val();
-    var vehicule= $("#vehicule").val();
+function Add() {
+    var $tr    = $("#tblCustomers").find("tr").last(); //$(this).closest('#tblCustomers>tr:last');
+    var $clone = $tr.clone();
+     $clone.find(':button').attr("onclick",'save()');
+    $clone.find('.remove:button').attr("onclick","Remove(this)");
+    $tr.after($clone);
+
+};
+function update(id) {
+
+
+   // var type= $("#type"+id).val();
+    var type=$('input[name=type'+id+']:checked').val();
+
+    var kilometrage= $("#kilometrage"+id).val();
+    var remarque= $("#remarque"+id).val();
+    var boitier= $("#boitier"+id).val();
+    var sim= $("#sim"+id).val();
+    var vehicule= $("#vehicule"+id).val();
 
     $.ajax({
         type: "POST",
         url: url+'/intervention/update',
-        data:{id_intervention:id,intervened_at:intervened_at,type:type,marque:marque,kilometrage:kilometrage,remarque:remarque,imei_boitier:boitier,imei_carte:sim,vehicule:vehicule},
+        data:{id_intervention:id,type:type,kilometrage:kilometrage,remarque:remarque,imei_boitier:boitier,imei_carte:sim,vehicule:vehicule},
         dataType:'json',
         success: function(resultat ) {
             console.log(resultat);
@@ -37,8 +45,7 @@ function Add(row) {
 
     })
 
-};
-
+}
 function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitier,sim,vehicule) {
     //Get the reference of the Table's TBODY element.
     var tBody = $("#tblCustomers > TBODY")[0];
@@ -46,24 +53,10 @@ function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitie
     //Add Row.
      var row = tBody.insertRow(-1);
 
-    var cell = $(row.insertCell(-1));
-    cell.append(intervened_at);
-
+    cell = $(row.insertCell(-1));
+    cell.append(vehicule);
     cell = $(row.insertCell(-1));
     cell.append(type);
-
-
-    cell = $(row.insertCell(-1));
-    cell.append(marque);
-
-    cell = $(row.insertCell(-1));
-    cell.append(matricule);
-
-    cell = $(row.insertCell(-1));
-    cell.append(kilometrage);
-
-    cell = $(row.insertCell(-1));
-    cell.append(remarque);
 
     cell = $(row.insertCell(-1));
     cell.append(boitier);
@@ -72,7 +65,11 @@ function AddRow(intervened_at,type, marque,matricule,kilometrage,remarque,boitie
     cell.append(sim);
 
     cell = $(row.insertCell(-1));
-    cell.append(vehicule);
+    cell.append(kilometrage);
+
+    cell = $(row.insertCell(-1));
+    cell.append(remarque);
+
     //Add Button cell.
     cell = $(row.insertCell(-1));
     var btnRemove = $("<input class=\"btn btn-primary\"/>");
@@ -86,12 +83,44 @@ function Remove(button) {
     //Determine the reference of the Row using the Button.
     var row = $(button).closest("TR");
     var name = $("TD", row).eq(0).html();
-    if (confirm("Do you want to delete: " + name)) {
+
 
         //Get the reference of the Table.
         var table = $("#tblCustomers")[0];
 
         //Delete the Table row using it's Index.
         table.deleteRow(row[0].rowIndex);
-    }
+
 };
+
+function Delete(button,id)
+{
+        if (!confirm("Êtes-Vous sûr de vouloir supprimer cette ligne?")) {
+         return false;
+      }
+       $.ajax({
+        type: "POST",
+        url: url+'/intervention/delete',
+        data:{id:id},
+        dataType:'json',
+        success: function(resultat ) {
+            console.log(resultat);
+            if(resultat.msg == 'OK') {
+                Remove(button)
+                $(".alert.alert-success").show(0).delay(4000).hide(0);
+
+                ;
+            }else
+            {
+                $(".alert.alert-danger").html(resultat.msg);
+                $(".alert.alert-danger").show(0).delay(4000).hide(0);
+
+            }
+        },
+        error:function(e)
+        {
+            console.log(e);
+        }
+
+    })
+}

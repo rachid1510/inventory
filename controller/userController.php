@@ -76,13 +76,17 @@ class userController
          * instance costumer
          */
         $user=Model::create('User');
+        $personal=Model::create('Personal');
+        $data=array("name"=>$name,"email"=>$mail,"fonction"=>$role,"password"=>$password,'disabled'=>'0');
+       $user_id=$user->save($data);
 
-        $data=array("name"=>$name,"email"=>$mail,"fonction"=>$role,"password"=>$password);
 
-
-
-        if($user->save($data)>0)
+        if($user_id>0)
         {
+//            if($role=='installateur')
+//            {
+//
+//            }
             $result = array("msg"=>"OK");
 
         }

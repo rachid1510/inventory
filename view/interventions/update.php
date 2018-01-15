@@ -22,52 +22,51 @@ include "layouts/header.php"; ?>
                         </div>
                     <?php endif; ?>
                     <div class="form-group col-md-2">
-                        <label class="control-label">date</label>
-                        <input type="date" class="form-control datePicker" name="instervened_at">
+                        <label class="control-label">date</label> <br/><label><?php echo $interventions[0]["intervened_at"] ;?></label>
+<!--                        <input type="date" class="form-control datePicker" name="instervened_at">-->
                     </div>
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Marque</label>
-
-                        <input type="text" class="form-control" name="marque">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label class="control-label">Matricule</label>
-
-                        <input type="text" class="form-control" name="matricule">
-
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label class="control-label">kilometrage</label>
-
-                        <input type="text" class="form-control" name="kilometrage">
-
-                    </div>
-
                     <div class="form-group col-md-2">
                         <label class="control-label">Client</label>
-                        <select name="costumer" class="form-control">
-                            <option value="">selectionner un client</option>
-                            <?php foreach($costumers as $customer):?>
-                                <option value="<?php echo $customer["id"] ?>" ><?php echo $customer["name"] ?></option>
-                            <?php endforeach; ?>
-
-                        </select>
+                        <br/><label><?php echo $interventions[0]["costumer"] ;?></label>
                     </div>
-
+                    <?php  if($_SESSION['fonction']!='installateur'):?>
+                        <div class="form-group col-md-2">
+                            <label class="control-label">Installateur</label>
+                            <label><?php echo $interventions[0]["personnal_name"] ;?></label>
+                        </div>
+                    <?php endif;?>
                     <div class="form-group col-md-2">
-                        <label class="control-label">Installateur</label>
-                        <select name="instalateur" class="form-control">
-                            <option value="">selectionner un Installateur</option>
-                            <?php foreach($installateurs as $instalateur):?>
-                                <option value="<?php echo $instalateur["id"] ?>" ><?php echo $instalateur["first_name"].' '. $instalateur["last_name"] ?></option>
-                            <?php endforeach; ?>
+                        <label class="control-label">Heure début</label>
 
-                        </select>
+                        <input type="time" class="form-control" name="starthour">
                     </div>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Heure fin</label>
+
+                        <input type="time" class="form-control" name="endhour">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Durée</label>
+
+                        <input type="text" class="form-control" name="duree" id="duree">
+
+                    </div>
+<!--                    <div class="form-group col-md-2">-->
+<!--                        <label class="control-label">kilometrage</label>-->
+<!---->
+<!--                        <input type="text" class="form-control" name="kilometrage">-->
+<!---->
+<!--                    </div>-->
+
+
+
                     <br/>
+                    <div class="form-group col-md-4 pull-right">
                     <button type="submit" class="btn btn-primary">Rechercher</button>
                     <button type="submit" name="export" class="btn btn-primary">Exporter </button>
+                        <input type="button" class="btn btn-primary" onclick="Add()" value="Nouvelle ligne" /></td>
 
+                    </div>
 
                 </form>
 
@@ -88,8 +87,8 @@ include "layouts/header.php"; ?>
 
             <th class="text-center" style="width: 10%;"> Type </th>
             <th class="text-center" style="width: 10%;"> Véhicule </th>
-            <th class="text-center" style="width: 10%;"> Imei_boitier </th>
-            <th class="text-center" style="width: 10%;"> Imei_carte </th>
+            <th class="text-center" style="width: 10%;"> Ime boitier </th>
+            <th class="text-center" style="width: 10%;"> Imei carte </th>
             <th class="text-center" style="width: 10%;"> Kilometrage </th>
             <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modif </th>
@@ -103,23 +102,28 @@ include "layouts/header.php"; ?>
             <tr>
 
                 <td>
-                    <input type="radio" name="type<?php echo $i;?>" value="I"> I
-                    <input type="radio" name="type<?php echo $i;?>" value="V"> V
-                    <input type="radio" name="type<?php echo $i;?>" value="D"> D
-                    <input type="radio" name="type<?php echo $i;?>" value="R"> R
+                    <input type="radio"  name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=="i")? "checked":''?>  value="I"> I
+                    <input type="radio" name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=='v')? "checked":''?> value="V"> V
+                    <input type="radio" name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=='d')? "checked":''?> value="D"> D
+                    <input type="radio" name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=='r')? "checked":''?> value="R"> R
 
                      </td>
                 <td>
-                    <select name="vehicule<?php echo $i;?>" id="vehicule<?php echo $i;?>" class="form-control">
+                    <select name="vehicule<?php echo $intervention['id'];?>" id="vehicule<?php echo $intervention['id'];?>" class="form-control">
                         <option value="">Veuillez selectionner un vehicule</option>
-                        <?php foreach($vehicles as $vehicle):?>
+                        <?php foreach($vehicles as $vehicle):
+                            if($intervention["id_vehicule"]==$vehicle["id"]):?>
+                             <option selected="selected" value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['imei']; ?></option>
+
+                            <?php else: ?>
                             <option value="<?php echo $vehicle["id"] ?>" ><?php echo $vehicle['imei']; ?></option>
-                        <?php endforeach; ?>
+                        <?php endif;
+                        endforeach; ?>
 
                     </select>
                 </td>
                 <td>
-                <select name="boitier<?php echo $i;?>" id="boitier<?php echo $i;?>" class="form-control">
+                <select name="boitier<?php echo $intervention['id'];?>" id="boitier<?php echo $intervention['id'];?>" class="form-control">
                     <option value="">Veuillez selectionner un boitier</option>
                     <?php foreach($details_boxs as $details_box):
                         if($intervention["imei_boitier"]==$details_box["id"]):?>
@@ -132,7 +136,7 @@ include "layouts/header.php"; ?>
                 </select>
                 </td>
                 <td>
-                    <select name="sim<?php echo $i;?>" id="sim<?php echo $i;?>" class="form-control">
+                    <select name="sim<?php echo $intervention['id'];?>" id="sim<?php echo $intervention['id'];?>" class="form-control">
                         <option value="">Veuillez selectionner une carte sim</option>
                         <?php foreach($details_sims as $details_sim):
                             if($intervention["imei_carte"]==$details_sim["id"]):?>
@@ -145,17 +149,21 @@ include "layouts/header.php"; ?>
                     </select>
                 </td>
 
-               <input type="hidden" name="id_intervention<?php echo $i;?>" id="id_intervention<?php echo $i;?>" value="<?php echo $intervention['id']; ?>" />
+               <input type="hidden" name="id_intervention<?php echo $intervention['id'];?>" id="id_intervention<?php echo $intervention['id'];?>" value="<?php echo $intervention['id']; ?>" />
 
-                <td><input type="text" name="kilometrage<?php echo $i;?>" id="kilometrage<?php echo $i;?>" value="<?php echo $intervention['kilometrage']; ?>" /></td>
-                <td><input type="text" name="remarque<?php echo $i;?>" id="remarque<?php echo $i;?>" value="<?php echo $intervention['remarque']; ?>" /></td>
+                <td><input type="number" name="kilometrage<?php echo $intervention['id'];?>" id="kilometrage<?php echo $intervention['id'];?>" value="<?php echo $intervention['kilometrage']; ?>" /></td>
+                <td><input type="text" name="remarque<?php echo $intervention['id'];?>" id="remarque<?php echo $intervention['id'];?>" value="<?php echo $intervention['remarque']; ?>" /></td>
 
-                <td><input type="button" class="btn btn-primary" onclick="Add(<?php echo $i;?>)" value="Valider" /></td>
+                <td><input type="button" class="btn btn-primary" onclick="update(<?php echo $intervention['id'];?>)" value="Valider" />
+
+                    <input type="button" class="btn btn-primary remove" onclick="Delete(this,<?php echo $intervention['id'];?>)" value="Supprimer" /></td>
 
             </tr>
         <?php
-            $i++;
-        endforeach; ?>
+
+        endforeach;
+
+        ?>
 
         </tbody>
 

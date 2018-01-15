@@ -52,7 +52,12 @@
                     </ul>
                 </li>
             <?php endif;?>
+            <li>
+             <span><i class="glyphicon glyphicon-user"></i><?php if(isset($_SESSION["login"])){
+                     echo ' Bonjour:'. strtoupper($_SESSION["login"]);
 
+                 } ?></span>
+            </li>
             <li class="last">
                 <a href="<?php echo $url;?>/logout.php">
                     <i class="glyphicon glyphicon-off"></i>
@@ -65,12 +70,14 @@
     </header>
     <div class="sidebar">
         <ul>
+            <?php if($_SESSION['fonction']=='admin'):?>
             <li>
                 <a href="<?php echo $url;?>/dashboard">
                     <i class="glyphicon glyphicon-home"></i>
                     <span>DASHBOARD</span>
                 </a>
             </li>
+            <?php endif;?>
 
             <!--  <li>
               <a href="home.php">
@@ -123,6 +130,7 @@
                     <span>INSTALLATIONS</span>
                 </a>
             </li>
+
             <li>
 
                 <a href="<?php echo $url;?>/personal">

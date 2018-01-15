@@ -118,6 +118,7 @@ include ("layouts/header.php");?>
                                  <option value="admin">Admin</option>
                                  <option value="technique">Technique</option>
                                  <option value="stock">Stock</option>
+                                 <option value="installateur">Installateur</option>
                              </select>
                             </div>
                         </div>

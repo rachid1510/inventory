@@ -1,6 +1,6 @@
 <?php
- if($_SERVER["REMOTE_ADDR"]!='192.168.1.72'){
-header("location:http://192.168.1.72/inventory_v1");
+ if($_SERVER["REMOTE_ADDR"]!='192.168.2.19'){
+header("location:http://192.168.2.19/inventory_v1");
 }    /**
     * check session
     **/
@@ -21,8 +21,12 @@ if (!isset($_SESSION["login"])) {
        $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention','user'];
 
    }
+   elseif($_SESSION['fonction']=='installateur'){
+       $controllers=['home','costumer','vehicle','personal','intervention'];
+
+   }
    else{
-       $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention'];
+       $controllers=['product','movement','installation','costumer','vehicle','personal','home','intervention'];
 
    }
     $currentlink = explode('/', $_SERVER['REQUEST_URI']);
@@ -80,6 +84,6 @@ if (!isset($_SESSION["login"])) {
     }
     else
     {
-        header("location:home");
+        header("Location:http://".$_SERVER['HTTP_HOST']."/inventory/home");
 
     }
