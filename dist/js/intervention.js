@@ -97,5 +97,23 @@ function load_notification_intervention(id)
     });
 
 }
+function checked_responsable(id) {
+    var isGood=confirm('Êtes vous sûr de vouloir valider la fiche d\'intervention');
+    if (!isGood) {
+        return false;
+    }
+    $.ajax( {
+        type: "POST",
+        url: url+'/intervention/validationresponsable',
+        data:{id:id},
+        dataType:'json',
+        success: function(resultat ) {
+            $('#liste').load(window.location.href + ' #liste');
 
+
+
+
+        }
+    });
+}
 load_notification_intervention('intervention_alert')

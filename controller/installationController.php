@@ -98,8 +98,8 @@ class installationController
             $boitier=$this->getProductByTypeInstallation($installation['id'],1,$product);
             $sim=$this->getProductByTypeInstallation($installation['id'],2,$product);
             $status= ($installation['status']=='In_progress')? '<span style="padding: 0px !important;" class="alert alert-warning">En cours</span>':'<span style="padding: 0px !important;" class="alert alert-success">Terminé</span>';
-
-            $html.='<tr> <td class="text-center">'. $installation["installed_at"].'</td>';
+            $html.='<tr> <td class="text-center">'. $installation["id"].'</td>';
+            $html.='<td class="text-center">'. $installation["installed_at"].'</td>';
             $html.='<td class="text-center">'.$installation['personnal_name'].'</td>';
             $html.='<td class="text-center">' .$installation['name'].' </td>';
             $html.='<td class="text-center">' .$installation['imei'].'</td>';

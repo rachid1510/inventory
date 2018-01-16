@@ -22,89 +22,7 @@ class InterventionController
         $client=Model::create('Costumer');
         $instalateurname=array();
         $clientname=array();
-        if(isset($_POST['export'])) {
-//        if (!empty($_POST)) {
-            $error=" ";
-            if (empty($_POST["instalateur"]) or empty($_POST["costumer"])) {
-                if (empty($_POST["instalateur"]))
-                $error = "veuillez choisir l'installateurr";
-                if (empty($_POST["costumer"]))
-                $error1 = "veuillez choisir le costumer";
-            } else {
 
-                ob_end_clean();
-                $type = (isset($_POST["type"])) ? $_POST["type"] : ' ';
-                $marque = (isset($_POST["marque"])) ? $_POST["marque"] : ' ';
-                $matricule = (isset($_POST["matricule"])) ? $_POST["matricule"] : ' ';
-                $kilometrage = (isset($_POST["kilometrage"])) ? $_POST["kilometrage"] : ' ';
-                $intervened_at = (isset($_POST["instervened_at"])) ? $_POST["instervened_at"] : ' ';
-                $instalateur = $_POST["instalateur"];
-                $costumer = $_POST["costumer"];
-
-
-                $data = array("type" => $type, "marque" => $marque, "matricule" => $matricule, "kilometrage" => $kilometrage, "id_costumer"=>$costumer,"id_instalateur" => $instalateur, "intervened_at" => $intervened_at);
-                $inter = $intervention->save($data);
-
-                $detail= Model::create('InventoryPersonal');
-                $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1 and i.status='1'",array("fields"=>"c.*"));
-                $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2 and i.status='1'",array("fields"=>"c.*"));
-               
-                $all_products_inventorys=$detail->findFromRelation("inventory_personals i,products c","i.personal_id=".$instalateur." and i.product_id=c.id and i.status='1' ",array("fields"=>"c.*"));
-                $details_intervention= Model::create('DetailsIntervention');
-                foreach($all_products_inventorys as $all_products_inventory):
-
-                $data1 = array("imei_boitier"=> $all_products_inventory["imei_product"],"imei_carte"=>$details_sims);
-                $details_intervention->save($data1);
-                endforeach;
-                $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
-                $clientname = $client->find(array("fields" => "*", "conditions" => "id=$costumer"));
-
-                $pdf = new Fpdi();
-                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-                $tt=$pdf->importPage(1);
-                // set the sourcefile
-                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-                // import page 1
-                $tplIdx = $pdf->importPage(1);
-
-                $pdf->AddPage();
-                    // use the imported page and place it at point 10,10 with a width of 100 mm
-                $pdf->useTemplate($tplIdx, 10, 10, 200);
-
-                $pdf->SetFont('Helvetica', 'B', 10);
-                $pdf->SetTextColor(7, 20, 80);
-                $pdf->SetXY(165, 25);
-                $today = date("Ymd");
-                $pdf->Write(0, "FI".$today."_".$instalateur."_".$inter);// la tu écrit ton texte depuis sql
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(60, 88);
-                $pdf->Write(0, $instalateurname[0]['personnal_name']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 45);
-                $pdf->Write(0, $clientname[0]['name']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 58);
-                $pdf->Write(0, $clientname[0]['phone_number']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 63);
-                $pdf->Write(0, $clientname[0]['mail']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 53);
-                $pdf->Write(0, $clientname[0]['adress']);
-                $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
-
-
-//                if ($inter > 0) {
-//                    $result = array("msg" => "OK");
-//                } else {
-//                    $result = array("msg" => "ERROR");
-//                }
-            }
-        }
 
         $limit=20;
         if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
@@ -145,9 +63,9 @@ class InterventionController
         {
             if($condition=='')
             {
-                $condition= "p.user_id='".$_SESSION["user_id"]."'";
+                $condition= "p.user_id=".$_SESSION["user_id"];
             }else{
-                $condition .= " AND p.user_id='".$_SESSION["user_id"]."'";
+                $condition .= " AND p.user_id=".$_SESSION["user_id"];
             }
         }
         if(!empty($_POST["instervened_at"]))
@@ -160,10 +78,10 @@ class InterventionController
             }
         }
         if($condition!=''){
-            $interventions=$intervention->findFromRelation( "interevention iv,personals p"," iv.id_instalateur=p.id and iv.id_costumer=c.id and ".$condition ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit));
+            $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer "," c.id=iv.id_costumer and ".$condition ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit));
 
         }else{
-            $interventions=$intervention->findFromRelation( "interevention iv,personals p, costumers c"," iv.id_instalateur=p.id and iv.id_costumer=c.id " ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"iv.id desc"));
+            $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer"," iv.id_instalateur=p.id" ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"iv.id desc"));
 
         }
         $total_records = count($interventions);
@@ -191,7 +109,7 @@ class InterventionController
         $intervenion_id=$id;
         $intervention= Model::create('Intervention');
 
-        $interventions=$intervention->findFromRelation( "interevention iv,personals p,costumers c "," c.id=iv.id_costumer and iv.id_instalateur=p.id and iv.id=$intervenion_id " ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,c.name as costumer"));
+        $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer","iv.id=$intervenion_id " ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,c.name as costumer"));
         $details_intervention= Model::create('DetailsIntervention');
 
         $interventions_details=$details_intervention->findFromRelation("details_intervention di","di.id_intervention=".$intervenion_id,array("fields"=>"di.*"));
@@ -229,15 +147,26 @@ class InterventionController
         $imei_carte = (isset($_POST["imei_carte"])) ? intval($_POST["imei_carte"]) : '';
         $vehicule =(isset($_POST["vehicule"])) ? intval($_POST["vehicule"]) : '';
         $id= intval($_POST["id_intervention"]);
+        $id_intervention_fk=$_POST["id_intervention_fk"];
         /*
          * instance costumer
          */
-        $intervention= Model::create('DetailsIntervention');
+        $detail_intervention= Model::create('DetailsIntervention');
+           if($id>0){
+               $data = array("type" => $type,"id"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
 
-            $data = array("type" => $type,"id"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
+           }
+           else{
+               $data = array("id_intervention"=>$id_intervention_fk,"type" => $type ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
 
-            if ($intervention->save($data)) {
+           }
+            if ($detail_intervention->save($data)) {
                 $result = array("msg" => "OK");
+
+//                if($type=='i' and $imei_boitier !='' and $imei_carte !='')
+//                {
+//
+//                }
 
             } else {
                 $result = array("msg" => "ERRORR1");
@@ -270,7 +199,7 @@ class InterventionController
         /*
          * seave intervention
          */
-        $data = array("id_costumer"=>$costumer,"id_instalateur" => $instalateur, "status"=>'incompleted',"intervened_at" => $intervened_at);
+        $data = array("validation_resp"=>'0',"id_instalateur" => $instalateur,"id_costumer"=>$costumer, "status"=>'En cours',"intervened_at" => $intervened_at);
         $inter = $intervention->save($data);
         /*
          * get list of product personnal
@@ -303,8 +232,8 @@ class InterventionController
            $pdf->SetFont('Helvetica', 'B', 10);
            $pdf->SetTextColor(7, 20, 80);
            $pdf->SetXY(165, 25);
-           $today = date("Ymd");
-           $pdf->Write(0, "FI" . $today . "_" . $instalateur . "_" . $inter);// la tu écrit ton texte depuis sql
+           $today = date("ymd");
+           $pdf->Write(0, "FI" . $today . "-" . $instalateur . "-" . $inter);// la tu écrit ton texte depuis sql
            $pdf->SetTextColor(0, 0, 0);
            $pdf->SetXY(60, 88);
            $pdf->Write(0, $instalateurname[0]['personnal_name']);
@@ -341,7 +270,7 @@ class InterventionController
                $pdf->Write(0, $details_sims[$j]['label']);
            }
 
-           $pdf->Output('intervention' . $instalateurname[0]['personnal_name'] . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
+           $pdf->Output('intervention' . strtolower($instalateurname[0]['personnal_name']) . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
 //           $result = array("content"=>'intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf',"msg" =>"OK" );
 //           echo json_encode($result);
        }
@@ -364,5 +293,24 @@ class InterventionController
 
       echo json_encode($result);
   }
+
+    public function actionValidationresponsable()
+    {
+        $result = array();
+        $intervention_id=$_POST['id'];
+        $user=Model::create('Intervention');
+        $data=array("id"=>$intervention_id,"validation_resp"=>'1');
+        if($user->save($data))
+        {
+            $result=array("msg"=>"OK");
+        }
+        else{
+            $result=array("msg"=>"error");
+        }
+        echo json_encode($result);
+
+
+    }
+
 }
 ?>

@@ -97,7 +97,7 @@ include ("layouts/header.php");?>
                             <table class="table table-bordered" id="liste">
                                 <thead>
                                 <tr>
-
+                                    <th class="text-center" style="width: 10%;"> # </th>
                                     <th class="text-center" style="width: 10%;"> Date d'installation </th>
                                     <th class="text-center" style="width: 10%;"> Installateur</th>
                                     <th class="text-center" style="width: 10%;"> Client </th>
