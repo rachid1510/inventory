@@ -142,9 +142,13 @@ $(document).ready(function() {
             success: function(resultat ) {
                 console.log(resultat);
                  if(resultat.msg == 'OK') {
+                     console.log(resultat.content);
                     $(".alert.alert-success").show(0).delay(4000).hide(0);
                     $('#liste').load(window.location.href + ' #liste');
-
+                     if(resultat.content.length>0)
+                     {
+                         window.open(resultat.content, '_blank');
+                     }
                    //  $("#personal_id option:first").attr('selected','selected');
                    //
                    // $('#personal_id').trigger("chosen:updated");

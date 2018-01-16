@@ -20,104 +20,7 @@ class InterventionController
         $intervention= Model::create('Intervention');
         $installateur = Model::create('Personal');
         $client=Model::create('Costumer');
-        $instalateurname=array();
-        $clientname=array();
-        if(isset($_POST['export'])) {
-//        if (!empty($_POST)) {
-            $error=" ";
-            if (empty($_POST["instalateur"]) or empty($_POST["costumer"])) {
-                if (empty($_POST["instalateur"]))
-                $error = "veuillez choisir l'installateurr";
-                if (empty($_POST["costumer"]))
-                $error1 = "veuillez choisir le costumer";
-            } else {
 
-                ob_end_clean();
-                $type = (isset($_POST["type"])) ? $_POST["type"] : ' ';
-                $marque = (isset($_POST["marque"])) ? $_POST["marque"] : ' ';
-                $matricule = (isset($_POST["matricule"])) ? $_POST["matricule"] : ' ';
-                $kilometrage = (isset($_POST["kilometrage"])) ? $_POST["kilometrage"] : ' ';
-                $intervened_at = (isset($_POST["instervened_at"])) ? $_POST["instervened_at"] : ' ';
-                $instalateur = $_POST["instalateur"];
-                $costumer = $_POST["costumer"];
-
-
-                $data = array("type" => $type, "marque" => $marque, "matricule" => $matricule, "kilometrage" => $kilometrage, "id_costumer"=>$costumer,"id_instalateur" => $instalateur, "intervened_at" => $intervened_at);
-                $inter = $intervention->save($data);
-
-                $detail= Model::create('InventoryPersonal');
-                $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1 and i.status='1'",array("fields"=>"c.*"));
-                $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$instalateur." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2 and i.status='1'",array("fields"=>"c.*"));
-
-                $details_intervention= Model::create('DetailsIntervention');
-                if (count($details_sims)>=count($details_boxs)) {
-                    for ($i = 0; $i < count($details_sims); $i++)
-                    {
-
-                        $data1 = array("imei_boitier" =>$details_boxs[$i]["imei_product"], "imei_carte" => $details_sims[$i]["label"] );
-                        $details_intervention->save($data1);
-                    }
-
-                }
-                else{
-                    for ($i = 0; $i < count($details_boxs); $i++)
-                    {
-
-                        $data1 = array("imei_boitier" => $details_boxs[$i]["imei_product"] ,"imei_carte" => $details_sims[$i]["label"]);
-                        $details_intervention->save($data1);
-                    }
-
-                }
-
-                $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
-                $clientname = $client->find(array("fields" => "*", "conditions" => "id=$costumer"));
-
-                $pdf = new Fpdi();
-                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-                $tt=$pdf->importPage(1);
-                // set the sourcefile
-                $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-                // import page 1
-                $tplIdx = $pdf->importPage(1);
-
-                $pdf->AddPage();
-                    // use the imported page and place it at point 10,10 with a width of 100 mm
-                $pdf->useTemplate($tplIdx, 10, 10, 200);
-
-                $pdf->SetFont('Helvetica', 'B', 10);
-                $pdf->SetTextColor(7, 20, 80);
-                $pdf->SetXY(165, 25);
-                $today = date("Ymd");
-                $pdf->Write(0, "FI".$today."_".$instalateur."_".$inter);// la tu écrit ton texte depuis sql
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(60, 88);
-                $pdf->Write(0, $instalateurname[0]['personnal_name']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 45);
-                $pdf->Write(0, $clientname[0]['name']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 58);
-                $pdf->Write(0, $clientname[0]['phone_number']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 63);
-                $pdf->Write(0, $clientname[0]['mail']);
-
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetXY(117, 53);
-                $pdf->Write(0, $clientname[0]['adress']);
-                $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
-
-
-//                if ($inter > 0) {
-//                    $result = array("msg" => "OK");
-//                } else {
-//                    $result = array("msg" => "ERROR");
-//                }
-            }
-        }
 
         $limit=20;
         if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
@@ -130,19 +33,18 @@ class InterventionController
 
         $interventions=array();
         $condition="";
-        if(!empty($_POST["marque"]))
+        if(!empty($_POST["costumer"]))
         {
-            $condition= "iv.marque like '%".$_POST["marque"]. "%'";
+            $condition= "iv.costumer_id = ".$_POST["costumer"];
 
         }
-        if(!empty($_POST["type"]))
+        if(!empty($_POST["numero"]))
         {
             if($condition=='')
             {
-                $condition= "iv.type='".$_POST["type"]."'";
-
+                $condition= "iv.id=".$_POST["numero"];
             }else{
-                $condition .= " AND iv.type='".$_POST["type"]."'";
+                $condition .= " AND iv.id=".$_POST["numero"];
             }
         }
         if(!empty($_POST["instalateur"]))
@@ -154,13 +56,23 @@ class InterventionController
                 $condition .= " AND iv.id_instalateur='".$_POST["instalateur"]."'";
             }
         }
-        if(!empty($_POST["matricule"]))
+
+        if($_SESSION['fonction']=='installateur')
         {
             if($condition=='')
             {
-                $condition= "iv.matricule like '%".$_POST["matricule"]. "%'";
+                $condition= "p.user_id='".$_SESSION["user_id"]."'";
             }else{
-                $condition .= " AND iv.matricule like '%".$_POST["matricule"]. "%'";
+                $condition .= " AND p.user_id='".$_SESSION["user_id"]."'";
+            }
+        }
+        if(!empty($_POST["instervened_at"]))
+        {
+            if($condition=='')
+            {
+                $condition= "iv.intervened_at like '".$_POST["instervened_at"]. "'";
+            }else{
+                $condition .= " AND iv.intervened_at like '".$_POST["instervened_at"]. "'";
             }
         }
         if($condition!=''){
@@ -183,6 +95,8 @@ class InterventionController
 
         $installateurs = $installateur->find();
 
+
+
         require 'view/interventions/index.php';
     }
     public function actionEdit($id){
@@ -192,28 +106,90 @@ class InterventionController
         $details_sims=array();
         $vehicles = array();
 
+
         $intervenion_id=$id;
         $intervention= Model::create('Intervention');
 
-        $interventions=$intervention->findFromRelation( "interevention iv,personals p"," iv.id_instalateur=p.id and iv.id=$intervenion_id " ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name"));
+        $interventions=$intervention->findFromRelation( "interevention iv,personals p,costumers c ","c.id=iv.id_costumer and iv.id_instalateur=p.id and iv.id=$intervenion_id" ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,c.name as costumer"));
         $details_intervention= Model::create('DetailsIntervention');
 
         $interventions_details=$details_intervention->findFromRelation("details_intervention di","di.id_intervention=".$intervenion_id,array("fields"=>"di.*"));
+
         $detail = Model::create('InventoryPersonal');
         $details_boxs = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=1 and i.status='1'",array("fields"=>"c.*"));
         $details_sims = $detail->findFromRelation("inventory_personals i,products c,movements m","i.personal_id=".$interventions[0]['id_instalateur']." and i.product_id=c.id and c.movement_id=m.id and m.category_id=2 and i.status='1'",array("fields"=>"c.*"));
         $vehicle = Model::create('Vehicle');
         $vehicles = $vehicle->findFromRelation("vehicles v", "v.costumer_id=".$interventions[0]['id_costumer'], array("fields" => "distinct v.*"));
 
-        require 'view/interventions/update.php';
-
-    }
-    public function actionUpdate1($id){
-        echo $id;
 
         require 'view/interventions/update.php';
 
     }
+    public function actionUpdate_intervention(){
+
+
+            $intervened_start = (isset($_POST["starthour"])) ? $_POST["starthour"] : '';
+            $intervened_end = (isset($_POST["endhour"])) ? $_POST["endhour"] : '';
+            $duree = (isset($_POST["duree"])) ? trim($_POST["duree"]) : '';
+            $id=$_POST["id"];
+            $intervention= Model::create('Intervention');
+            $target_dir = "uploads/";
+            $target_file = $target_dir .'intervention'.$id ;
+            $target_file2 = 'intervention'.$id ;
+            $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $ext = strtolower(pathinfo($target_file1,PATHINFO_EXTENSION));
+            $uploadOk = 1;
+            $data = array("id"=>$id,"starthour"=>$intervened_start,"endhour" => $intervened_end,"upload"=>$target_file2.".".$ext);
+
+            if ($intervention->save($data)) {
+            $result = array("msg" => "OK");
+
+            } else {
+            $result = array("msg" => "ERRORR");
+            }
+
+
+
+
+        if (isset($_FILES['fileToUpload'])) {
+// Check if file already exists
+            if (file_exists($target_file)) {
+                echo "file Déja exist.";
+                $uploadOk = 0;
+            }
+// Check file size
+            if ($_FILES["fileToUpload"]["size"] > 500000) {
+                echo "Votre fichier est trés gros.";
+                $uploadOk = 0;
+            }
+// Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == 0) {
+                echo "Votre fichier n'est pas uploader.";
+// if everything is ok, try to upload file
+            } else {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file.".".$ext)) {
+
+                    $result = array("msg" => "OK");
+                    echo json_encode($result);
+                } else {
+                    echo "il y'a v'est un probléme au moment de l'upload.";
+                    $result = array("msg" => "ERRORR");
+                    echo json_encode($result);
+                }
+            }
+
+            }
+        else {
+            $result = array("msg" => "ERRORRff");
+            echo json_encode($result);
+            die();
+        }
+
+
+
+
+    }
+
     public function actionUpdate()
     {
         $result = array();
@@ -224,7 +200,7 @@ class InterventionController
 
         $intervened_at = (isset($_POST["intervened_at"])) ? $_POST["intervened_at"] : '';
         $type = (isset($_POST["type"])) ? trim($_POST["type"]) : '';
-        $marque = (isset($_POST["marque"])) ? $_POST["marque"] : '';
+        $remarque = (isset($_POST["remarque"])) ? $_POST["remarque"] : '';
         $matricule = (isset($_POST["matricule"])) ? $_POST["matricule"] : '';
         $kilometrage = (isset($_POST["kilometrage"])) ?intval($_POST["kilometrage"])  : '';
         $intervened_at = (isset($_POST["instervened_at"])) ? $_POST["instervened_at"] : '';
@@ -237,13 +213,13 @@ class InterventionController
          */
         $intervention= Model::create('DetailsIntervention');
 
-            $data = array("type" => $type,"id_intervention"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule);
+            $data = array("type" => $type,"id"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
 
             if ($intervention->save($data)) {
                 $result = array("msg" => "OK");
 
             } else {
-                $result = array("msg" => "ERRORR1".$id.$type);
+                $result = array("msg" => "ERRORR1");
             }
 
 
@@ -254,6 +230,7 @@ class InterventionController
     }
     public function actionExporter()
     {
+        $result = array();
         /*
          * instanciation
          */
@@ -282,72 +259,88 @@ class InterventionController
        /*
         * save detail intervenetion
         */
-       if(count($details_boxs)>= $nombre and count($details_sims)>=$nombre){
-           for($k=0;$k<$nombre;$k++)
-           {
-               $data1 = array("id_intervention"=>$inter, "imei_boitier"=> $details_boxs[$k]["id"],"imei_carte"=>$details_sims[$k]["id"]);
+       if(count($details_boxs)>= $nombre and count($details_sims)>=$nombre) {
+           for ($k = 0; $k < $nombre; $k++) {
+               $data1 = array("id_intervention" => $inter, "imei_boitier" => $details_boxs[$k]["id"], "imei_carte" => $details_sims[$k]["id"]);
                $details_intervention->save($data1);
            }
+
+           $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
+           $clientname = $client->find(array("fields" => "*", "conditions" => "id=$costumer"));
+
+           $pdf = new Fpdi();
+           // set the sourcefile
+           $pdf->setSourceFile('dist/img/fichedintervention.pdf');
+           // import page 1
+           $tplIdx = $pdf->importPage(1);
+
+           $pdf->AddPage();
+           // use the imported page and place it at point 10,10 with a width of 100 mm
+           $pdf->useTemplate($tplIdx, 10, 10, 200);
+
+           $pdf->SetFont('Helvetica', 'B', 10);
+           $pdf->SetTextColor(7, 20, 80);
+           $pdf->SetXY(165, 25);
+           $today = date("Ymd");
+           $pdf->Write(0, "FI" . $today . "_" . $instalateur . "_" . $inter);// la tu écrit ton texte depuis sql
+           $pdf->SetTextColor(0, 0, 0);
+           $pdf->SetXY(60, 88);
+           $pdf->Write(0, $instalateurname[0]['personnal_name']);
+
+           $pdf->SetTextColor(0, 0, 0);
+           $pdf->SetXY(117, 45);
+           $pdf->Write(0, $clientname[0]['name']);
+
+           $pdf->SetTextColor(0, 0, 0);
+           $pdf->SetXY(117, 58);
+           $pdf->Write(0, $clientname[0]['phone_number']);
+
+           $pdf->SetTextColor(0, 0, 0);
+           $pdf->SetXY(117, 63);
+           $pdf->Write(0, $clientname[0]['mail']);
+
+           $pdf->SetTextColor(0, 0, 0);
+           $pdf->SetXY(117, 53);
+           $pdf->Write(0, $clientname[0]['adress']);
+           $yb = 120;
+           for ($i = 0; $i < count($details_boxs); $i++) {
+               $yb = $yb + 10 + 0.5;
+               $pdf->SetTextColor(0, 0, 0);
+               $pdf->SetFontSize(8);
+               $pdf->SetXY(115, $yb);
+               $pdf->Write(0, $details_boxs[$i]['imei_product']);
+           }
+           $yc = 120;
+           for ($j = 0; $j < count($details_sims); $j++) {
+               $yc = $yc + 10 + 0.5;
+               $pdf->SetTextColor(0, 0, 0);
+               $pdf->SetFontSize(8);
+               $pdf->SetXY(160, $yc);
+               $pdf->Write(0, $details_sims[$j]['label']);
+           }
+
+           $pdf->Output('intervention' . $instalateurname[0]['personnal_name'] . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
+//           $result = array("content"=>'intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf',"msg" =>"OK" );
+//           echo json_encode($result);
        }
-
-        $instalateurname = $installateur->find(array("fields" => "CONCAT( first_name,' ', last_name) AS personnal_name", "conditions" => "id=$instalateur"));
-        $clientname = $client->find(array("fields" => "*", "conditions" => "id=$costumer"));
-
-        $pdf = new Fpdi();
-          // set the sourcefile
-        $pdf->setSourceFile('dist/img/fichedintervention.pdf');
-        // import page 1
-        $tplIdx = $pdf->importPage(1);
-
-        $pdf->AddPage();
-        // use the imported page and place it at point 10,10 with a width of 100 mm
-        $pdf->useTemplate($tplIdx, 10, 10, 200);
-
-        $pdf->SetFont('Helvetica', 'B', 10);
-        $pdf->SetTextColor(7, 20, 80);
-        $pdf->SetXY(165, 25);
-        $today = date("Ymd");
-        $pdf->Write(0, "FI".$today."_".$instalateur."_".$inter);// la tu écrit ton texte depuis sql
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(60, 88);
-        $pdf->Write(0, $instalateurname[0]['personnal_name']);
-
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(117, 45);
-        $pdf->Write(0, $clientname[0]['name']);
-
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(117, 58);
-        $pdf->Write(0, $clientname[0]['phone_number']);
-
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(117, 63);
-        $pdf->Write(0, $clientname[0]['mail']);
-
-        $pdf->SetTextColor(0, 0, 0);
-        $pdf->SetXY(117, 53);
-        $pdf->Write(0, $clientname[0]['adress']);
-        $yb=120;
-        for ($i=0;$i<count($details_boxs);$i++)
-        {
-            $yb=$yb+10+0.5;
-            $pdf->SetTextColor(0, 0, 0);
-            $pdf->SetFontSize(8);
-            $pdf->SetXY(115, $yb);
-            $pdf->Write(0, $details_boxs[$i]['imei_product']);
-        }
-        $yc=120;
-        for ($j=0;$j<count($details_sims);$j++)
-        {
-            $yc=$yc+10+0.5;
-            $pdf->SetTextColor(0, 0, 0);
-            $pdf->SetFontSize(8);
-            $pdf->SetXY(160,$yc);
-            $pdf->Write(0, $details_sims[$j]['label']);
-        }
-        $pdf->Output('intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf', 'I');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
-
+       else{
+           $result = array("msg" => "Le nombre saisi est supérieur aux stock personnel de l\'installateur selectionné");
+           echo json_encode($result);
+       }
     }
+  public function actionDelete()
+  {
+      $result = array();
+      $id=$_POST['id'];
+      $details_intervention= Model::create('DetailsIntervention');
+      if($details_intervention->delete($id)){
+          $result = array("msg"=>"OK");
+      }
+      else{
+          $result = array("msg"=>"ERROR");
+      }
 
+      echo json_encode($result);
+  }
 }
 ?>

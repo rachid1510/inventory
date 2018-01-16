@@ -7,5 +7,3 @@
  */
 $url = 'http://localhost/inventory';
 
-
-
