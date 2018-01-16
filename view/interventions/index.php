@@ -7,7 +7,9 @@ include "layouts/header.php"; ?>
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
-
+                <div class="alert alert-warning validation" style="display: none">
+                    <strong>Warning!</strong> L'intervention a été validé.
+                </div>
                 <form id="filtre" name="filtre" role="form" method="post" action="">
                     <?php
                     if (isset($error) && !empty($error)) : ?>
@@ -92,8 +94,8 @@ include "layouts/header.php"; ?>
             <th class="text-center" style="width: 10%;"> Date d'intervention </th>
             <th class="text-center" style="width: 10%;"> Intervenant </th>
             <th class="text-center" style="width: 10%;"> client </th>
-<!--            <th class="text-center" style="width: 10%;"> Type </th>-->
-            <th class="text-center" style="width: 10%;"> Remarque </th>
+            <th class="text-center" style="width: 10%;"> Etat </th>
+            <th class="text-center" style="width: 10%;"> Validation de responsable </th>
             <th class="text-center" style="width: 10%;"> Modification d'interevention </th>
 
         </tr>
@@ -105,17 +107,30 @@ include "layouts/header.php"; ?>
                 <td class="text-center"> <?php echo $intervention['intervened_at']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['personnal_name']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['name']; ?> </td>
-<!--                <td class="text-center"> --><?php //echo $intervention['type']; ?><!-- </td>-->
-                <td class="text-center"> <?php echo $intervention['remarque']; ?></td>
 
-                <td class="text-center">
+                <td class="text-center"> <?php echo $intervention['status']; ?> </td>
+                <td class="text-center"> <?php echo ($intervention['validation_resp']=='0')? 'Non Validée':'Validée'; ?>
+
+                </td>
+
+
+                <td class="">
                     <div class="btn-group">
                         <a href="<?php echo $url;?>/intervention/edit/<?php echo $intervention['id']; ?>"  class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <!--  <a href="#" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                            <span class="glyphicon glyphicon-trash"></span>
-                          </a>-->
+                       <?php  if($intervention['upload']!=''):?>
+                         <a href="<?php echo $url.'/uploads/'.$intervention['upload'];?>" target="_blank" class="btn btn-xs" style="    margin-left: 4px;"  title="Voir la validation client" data-toggle="tooltip">
+                            <span class="glyphicon glyphicon-download-alt"></span>
+                          </a>
+                     <?php endif;?>
+                <?php  if($intervention['validation_resp']=='0' && $_SESSION['fonction']=='technique'):?>
+
+
+                        <a href="#" class="btn btn-success btn-xs" style="    margin-left: 4px;"  onclick="checked_responsable(<?php echo $intervention['id']; ?>)" title="Validation de responsable" data-toggle="tooltip">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </a>
+                        <?php endif;?>
                     </div>
                 </td>
             </tr>

@@ -22,6 +22,7 @@ class InterventionController
         $client=Model::create('Costumer');
 
 
+
         $limit=20;
         if(isset($_POST["pagination"]) and !empty($_POST["pagination"]) and is_numeric($_POST["pagination"])) {
             $limit = $_POST["pagination"];
@@ -61,9 +62,9 @@ class InterventionController
         {
             if($condition=='')
             {
-                $condition= "p.user_id='".$_SESSION["user_id"]."'";
+                $condition= "p.user_id=".$_SESSION["user_id"];
             }else{
-                $condition .= " AND p.user_id='".$_SESSION["user_id"]."'";
+                $condition .= " AND p.user_id=".$_SESSION["user_id"];
             }
         }
         if(!empty($_POST["instervened_at"]))
@@ -76,10 +77,10 @@ class InterventionController
             }
         }
         if($condition!=''){
-            $interventions=$intervention->findFromRelation( "interevention iv,personals p"," iv.id_instalateur=p.id and iv.id_costumer=c.id and ".$condition ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit));
+            $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer "," c.id=iv.id_costumer and ".$condition ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit));
 
         }else{
-            $interventions=$intervention->findFromRelation( "interevention iv,personals p, costumers c"," iv.id_instalateur=p.id and iv.id_costumer=c.id " ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"iv.id desc"));
+            $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer"," iv.id_instalateur=p.id" ,array("fields"=>"iv.*,c.name,CONCAT( p.first_name,' ', p.last_name) AS personnal_name","limit"=>$start_from.','.$limit,"orderBy"=>"iv.id desc"));
 
         }
         $total_records = count($interventions);
@@ -110,7 +111,8 @@ class InterventionController
         $intervenion_id=$id;
         $intervention= Model::create('Intervention');
 
-        $interventions=$intervention->findFromRelation( "interevention iv,personals p,costumers c ","c.id=iv.id_costumer and iv.id_instalateur=p.id and iv.id=$intervenion_id" ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,c.name as costumer"));
+
+        $interventions=$intervention->findFromRelation( "interevention iv left join personals p on iv.id_instalateur=p.id left join costumers c on c.id=iv.id_costumer","iv.id=$intervenion_id " ,array("fields"=>"iv.*,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,c.name as costumer"));
         $details_intervention= Model::create('DetailsIntervention');
 
         $interventions_details=$details_intervention->findFromRelation("details_intervention di","di.id_intervention=".$intervenion_id,array("fields"=>"di.*"));
@@ -208,15 +210,26 @@ class InterventionController
         $imei_carte = (isset($_POST["imei_carte"])) ? intval($_POST["imei_carte"]) : '';
         $vehicule =(isset($_POST["vehicule"])) ? intval($_POST["vehicule"]) : '';
         $id= intval($_POST["id_intervention"]);
+        $id_intervention_fk=$_POST["id_intervention_fk"];
         /*
          * instance costumer
          */
-        $intervention= Model::create('DetailsIntervention');
+        $detail_intervention= Model::create('DetailsIntervention');
+           if($id>0){
+               $data = array("type" => $type,"id"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
 
-            $data = array("type" => $type,"id"=>$id ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
+           }
+           else{
+               $data = array("id_intervention"=>$id_intervention_fk,"type" => $type ,"imei_boitier"=> $imei_boitier,"imei_carte"=>$imei_carte,"kilometrage" => $kilometrage,"id_vehicule"=>$vehicule,"remarque"=>$remarque);
 
-            if ($intervention->save($data)) {
+           }
+            if ($detail_intervention->save($data)) {
                 $result = array("msg" => "OK");
+
+//                if($type=='i' and $imei_boitier !='' and $imei_carte !='')
+//                {
+//
+//                }
 
             } else {
                 $result = array("msg" => "ERRORR1");
@@ -249,7 +262,7 @@ class InterventionController
         /*
          * seave intervention
          */
-        $data = array("id_costumer"=>$costumer,"id_instalateur" => $instalateur, "status"=>'incompleted',"intervened_at" => $intervened_at);
+        $data = array("validation_resp"=>'0',"id_instalateur" => $instalateur,"id_costumer"=>$costumer, "status"=>'En cours',"intervened_at" => $intervened_at);
         $inter = $intervention->save($data);
         /*
          * get list of product personnal
@@ -281,8 +294,8 @@ class InterventionController
            $pdf->SetFont('Helvetica', 'B', 10);
            $pdf->SetTextColor(7, 20, 80);
            $pdf->SetXY(165, 25);
-           $today = date("Ymd");
-           $pdf->Write(0, "FI" . $today . "_" . $instalateur . "_" . $inter);// la tu écrit ton texte depuis sql
+           $today = date("ymd");
+           $pdf->Write(0, "FI" . $today . "-" . $instalateur . "-" . $inter);// la tu écrit ton texte depuis sql
            $pdf->SetTextColor(0, 0, 0);
            $pdf->SetXY(60, 88);
            $pdf->Write(0, $instalateurname[0]['personnal_name']);
@@ -319,7 +332,7 @@ class InterventionController
                $pdf->Write(0, $details_sims[$j]['label']);
            }
 
-           $pdf->Output('intervention' . $instalateurname[0]['personnal_name'] . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
+           $pdf->Output('intervention' . strtolower($instalateurname[0]['personnal_name']) . $inter . '.pdf', 'D');// t'ouvre un pop-up te demandant d'enregistrer ou d'ouvrir le pdf
 //           $result = array("content"=>'intervention'.$instalateurname[0]['personnal_name'].$inter.'.pdf',"msg" =>"OK" );
 //           echo json_encode($result);
        }
@@ -342,5 +355,24 @@ class InterventionController
 
       echo json_encode($result);
   }
+
+    public function actionValidationresponsable()
+    {
+        $result = array();
+        $intervention_id=$_POST['id'];
+        $user=Model::create('Intervention');
+        $data=array("id"=>$intervention_id,"validation_resp"=>'1');
+        if($user->save($data))
+        {
+            $result=array("msg"=>"OK");
+        }
+        else{
+            $result=array("msg"=>"error");
+        }
+        echo json_encode($result);
+
+
+    }
+
 }
 ?>
