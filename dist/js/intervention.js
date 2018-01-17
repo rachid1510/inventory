@@ -12,6 +12,7 @@ $(document).ready(function() {
             alert("Veuillez sélectionner un installateur");
             return false;
         }
+        console.log(id_select);
         $.ajax({
             type: "POST",
             url: url+'/personal/getbox',
@@ -26,6 +27,10 @@ $(document).ready(function() {
                  $( "#personalproduct" ).focus();
              }
 
+            },
+            Error:function(e)
+            {
+                console.log(e);
             }
         });
     });

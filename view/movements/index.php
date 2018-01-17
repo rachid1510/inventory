@@ -34,7 +34,7 @@ include ("layouts/header.php");?>
           <table class="table table-bordered" id="liste">
             <thead>
               <tr>
-                               
+                 <th class="text-center" style="width: 10%;"> Catégorie </th>
                 <th class="text-center" style="width: 10%;"> Ref commande </th>
                 <th class="text-center" style="width: 10%;"> Date arrivée </th>
                 <th class="text-center" style="width: 10%;"> Fournisseur </th>
@@ -47,6 +47,7 @@ include ("layouts/header.php");?>
             <tbody>
             <?php foreach ($movements as $movement):?>
                <tr>
+                   <td class="text-center"><?php echo ($movement['category_id']==1)? 'Boitier':'Carte SIM';?>  </td>
                 <td class="text-center"><?php echo $movement['order_ref'];?>  </td>
                 <td class="text-center"><?php echo $movement['date_arrived'];?>  </td>
                 <td class="text-center"><?php echo $movement['provider'];?></td>
