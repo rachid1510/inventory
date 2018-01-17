@@ -66,6 +66,15 @@ class dashboardController
         echo json_encode($installations);
 
     }
+    public function actionTotalintervention()
+    {
+        $id=$_POST['id'];
+        $interventions=array();
+        $intervention = Model::create('Intervention');
+        $interventions=$intervention->findFromRelation( "interevention i,personals p"," i.personal_id=p.id and p.id=$id",array("fields"=>"COUNT(*) nombre,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,MONTH(`installed_at`) mois, WEEK(i.installed_at) semaine","groupBy"=>"YEAR(i.installed_at),MONTH(i.installed_at),WEEK(i.installed_at)"));
+        echo json_encode($interventions);
+
+     }
 
 
 }

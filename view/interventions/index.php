@@ -54,6 +54,23 @@ include "layouts/header.php"; ?>
                     </div>
                     <?php endif;?>
 
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Status</label>
+                        <select name="status" class="form-control">
+                                <option value="">selectionner le Status</option>
+                                <option value="En cours">En cours</option>
+                                <option value="Terminée">Terminée</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label class="control-label">Validation</label>
+                        <select name="validation" class="form-control">
+                            <option value="">selectionner l'état</option>
+                            <option value="1">Validé</option>
+                            <option value="0">Non Validé</option>
+                        </select>
+                    </div>
 
                     <br/>
                     <div class="col-md-2 pull-right">

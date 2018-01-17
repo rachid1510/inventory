@@ -36,16 +36,16 @@ class InterventionController
         $condition="";
         if(!empty($_POST["costumer"]))
         {
-            $condition= "iv.costumer_id = ".$_POST["costumer"];
+            $condition= "iv.id_costumer='".$_POST["costumer"]."'";
 
         }
         if(!empty($_POST["numero"]))
         {
             if($condition=='')
             {
-                $condition= "iv.id=".$_POST["numero"];
+                $condition= "iv.id like '".$_POST["numero"]."'";
             }else{
-                $condition .= " AND iv.id=".$_POST["numero"];
+                $condition .= " AND iv.id like '".$_POST["numero"]."'";
             }
         }
         if(!empty($_POST["instalateur"]))
@@ -74,6 +74,24 @@ class InterventionController
                 $condition= "iv.intervened_at like '".$_POST["instervened_at"]. "'";
             }else{
                 $condition .= " AND iv.intervened_at like '".$_POST["instervened_at"]. "'";
+            }
+        }
+        if(!empty($_POST["status"]))
+        {
+            if($condition=='')
+            {
+                $condition= "iv.status ='".$_POST["status"]."'";
+            }else{
+                $condition .= " AND iv.status ='".$_POST["status"]."'";
+            }
+        }
+        if(!empty($_POST["validation"]))
+        {
+            if($condition=='')
+            {
+                $condition= "iv.validation ='".$_POST["validation"]."'";
+            }else{
+                $condition .= " AND iv.validation ='".$_POST["validation"]."'";
             }
         }
         if($condition!=''){
@@ -148,17 +166,6 @@ class InterventionController
             $target_file1 = $target_dir . basename($_FILES["fileToUpload"]["name"]);
             $ext = strtolower(pathinfo($target_file1,PATHINFO_EXTENSION));
             $uploadOk = 1;
-            $data = array("id"=>$id,"starthour"=>$intervened_start,"endhour" => $intervened_end,"upload"=>$target_file2.".".$ext);
-
-            if ($intervention->save($data)) {
-            $result = array("msg" => "OK");
-
-            } else {
-            $result = array("msg" => "ERRORR");
-            }
-
-
-
 
         if (isset($_FILES['fileToUpload'])) {
 // Check if file already exists
@@ -177,9 +184,8 @@ class InterventionController
 // if everything is ok, try to upload file
             } else {
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file.".".$ext)) {
+                    $data = array("id"=>$id,"starthour"=>$intervened_start,"endhour" => $intervened_end,"upload"=>$target_file2.".".$ext,'status'=>'Terminée');
 
-                    $result = array("msg" => "OK");
-                    echo json_encode($result);
                 } else {
                     echo "il y'a v'est un probléme au moment de l'upload.";
                     $result = array("msg" => "ERRORR");
@@ -189,12 +195,16 @@ class InterventionController
 
             }
         else {
-            $result = array("msg" => "ERRORRff");
-            echo json_encode($result);
-            die();
+            $data = array("id"=>$id,"starthour"=>$intervened_start,"endhour" => $intervened_end,'status'=>'En cours');
+
         }
 
+        if ($intervention->save($data)) {
+            $result = array("msg" => "OK");
 
+        } else {
+            $result = array("msg" => "ERRORR");
+        }
 
 
     }
