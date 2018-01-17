@@ -32,6 +32,7 @@ class personalController
     public function actionGetBox(){
         $box = array();
         $personal=$_POST['id'];
+
         //echo $personal;
         $InventoryPersonal = Model::create('InventoryPersonal');
         if($personal==0){

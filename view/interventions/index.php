@@ -120,7 +120,7 @@ include "layouts/header.php"; ?>
         <tbody>
         <?php foreach($interventions as $intervention):?>
             <tr>
-                <td class="text-center"> <?php echo 'FI'.$intervention['id']; ?> </td>
+                <td class="text-center"> <?php $phpdate = strtotime( $intervention['intervened_at'] ); echo 'FI'.date( 'ymd',$phpdate).'-'.$intervention['personnal_id'].'-'.$intervention['id']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['intervened_at']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['personnal_name']; ?> </td>
                 <td class="text-center"> <?php echo $intervention['name']; ?> </td>

@@ -25,6 +25,10 @@ include "layouts/header.php"; ?>
                     <?php endif; ?>
 
                    <input type="hidden" id="id_intervention_fk" value="<?php echo $interventions[0]["id"];?>">
+                    <input type="hidden" id="costumer_id" value="<?php echo $interventions[0]["id_costumer"];?>">
+                    <input type="hidden" id="personal_id" value="<?php echo $interventions[0]["id_instalateur"];?>">
+                    <input type="hidden" id="intervention_date" value="<?php echo $interventions[0]["id_instalateur"];?>">
+
 
                     <div class="form-group col-md-2">
                         <label class="control-label">date</label> <br/><label><?php echo $interventions[0]["intervened_at"] ;?></label>
@@ -36,25 +40,30 @@ include "layouts/header.php"; ?>
                     </div>
                     <?php  if($_SESSION['fonction']!='installateur'):?>
                         <div class="form-group col-md-2">
-                            <label class="control-label">Installateur</label>
+                            <label class="control-label">Installateur</label><br/>
                             <label><?php echo $interventions[0]["personnal_name"] ;?></label>
                         </div>
                     <?php endif;?>
                     <div class="form-group col-md-2">
                         <label class="control-label">Heure début</label>
-
+                        <br/>
                         <label><?php echo $interventions[0]["starthour"] ;?></label>
                     </div>
                     <div class="form-group col-md-2">
                         <label class="control-label">Heure fin</label>
-
+                        <br/>
                         <label><?php echo $interventions[0]["endhour"] ;?></label>
                     </div>
                     <div class="form-group col-md-2">
                         <label class="control-label">Durée</label>
-
+                        <br/>
                         <label><?php
-                            echo "calcul de l'heure";
+
+                            $time1 = new DateTime($interventions[0]["starthour"]);
+                            $time2 = new DateTime($interventions[0]["endhour"]);
+                            $interval = $time1->diff($time2);
+                            echo $interval->format('%h:%i:%s');
+
 //                            $date= $interventions[0]["starthour"]->diff( $interventions[0]["endhour"]); ?>
                         </label>
 
@@ -104,7 +113,7 @@ include "layouts/header.php"; ?>
             <th class="text-center" style="width: 10%;"> Type </th>
             <th class="text-center" style="width: 10%;"> Véhicule </th>
             <th class="text-center" style="width: 10%;"> Ime boitier </th>
-            <th class="text-center" style="width: 10%;"> Imei carte </th>
+            <th class="text-center" style="width: 10%;"> N° carte </th>
             <th class="text-center" style="width: 5%;"> Kilometrage </th>
             <th class="text-center" style="width: 10%;"> Remarque </th>
             <th class="text-center" style="width: 10%;"> Modif </th>
@@ -116,7 +125,7 @@ include "layouts/header.php"; ?>
         <?php
         if(count($interventions_details)==0):?>
 
-            <tr>
+            <tr id="0">
                <td></td>
                 <td>
                     <input type="radio"  name="type0"  value="I"> I
@@ -126,7 +135,9 @@ include "layouts/header.php"; ?>
 
                 </td>
                 <td>
-<
+                    <input type="checkbox" onchange="checked_change('newvehicle',0,'newvehicletext','vehicule')" name="newvehicle0" id="newvehicle0" value="newvehicle">
+                    <label for="newvehicle0">Nouveau véhicule</label>
+                     <input type="text" id="newvehicletext0" name="newvehicletext0" style="display: none">
                     <select name="vehicule0" id="vehicule0" class="form-control">
                         <option value="">Veuillez selectionner un vehicule</option>
                         <?php foreach($vehicles as $vehicle):?>
@@ -138,11 +149,12 @@ include "layouts/header.php"; ?>
                     </select>
                 </td>
                 <td>
-                    <input type="radio" checked name="boitieropentech0" id="boitieropentech0" value="Opentech">
+                    <input type="radio" onchange="checked_change('boitieropentech',0,'boitier','boitierclienttxt')" name="boitieropentech0" id="boitieropentech0" value="Opentech">
                     <label for="boitieropentech0">Opentech</label>
-                    <input type="radio"  name="boitieropentech0" id="boitierclient0"  value="Client">
+                    <input type="radio" onchange="checked_change('boitierclient',0,'boitierclienttxt','boitier')" name="boitieropentech0" id="boitierclient0"  value="Client">
                     <label for="boitierclient0">Client</label>
 
+                    <input type="text" id="boitierclienttxt0" name="boitierclient0" style="display: none">
 
                     <select name="boitier0" id="boitier0" class="form-control">
                         <option value="">Veuillez selectionner un boitier</option>
@@ -155,10 +167,12 @@ include "layouts/header.php"; ?>
                     </select>
                 </td>
                 <td>
-                     <input type="radio" checked name="simopentech0" id="simopentech0" value="Opentech">
+                     <input type="radio" onchange="checked_change('simopentech',0,'sim','simclt')" name="simopentech0" id="simopentech0" value="Opentech">
                     <label for="simopentech0">Opentech</label>
-                    <input type="radio" name="simopentech0" id="simclient0"  value="Client">
+                    <input type="radio" onchange="checked_change('simclient',0,'simclt','sim')" name="simopentech0" id="simclient0"  value="Client">
                     <label for="simclient0">Client</label>
+
+                    <input type="text" id="simclt0" name="simclt0" style="display: none">
 
                     <select name="sim0" id="sim0" class="form-control">
                         <option value="">Veuillez selectionner une carte sim</option>
@@ -173,8 +187,8 @@ include "layouts/header.php"; ?>
 
                 <input type="hidden" name="id_intervention0" id="id_intervention0" value="0" />
 
-                <td><input type="number" name="kilometrage0" id="kilometrage0" value="0" /></td>
-                <td><input type="text" name="remarque0" id="remarque0" value="0" /></td>
+                <td><br></b><input type="number" name="kilometrage0" id="kilometrage0" value="0" /></td>
+                <td><br><input type="text" name="remarque0" id="remarque0" value="0" /></td>
 
                 <td><input type="button" class="btn btn-primary" onclick="update(0)" value="Valider" />
 
@@ -185,7 +199,7 @@ include "layouts/header.php"; ?>
         <?php endif;
         $i=1;
         foreach($interventions_details as $intervention):?>
-            <tr>
+            <tr id="<?php echo $intervention['id'];?>">
                 <td style="width: 2%"><?php echo $i;?> </td>
                 <td><br>
                     <input type="radio"  name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=="i")? "checked":''?>  value="I"> I
@@ -194,7 +208,10 @@ include "layouts/header.php"; ?>
                     <input type="radio" name="type<?php echo $intervention['id'];?>" <?php echo ($intervention['type']=='r')? "checked":''?> value="R"> R
 
                      </td>
-                <td><br>
+                <td>
+                    <input type="checkbox" onchange="checked_change('newvehicle',<?php echo $intervention['id'];?>,'newvehicletext','vehicule')" name="newvehicle<?php echo $intervention['id'];?>" id="newvehicle<?php echo $intervention['id'];?>" value="newvehicle">
+                    <label for="newvehicle<?php echo $intervention['id'];?>">Nouveau véhicule</label>
+                    <input type="text" id="newvehicletext<?php echo $intervention['id'];?>" name="newvehicletext<?php echo $intervention['id'];?>" style="display: none">
                     <select name="vehicule<?php echo $intervention['id'];?>" id="vehicule<?php echo $intervention['id'];?>" class="form-control">
 
                         <option value="">Veuillez selectionner un vehicule</option>
@@ -211,15 +228,16 @@ include "layouts/header.php"; ?>
                 </td>
                 <td>
 
-                        <input type="radio" checked name="boitieropentech<?php echo $intervention['id'];?>" id="boitieropentech<?php echo $intervention['id'];?>" value="Opentech">
+                        <input type="radio" onchange="checked_change('boitieropentech',<?php echo $intervention['id'];?>,'boitier','boitierclt')"  name="boitieropentech<?php echo $intervention['id'];?>" id="boitieropentech<?php echo $intervention['id'];?>" value="Opentech">
                         <label for="boitieropentech<?php echo $intervention['id'];?>">Opentech</label>
-                        <input type="radio"   name="boitieropentech<?php echo $intervention['id'];?>" id="boitierclient<?php echo $intervention['id'];?>"  value="Client">
+                        <input type="radio" onchange="checked_change('boitierclient',<?php echo $intervention['id'];?>,'boitierclt','boitier')"   name="boitieropentech<?php echo $intervention['id'];?>" id="boitierclient<?php echo $intervention['id'];?>"  value="Client">
                         <label for="boitierclient<?php echo $intervention['id'];?>">Client</label>
 
+                    <input type="text" id="boitierclt<?php echo $intervention['id'];?>" name="boitierclt<?php echo $intervention['id'];?>" style="display: none">
 
 
                     <select name="boitier<?php echo $intervention['id'];?>" id="boitier<?php echo $intervention['id'];?>" class="form-control">
-                    <option value="">Veuillez selectionner un boitier</option>
+                    <option value="">Veuillez sélectionner un boitier</option>
                     <?php foreach($details_boxs as $details_box):
                         if($intervention["imei_boitier"]==$details_box["id"]):?>
                         <option selected="selected" value="<?php echo $details_box["id"] ?>" ><?php echo $details_box['imei_product']; ?></option>
@@ -232,8 +250,9 @@ include "layouts/header.php"; ?>
                 </td>
                 <td>
 
-                    <input type="radio" checked name="simopentech<?php echo $intervention['id'];?>" id="simopentech<?php echo $intervention['id'];?>" value="Opentech"><label for="simopentech<?php echo $intervention['id'];?>">Opentech</label>
-                    <input type="radio" name="simopentech<?php echo $intervention['id'];?>" id="simclient<?php echo $intervention['id'];?>"  value="Client">  <label for="simclient<?php echo $intervention['id'];?>">Client</label>
+                    <input type="radio" onchange="checked_change('simopentech',<?php echo $intervention['id'];?>,'sim','simclt')" name="simopentech<?php echo $intervention['id'];?>" id="simopentech<?php echo $intervention['id'];?>" value="Opentech"><label for="simopentech<?php echo $intervention['id'];?>">Opentech</label>
+                    <input type="radio" onchange="checked_change('simclient',<?php echo $intervention['id'];?>,'simclt','sim')" name="simopentech<?php echo $intervention['id'];?>" id="simclient<?php echo $intervention['id'];?>"  value="Client">  <label for="simclient<?php echo $intervention['id'];?>">Client</label>
+                    <input type="text" id="simclt<?php echo $intervention['id'];?>" name="simclt<?php echo $intervention['id'];?>" style="display: none">
 
                     <select name="sim<?php echo $intervention['id'];?>" id="sim<?php echo $intervention['id'];?>" class="form-control">
                         <option value="">Veuillez selectionner une carte sim</option>

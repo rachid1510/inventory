@@ -1,5 +1,7 @@
 <?php
-
+//if($_SERVER["REMOTE_ADDR"]!='192.168.2.19'){
+//    header("Location:http://192.168.2.19/inventory_v1/");
+//}
    /**
     * check session
     **/

@@ -275,6 +275,8 @@ class installationController
         $costumer_id=(isset($_POST["selected_costmer"]))? $_POST["selected_costmer"]:'' ;
         $displaynewvehicle=(isset($_POST['displaynewvehicle']))? true:false;
         $observation=(isset($_POST["observation"]))? $_POST["observation"]:'';
+        $gsm_product_costumer=$_POST['gsm_product_costumer'];
+        $operateur_product_costumer=$_POST['operateur_product_costumer'];
         /*
          * arrays
          */
@@ -294,7 +296,7 @@ class installationController
                         $result = 'OK';
                     }
 
-                    if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                    if ($detail_installation->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct,$gsm_product_costumer)) {
                         $result = 'OK';
                     }
 
@@ -309,7 +311,7 @@ class installationController
 
                 }elseif (isset($_POST["sim_client_check"])) {
 
-                    if ($this->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct)) {
+                    if ($detail_installation->insertBox($box, $product, $installation_id, $personal_id, $detail_installation, $inventory_personl, $CostumerProduct,$operateur_product_costumer)) {
                         $result = 'OK';
                     } else {
                         $result = 'Erreur au niveau d\'insertion de boitier';
