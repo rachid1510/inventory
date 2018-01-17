@@ -301,30 +301,6 @@ class InterventionController
 
 
                 }
-//                /*
-//                 * update inventory persoanl and product status
-//                 */
-//                if(!empty($imei_boitier))
-//                {
-//                    $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $imei_boitier . ' and personal_id=' . $personal_id));
-//                    $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
-//                    $data_product = array("id" => $imei_boitier, "status" => '0');
-//                    if ($inventory_personl->save($data_inventory_perso)==0 or $product->save($data_product)== 0) {
-//                        $result = array("msg" => "OK");
-//                    }
-//                }
-//
-//                if(!empty($imei_carte))
-//                {
-//                    $inventory_personal_data = $inventory_personl->find(array('conditions' => 'product_id =' . $imei_carte . ' and personal_id=' . $personal_id));
-//                    $data_inventory_perso = array("id" => $inventory_personal_data[0]['id'], "status" => '0');
-//                    $data_product = array("id" => $imei_carte, "status" => '0');
-//                    if ($inventory_personl->save($data_inventory_perso)==0 or $product->save($data_product)== 0) {
-//                        $result = array("msg" => "OK");
-//                    }
-//                }
-
-
 
                 $result = array("msg" => "OK");
 

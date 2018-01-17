@@ -20,12 +20,7 @@ abstract class Model
         return new $class_name();
     }
    static function getDb(){
-
-	   // $dsn = 'mysql:dbname=guidedup_groupeHome;host=127.0.0.1';
-       // $user = 'guidedup_userdb';
-      // $password = 'y@}#knq#9GM{';
-
-	  $dsn = 'mysql:dbname=stock;host=127.0.0.1';
+	  $dsn = 'mysql:dbname=inventory;host=127.0.0.1';
 	  $user = 'root';
       $password = '';
 
