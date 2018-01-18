@@ -8,7 +8,7 @@ include ("layouts/header.php");?>
 
     <div class="col-md-12">
 
-        <div class="box box-primary">
+        <div class="box box-primary ">
             <div class="box-header with-border">
                 <h3 class="box-title">Les installations par mois</h3>
             </div>
@@ -26,7 +26,7 @@ include ("layouts/header.php");?>
             </div>
             <!-- /.box-body -->
         </div>
-        <div class="box box-primary">
+        <div class="box box-primary ">
             <div class="box-header with-border">
                 <h3 class="box-title">Les Sim les plus installés</h3>
 
@@ -34,11 +34,18 @@ include ("layouts/header.php");?>
             <div class="box-body">
                 <div class="chart">
                     <canvas id="canvas2" style="height:250px"></canvas>
+                    <select name="date" id="date">
+                        <option value="">selectionner le mois</option>
+                        <?php foreach($instalations as $instalation):?>
+                            <option value="<?php echo $instalation["mois"] ?>" ><?php echo $instalation["mois"]; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
-        <div class="box box-primary">
+        <div class="box box-primary ">
             <div class="box-header with-border">
                 <h3 class="box-title">Les boitiers les plus installés</h3>
             </div>
@@ -49,7 +56,7 @@ include ("layouts/header.php");?>
             </div>
             <!-- /.box-body -->
         </div>
-        <div class="box box-primary">
+        <div class="box box-primary ">
             <div class="box-header with-border">
                 <h3 class="box-title">Performance des installateurs</h3>
             </div>
@@ -67,6 +74,107 @@ include ("layouts/header.php");?>
             </div>
             <!-- /.box-body -->
         </div>
+
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Total Intervention</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="canvas5" style="height:250px"></canvas>
+                    <select name="type" id="type">
+                        <option value="">selectionner le type</option>
+                        <option value="i" >I</option>
+                        <option value="r" >R</option>
+                        <option value="d" >D</option>
+                        <option value="v" >V</option>
+
+                    </select>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Total Heure Intervention</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="canvas5" style="height:250px"></canvas>
+                    <select name="type" id="type">
+                        <option value="">selectionner le type</option>
+                        <option value="i" >I</option>
+                        <option value="r" >R</option>
+                        <option value="d" >D</option>
+                        <option value="v" >V</option>
+
+                    </select>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Moyenne Heures Intervention</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="canvas5" style="height:250px"></canvas>
+                    <select name="type" id="type">
+                        <option value="">selectionner le type</option>
+                        <option value="i" >I</option>
+                        <option value="r" >R</option>
+                        <option value="d" >D</option>
+                        <option value="v" >V</option>
+
+                    </select>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Max/Min Intervention</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="canvas5" style="height:250px"></canvas>
+                    <select name="type" id="type">
+                        <option value="">selectionner le type</option>
+                        <option value="i" >I</option>
+                        <option value="r" >R</option>
+                        <option value="d" >D</option>
+                        <option value="v" >V</option>
+
+                    </select>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">Performance installateur</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="canvas5" style="height:250px"></canvas>
+                    <select name="type" id="type">
+                        <option value="">selectionner le type</option>
+                        <option value="i" >I</option>
+                        <option value="r" >R</option>
+                        <option value="d" >D</option>
+                        <option value="v" >V</option>
+
+                    </select>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
 
 
     </div>

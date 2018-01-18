@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="stock@localhost [2]" uuid="99d5fd7f-53aa-4aa0-aea1-b0cdb5c90b19">
+    <data-source source="LOCAL" name="inventory@localhost" uuid="99d5fd7f-53aa-4aa0-aea1-b0cdb5c90b19">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/stock</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/inventory</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

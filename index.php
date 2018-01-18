@@ -19,7 +19,7 @@ if (!isset($_SESSION["login"])) {
 //       header("Location:login.php?error=e");
 //
    if($_SESSION['fonction']=='admin'){
-       $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention','user'];
+       $controllers=['product','movement','installation','costumer','vehicle','personal','dashboard','home','intervention','user','journalisation'];
 
    }
    elseif($_SESSION['fonction']=='installateur'){

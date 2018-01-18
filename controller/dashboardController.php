@@ -16,7 +16,11 @@ class dashboardController
             $installateurs = $installateur->find();
             $instalations=array();
             $instalation= model::create('Installation');
-            $instalations=$instalation->find(array("fields"=>"DISTINCT YEAR(`installed_at`) annee","groupBy"=>"YEAR(`installed_at`)"));
+            $instalations=$instalation->find(array("fields"=>"DISTINCT YEAR(`installed_at`) annee ,MONTH(`installed_at`) mois","groupBy"=>"YEAR(`installed_at`),MONTH(`installed_at`)"));
+//            $interventions= array();
+//            $intervention= Model::create('Intervention');
+//            $interventions=$intervention->find(array("fields"=>"DISTINCT type","groupBy"=>"YEAR(`installed_at`)"));
+
 
             require 'view/dashboard/index.php';
 
@@ -47,10 +51,10 @@ class dashboardController
 
     }
     public function actionGetSim()
-    {
+    {   $date= $_POST["date"];
         $product=model::create('Product');
         $sims=array();
-        $sims=$product->findFromRelation("products p,movements m,details_installations d, installations i",'p.movement_id=m.id and d.product_id=p.id and m.category_id=2 and i.id=d.installation_id',array("fields"=>"COUNT(*) nombre,p.model,MONTH(i.installed_at) mois","groupBy"=>"p.model,YEAR(i.installed_at),MONTH(i.installed_at)"));
+        $sims=$product->findFromRelation("products p,movements m,details_installations d, installations i","p.movement_id=m.id and d.product_id=p.id and m.category_id=2 and i.id=d.installation_id and MONTH(i.installed_at)=$date",array("fields"=>"COUNT(*) nombre,p.model,MONTH(i.installed_at) mois","groupBy"=>"p.model,YEAR(i.installed_at),MONTH(i.installed_at)"));
 
         echo json_encode($sims);
 
@@ -68,11 +72,12 @@ class dashboardController
     }
     public function actionTotalintervention()
     {
-        $id=$_POST['id'];
-        $interventions=array();
-        $intervention = Model::create('Intervention');
-        $interventions=$intervention->findFromRelation( "interevention i,personals p"," i.personal_id=p.id and p.id=$id",array("fields"=>"COUNT(*) nombre,CONCAT( p.first_name,' ', p.last_name) AS personnal_name,MONTH(`installed_at`) mois, WEEK(i.installed_at) semaine","groupBy"=>"YEAR(i.installed_at),MONTH(i.installed_at),WEEK(i.installed_at)"));
-        echo json_encode($interventions);
+        $type=$_POST['type'];
+        $interventions_details=array();
+        $details_intervention= Model::create('DetailsIntervention');
+
+        $interventions_details=$details_intervention->findFromRelation("details_intervention di, interevention i"," di.id_intervention=i.id and di.type='$type'",array("fields"=>"COUNT(*) nombre,MONTH(`intervened_at`) mois, WEEK(i.intervened_at) semaine","groupBy"=>"YEAR(i.intervened_at),MONTH(i.intervened_at),di.type"));
+        echo json_encode($interventions_details);
 
      }
 

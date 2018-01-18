@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 
 
 abstract class Model
@@ -7,6 +8,20 @@ abstract class Model
 	private $table;
 	protected $db;
 	private $primaryKey ="id";
+
+	public static function journalisation($action)
+    {
+        if (!empty($_SESSION["user_id"])) {
+            $databaseConnection = Model::getDb() ;
+            $databaseConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $req =$databaseConnection->prepare('insert into journalisation (action,utilisateur) values (:action,:utilisateur)');
+            $req->execute(array('action'=>$action,'utilisateur'=>$_SESSION["user_id"]));
+        }
+        else {
+            echo "c fini";
+            die();
+             }
+    }
 	public function __construct($table)
 	 {
 		 $this->table = $table;

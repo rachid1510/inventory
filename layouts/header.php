@@ -157,6 +157,13 @@
                     <span>UTILISATEURS</span>
                 </a>
             </li>
+
+                <li>
+                    <a href="<?php echo $url;?>/journalisation">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span>JOURNALISATION</span>
+                    </a>
+                </li>
             <?php endif;?>
 
 <!--            <li>-->

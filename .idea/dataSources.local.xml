@@ -11,7 +11,7 @@
       <user-name>root</user-name>
       <introspection-schemas>*:album</introspection-schemas>
     </data-source>
-    <data-source name="stock@localhost [2]" uuid="99d5fd7f-53aa-4aa0-aea1-b0cdb5c90b19">
+    <data-source name="inventory@localhost" uuid="99d5fd7f-53aa-4aa0-aea1-b0cdb5c90b19">
       <database-info product="MySQL" version="5.7.19" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>

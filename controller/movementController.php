@@ -71,9 +71,11 @@ class movementController
             if ($movement_id > 0){
                 if(!empty($file)) {
                     $insert = $this->prepare_query($_POST["category"], $movement_id, $file);
-
                     if ($insert) {
                         $result = array('msg' => 'OK');
+                        //creation de commande Complet
+                      Model::journalisation("creation de commande Complet ".$movement_id);
+
                     } else {
                         $data = array("id" => $movement_id, "observtion" => 'En attend de stock', 'user_id' => $_SESSION['user_id']);
                         $movement->save($data);
@@ -85,7 +87,11 @@ class movementController
                    if($movement->save($data)){
                        $result = array('msg' => 'OK');
                        }
+                       //creation de commande en attende de stock
+                   Model::journalisation("creation de commande en attende de stock ".$movement_id);
+
                 }
+
             } else {
                 $result = array('msg' => 'error');
 
